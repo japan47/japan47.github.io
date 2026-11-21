@@ -131,7 +131,7 @@
                 </div>
                 <div>
                     <h1 id="header-trip-title" class="font-rounded font-bold text-sm sm:text-base text-milk-900 line-clamp-1">2027 冬季日本滋賀・福井・名古屋放鬆之旅</h1>
-                    <p class="text-[11px] text-milk-800/70 hidden sm:block">個人旅遊行程管理系統 ‧ 雙向雲端同步</p>
+                    <p class="text-[11px] text-milk-800/70 hidden sm:block">個人行程管理系統 ‧ 雙向雲端試算表同步</p>
                 </div>
             </div>
 
@@ -161,11 +161,11 @@
             <div class="flex items-center gap-1.5">
                 <button onclick="openCloudSyncModal()" id="btn-cloud-status" class="px-3 py-1.5 rounded-xl bg-accent-sage/15 hover:bg-accent-sage/25 border border-accent-sage/40 text-xs font-bold text-milk-900 flex items-center gap-1.5 transition" title="Google 試算表雲端同步設定">
                     <i class="ph-fill ph-file-spreadsheet text-accent-sage text-base"></i>
-                    <span id="cloud-status-label">Google 雲端同步</span>
+                    <span id="cloud-status-label">雲端雙試算表已連線</span>
                 </button>
-                <button onclick="openDataModal()" class="px-3 py-1.5 rounded-xl bg-milk-100 hover:bg-milk-200 border border-milk-200 text-xs font-bold text-milk-900 flex items-center gap-1.5 transition" title="備份與匯出">
+                <button onclick="openDataModal()" class="px-3 py-1.5 rounded-xl bg-milk-100 hover:bg-milk-200 border border-milk-200 text-xs font-bold text-milk-900 flex items-center gap-1.5 transition" title="備份與發布">
                     <i class="ph-bold ph-export text-milk-500"></i>
-                    <span class="hidden sm:inline">備份 / 匯出</span>
+                    <span class="hidden sm:inline">備份 / LINE 發布</span>
                 </button>
             </div>
         </div>
@@ -409,8 +409,8 @@
                     <div id="budget-total-twd" class="text-xs font-medium text-milk-800/80">約當 NT$ 0 TWD (匯率: 0.215)</div>
                 </div>
                 <div class="text-right">
-                    <span class="px-3 py-1 rounded-full bg-accent-sage/20 text-accent-sage font-bold text-xs">
-                        已自動備份
+                    <span id="budget-sync-badge" class="px-3 py-1 rounded-full bg-accent-sage/20 text-accent-sage font-bold text-xs">
+                        雙向雲端已同步
                     </span>
                 </div>
             </div>
@@ -524,7 +524,7 @@
                 <div class="p-3.5 rounded-xl bg-milk-50 border border-milk-200 space-y-2">
                     <div class="font-bold text-milk-900 flex items-center justify-between">
                         <span class="flex items-center gap-1.5 text-sm">🤝 1. 團體共用 Google 試算表網址</span>
-                        <span id="badge-shared-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">已預設連線</span>
+                        <span id="badge-shared-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">已連線</span>
                     </div>
                     <p class="text-milk-800/80">此網址供所有人同步：<strong>行程表、住宿飯店、美食資料庫、團體公費記帳、團體行前待辦</strong>。</p>
                     <input type="url" id="input-shared-gas-url" class="w-full px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
@@ -533,10 +533,10 @@
                 <div class="p-3.5 rounded-xl bg-milk-50 border border-milk-200 space-y-2">
                     <div class="font-bold text-milk-900 flex items-center justify-between">
                         <span class="flex items-center gap-1.5 text-sm">🔒 2. 我的個人專屬 Google 試算表網址</span>
-                        <span id="badge-personal-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800">未設定</span>
+                        <span id="badge-personal-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">已連線</span>
                     </div>
                     <p class="text-milk-800/80">旅伴可獨立貼上自己的 Apps Script 網址同步：<strong>個人行李清單、個人購物私帳</strong>。</p>
-                    <input type="url" id="input-personal-gas-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
+                    <input type="url" id="input-personal-gas-url" class="w-full px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
                 </div>
 
                 <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
@@ -718,14 +718,15 @@ function getOrCreateSheet(ss, name) {
 
     <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
-        const STORAGE_KEY = 'jp_trip_2027_milk_tea_v1';
+        const STORAGE_KEY = 'jp_trip_2027_milk_tea_v2';
         const GAS_SHARED_URL_KEY = 'jp_trip_shared_gas_url';
         const GAS_PERSONAL_URL_KEY = 'jp_trip_personal_gas_url';
 
-        const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbwOoKixNy3GavLrdOjS_IqIMOi1XCjl4R3MOJ30bQq-wXx7PBZCg_SQ3PafcXePYG8/exec';
+        const DEFAULT_SHARED_GAS_URL = 'https://script.google.com/macros/s/AKfycbwOoKixNy3GavLrdOjS_IqIMOi1XCjl4R3MOJ30bQq-wXx7PBZCg_SQ3PafcXePYG8/exec';
+        const DEFAULT_PERSONAL_GAS_URL = 'https://script.google.com/macros/s/AKfycbxenCXyUVQdwsO1HF4TY5sdahIQ8x36k1uHxZzyTBJKLJNrp8PD-XioLxiQYZUPdYlv/exec';
 
-        let sharedGasUrl = localStorage.getItem(GAS_SHARED_URL_KEY) || DEFAULT_GAS_URL;
-        let personalGasUrl = localStorage.getItem(GAS_PERSONAL_URL_KEY) || '';
+        let sharedGasUrl = localStorage.getItem(GAS_SHARED_URL_KEY) || DEFAULT_SHARED_GAS_URL;
+        let personalGasUrl = localStorage.getItem(GAS_PERSONAL_URL_KEY) || DEFAULT_PERSONAL_GAS_URL;
 
         const DAY_THEMES = {
             1: { label: 'Day 1', date: '12/19 (日)', city: '滋賀長濱', hex: '#A67C52', bgClass: 'bg-[#A67C52] text-white', softBg: 'bg-[#EFE8DD]' },
@@ -786,7 +787,8 @@ function getOrCreateSheet(ss, name) {
                 { id: "ex5", name: "吉卜力公園門票", category: "門票", currency: "JPY", amount: 4000, status: "預估", note: "搶票後更新" }
             ],
             privateExpenses: [
-                { id: "pex1", name: "藥妝與個人冬裝購物預算", category: "購物", currency: "JPY", amount: 25000, status: "預計現場付", note: "個人私帳" }
+                { id: "pex1", name: "藥妝與個人冬裝購物預算", category: "購物", currency: "JPY", amount: 25000, status: "預計現場付", note: "個人私帳" },
+                { id: "pex2", name: "個人伴手禮與零食預算", category: "伴手禮", currency: "JPY", amount: 10000, status: "預計現場付", note: "名古屋車站/榮採買" }
             ],
             restaurants: [
                 { id: "r1", name: "やきとりの名門 秋吉 長濱店", area: "滋賀長濱", day: "Day 1", address: "飯店 1F", hours: "17:00-23:00", mustEat: "純雞串燒、烤雞皮", needRes: "無需預約", notes: "飯店樓下即達，極方便！" },
@@ -797,8 +799,17 @@ function getOrCreateSheet(ss, name) {
                 { id: "t1", category: "機票確認", text: "關注 2027/12 台北-名古屋開賣航班", done: false },
                 { id: "t2", category: "門票預約", text: "吉卜力公園門票開賣日準時搶票", done: false },
                 { id: "t3", category: "餐廳訂位", text: "預約 Day 2 福井越前蟹晚餐", done: false },
-                { id: "t4", category: "行李準備", text: "準備冬季羽絨衣、發熱衣與防滑鞋", done: false },
-                { id: "t5", category: "行李準備", text: "攜帶集章專用筆記本", done: false }
+                
+                // 個人行李清單 Initial Items
+                { id: "pt1", category: "行李準備", text: "準備冬季羽絨衣、發熱衣與防滑鞋", done: false },
+                { id: "pt2", category: "行李準備", text: "圍巾、毛帽、觸控保暖手套與厚襪子", done: false },
+                { id: "pt3", category: "行李準備", text: "暖暖包（貼式＋手握式）", done: false },
+                { id: "pt4", category: "行李準備", text: "眼藥水", done: false },
+                { id: "pt5", category: "行李準備", text: "護唇膏、保濕乳液", done: false },
+                { id: "pt6", category: "行李準備", text: "個人常備藥品（腸胃藥、止痛藥、暈車藥、OK繃）", done: false },
+                { id: "pt7", category: "行李準備", text: "攜帶集章專用筆記本", done: false },
+                { id: "pt8", category: "行李準備", text: "摺疊購物袋／壓縮收納袋", done: false },
+                { id: "pt9", category: "行李準備", text: "行動電源、手機充電線與多孔轉接頭", done: false }
             ]
         };
 
@@ -815,6 +826,8 @@ function getOrCreateSheet(ss, name) {
             loadData();
             renderAll();
             initLeafletMap();
+            // 初次載入背景自動連線雲端雙試算表
+            pullFromGoogleSheets(true);
         }
 
         function loadData() {
@@ -828,7 +841,7 @@ function getOrCreateSheet(ss, name) {
             } else {
                 window.appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
             }
-            if (!window.appData.privateExpenses) window.appData.privateExpenses = [];
+            if (!window.appData.privateExpenses) window.appData.privateExpenses = JSON.parse(JSON.stringify(DEFAULT_DATA.privateExpenses));
             updateGasStatusBadges();
         }
 
@@ -836,7 +849,7 @@ function getOrCreateSheet(ss, name) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appData));
             renderAll();
             syncWithGoogleSheetsInBackground();
-            if (showNotification) showToast('已成功儲存變更！');
+            if (showNotification) showToast('已成功儲存並存入本地與雲端！');
         }
 
         function updateGasStatusBadges() {
@@ -846,7 +859,7 @@ function getOrCreateSheet(ss, name) {
 
             if (sharedGasUrl) {
                 if (bShared) { bShared.innerText = '已連線'; bShared.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'; }
-                if (labelCloud) labelCloud.innerText = 'Google 雲端已連線';
+                if (labelCloud) labelCloud.innerText = '雲端雙試算表已連線';
             } else {
                 if (bShared) { bShared.innerText = '未設定'; bShared.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800'; }
             }
@@ -1016,6 +1029,7 @@ function getOrCreateSheet(ss, name) {
             let totalTwd = 0;
 
             tbody.innerHTML = items.map(x => {
+                const itemName = x.name || x.title || '消費項目';
                 const amt = parseFloat(x.amount) || 0;
                 let twd = 0;
                 if (x.currency === 'JPY') {
@@ -1029,12 +1043,12 @@ function getOrCreateSheet(ss, name) {
 
                 return `
                     <tr class="hover:bg-milk-50">
-                        <td class="p-3 font-bold text-milk-900">${x.name}</td>
-                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-milk-200 font-bold">${x.category}</span></td>
-                        <td class="p-3 font-bold">${x.currency}</td>
+                        <td class="p-3 font-bold text-milk-900">${itemName}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-milk-200 font-bold">${x.category || '一般'}</span></td>
+                        <td class="p-3 font-bold">${x.currency || 'JPY'}</td>
                         <td class="p-3 font-mono font-bold">${amt.toLocaleString()}</td>
                         <td class="p-3 font-mono text-milk-800">NT$ ${twd.toLocaleString()}</td>
-                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-accent-sage/20 text-accent-sage font-bold">${x.status}</span></td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-accent-sage/20 text-accent-sage font-bold">${x.status || '已記帳'}</span></td>
                         <td class="p-3 text-right">
                             <button onclick="deleteExpense('${x.id}')" class="text-red-600 font-bold hover:underline">刪除</button>
                         </td>
@@ -1262,13 +1276,19 @@ function getOrCreateSheet(ss, name) {
             const currency = prompt('請輸入幣別 (JPY / TWD)：', 'JPY').toUpperCase();
 
             const item = {
-                id: 'ex_' + Date.now(),
-                name, category: '餐飲/購物', currency: currency === 'TWD' ? 'TWD' : 'JPY', amount, status: '已支付', note: ''
+                id: (budgetScope === 'shared' ? 'ex_' : 'pex_') + Date.now(),
+                name,
+                category: '餐飲/購物',
+                currency: currency === 'TWD' ? 'TWD' : 'JPY',
+                amount,
+                status: '已支付',
+                note: budgetScope === 'shared' ? '團體公費' : '個人私帳'
             };
 
             if (budgetScope === 'shared') {
                 window.appData.expenses.push(item);
             } else {
+                if (!window.appData.privateExpenses) window.appData.privateExpenses = [];
                 window.appData.privateExpenses.push(item);
             }
             saveData(true);
@@ -1278,7 +1298,9 @@ function getOrCreateSheet(ss, name) {
             if (budgetScope === 'shared') {
                 window.appData.expenses = window.appData.expenses.filter(x => x.id !== id);
             } else {
-                window.appData.privateExpenses = window.appData.privateExpenses.filter(x => x.id !== id);
+                if (window.appData.privateExpenses) {
+                    window.appData.privateExpenses = window.appData.privateExpenses.filter(x => x.id !== id);
+                }
             }
             saveData(true);
         }
@@ -1287,7 +1309,7 @@ function getOrCreateSheet(ss, name) {
             const text = prompt('請輸入待辦項目名稱：');
             if (!text) return;
             window.appData.todos.push({
-                id: 't_' + Date.now(),
+                id: (type === 'personal' ? 'pt_' : 't_') + Date.now(),
                 category: type === 'personal' ? '行李準備' : '團體準備',
                 text, done: false
             });
@@ -1316,7 +1338,7 @@ function getOrCreateSheet(ss, name) {
             localStorage.setItem(GAS_PERSONAL_URL_KEY, personalGasUrl);
             updateGasStatusBadges();
             closeModal('modal-cloud');
-            showToast('已儲存試算表設定！');
+            showToast('已更新並儲存雲端雙試算表設定！');
             syncWithGoogleSheetsInBackground();
         }
 
@@ -1386,10 +1408,11 @@ function getOrCreateSheet(ss, name) {
             }
         }
 
-        async function pullFromGoogleSheets() {
-            showToast('正在從 Google 雲端拉取資料...');
+        async function pullFromGoogleSheets(silent = false) {
+            if (!silent) showToast('正在同步雙試算表資料...');
             let updated = false;
 
+            // 1. 讀取團體試算表
             if (sharedGasUrl) {
                 try {
                     const res = await fetch(sharedGasUrl + '?action=get&sheetType=shared');
@@ -1402,27 +1425,56 @@ function getOrCreateSheet(ss, name) {
                         if (p.expenses) appData.expenses = p.expenses;
                         if (p.restaurants) appData.restaurants = p.restaurants;
                         if (p.sharedTodos) {
-                            const priv = appData.todos.filter(t => t.category === '行李準備');
-                            appData.todos = [...p.sharedTodos, ...priv];
+                            const personalTodos = appData.todos.filter(t => t.category === '行李準備');
+                            appData.todos = [...p.sharedTodos, ...personalTodos];
                         }
                         updated = true;
                     }
                 } catch(e) {
-                    console.error('Shared pull failed', e);
+                    console.error('Shared pull warning:', e);
+                }
+            }
+
+            // 2. 讀取個人試算表 (對齊 privateExpenses & privateTodos)
+            if (personalGasUrl) {
+                try {
+                    const res = await fetch(personalGasUrl + '?action=get&sheetType=personal');
+                    const json = await res.json();
+                    if (json && json.payload) {
+                        const p = json.payload;
+                        if (p.privateExpenses) {
+                            appData.privateExpenses = p.privateExpenses.map(x => ({
+                                id: x.id || ('pex_' + Date.now()),
+                                name: x.name || x.title || '個人消費',
+                                category: x.category || '購物',
+                                currency: x.currency || 'JPY',
+                                amount: x.amount || 0,
+                                status: x.status || '已記帳',
+                                note: x.note || ''
+                            }));
+                        }
+                        if (p.privateTodos) {
+                            const sharedTodos = appData.todos.filter(t => t.category !== '行李準備');
+                            const cleanPersonalTodos = p.privateTodos.filter(t => t.text !== '測試!!!!!!!!!');
+                            appData.todos = [...sharedTodos, ...cleanPersonalTodos];
+                        }
+                        updated = true;
+                    }
+                } catch(e) {
+                    console.error('Personal pull warning:', e);
                 }
             }
 
             if (updated) {
-                saveData(false);
-                showToast('已成功從 Google 試算表拉取最新資料！');
-            } else {
-                showToast('已觸發同步，請稍後查看');
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appData));
+                renderAll();
+                if (!silent) showToast('已成功從雲端同步最新資料！');
             }
         }
 
         function pushToGoogleSheets() {
             syncWithGoogleSheetsInBackground();
-            showToast('已手動將所有資料推送至 Google 試算表！');
+            showToast('已手動將最新資料推送到團體與個人試算表！');
         }
 
         function copyLineText() {
