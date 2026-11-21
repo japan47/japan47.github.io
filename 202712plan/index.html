@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2027 冬季日本滋賀・福井・名古屋放鬆之旅 | 個人行程管理</title>
+    <title>2027 冬日北陸與名古屋 6 日之旅 | 行程與個人管理系統</title>
     
     <!-- Google Fonts: Noto Sans TC & Zen Maru Gothic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Leaflet.js CSS & JS -->
+    <!-- Leaflet.js CSS & JS for Interactive Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
@@ -57,7 +57,7 @@
             background-color: #FAF7F2;
             color: #4A3B32;
             font-family: "Noto Sans TC", sans-serif;
-            padding-bottom: 85px;
+            padding-bottom: 90px;
             -webkit-tap-highlight-color: transparent;
         }
         @media (min-width: 768px) {
@@ -72,25 +72,7 @@
             background-color: #FFFFFF;
             border: 1px solid #E4D7C5;
             border-radius: 1rem;
-            box-shadow: 0 4px 16px -4px rgba(74, 59, 50, 0.06);
-        }
-
-        .jp-card-oat {
-            background-color: #EFE8DD;
-            border: 1px solid #E4D7C5;
-            border-radius: 1rem;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #FAF7F2;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #D2BFA7;
-            border-radius: 9999px;
+            box-shadow: 0 4px 16px -4px rgba(74, 59, 50, 0.05);
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -101,19 +83,19 @@
             align-items: center;
             justify-content: center;
             border-radius: 9999px;
-            border: 2.5px solid #FFFFFF;
-            box-shadow: 0 3px 8px rgba(74, 59, 50, 0.35);
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 2px 6px rgba(74, 59, 50, 0.3);
             color: #FFFFFF;
             font-weight: 800;
             font-size: 11px;
             font-family: "Zen Maru Gothic", sans-serif;
         }
         .leaflet-popup-content-wrapper {
-            border-radius: 14px !important;
+            border-radius: 12px !important;
             background: #FAF7F2 !important;
             color: #4A3B32 !important;
             border: 1px solid #E4D7C5;
-            box-shadow: 0 6px 20px rgba(74, 59, 50, 0.15) !important;
+            box-shadow: 0 4px 16px rgba(74, 59, 50, 0.12) !important;
         }
         .leaflet-popup-tip {
             background: #FAF7F2 !important;
@@ -122,16 +104,16 @@
 </head>
 <body class="antialiased selection:bg-milk-200 selection:text-milk-900">
 
-    <!-- Top Header -->
-    <header class="sticky top-0 z-40 bg-milk-50/95 backdrop-blur-md border-b border-milk-200">
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-milk-50/95 backdrop-blur-md border-b border-milk-200 shadow-xs">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('dashboard')">
                 <div class="w-9 h-9 rounded-xl bg-milk-500 text-white flex items-center justify-center shadow-sm">
-                    <i class="ph-fill ph-compass text-xl"></i>
+                    <i class="ph-fill ph-snowflake text-xl"></i>
                 </div>
                 <div>
-                    <h1 id="header-trip-title" class="font-rounded font-bold text-sm sm:text-base text-milk-900 line-clamp-1">2027 冬季日本滋賀・福井・名古屋放鬆之旅</h1>
-                    <p class="text-[11px] text-milk-800/70 hidden sm:block">個人行程管理系統 ‧ 雙向雲端試算表同步</p>
+                    <h1 class="font-rounded font-extrabold text-sm sm:text-base text-milk-900 line-clamp-1">2027 冬日北陸與名古屋 6 日之旅</h1>
+                    <p class="text-[11px] text-milk-800/70 hidden sm:block">2027/12/19 ➔ 12/24 ‧ 滋賀 ‧ 福井 ‧ 名古屋</p>
                 </div>
             </div>
 
@@ -141,121 +123,113 @@
                     <i class="ph-bold ph-house"></i> 總覽
                 </button>
                 <button onclick="switchTab('itinerary')" data-nav="itinerary" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
-                    <i class="ph-bold ph-calendar-blank"></i> 行程規劃
+                    <i class="ph-bold ph-calendar-blank"></i> 每日行程
                 </button>
                 <button onclick="switchTab('map')" data-nav="map" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
                     <i class="ph-bold ph-map-trifold"></i> 旅行地圖
                 </button>
-                <button onclick="switchTab('budget')" data-nav="budget" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
-                    <i class="ph-bold ph-wallet"></i> 費用管理
-                </button>
                 <button onclick="switchTab('gourmet')" data-nav="gourmet" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
                     <i class="ph-bold ph-fork-knife"></i> 美食資料庫
+                </button>
+                <button onclick="switchTab('budget')" data-nav="budget" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                    <i class="ph-bold ph-wallet"></i> 費用管理
                 </button>
                 <button onclick="switchTab('checklist')" data-nav="checklist" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
                     <i class="ph-bold ph-check-square-offset"></i> 出發準備
                 </button>
             </nav>
 
-            <!-- Data Tools -->
-            <div class="flex items-center gap-1.5">
-                <button onclick="openCloudSyncModal()" id="btn-cloud-status" class="px-3 py-1.5 rounded-xl bg-accent-sage/15 hover:bg-accent-sage/25 border border-accent-sage/40 text-xs font-bold text-milk-900 flex items-center gap-1.5 transition" title="Google 試算表雲端同步設定">
-                    <i class="ph-fill ph-file-spreadsheet text-accent-sage text-base"></i>
-                    <span id="cloud-status-label">雲端雙試算表已連線</span>
-                </button>
-                <button onclick="openDataModal()" class="px-3 py-1.5 rounded-xl bg-milk-100 hover:bg-milk-200 border border-milk-200 text-xs font-bold text-milk-900 flex items-center gap-1.5 transition" title="備份與發布">
-                    <i class="ph-bold ph-export text-milk-500"></i>
-                    <span class="hidden sm:inline">備份 / LINE 發布</span>
+            <!-- Dual Cloud Status Badges & Settings Button -->
+            <div class="flex items-center gap-2">
+                <div class="hidden lg:flex items-center gap-1.5 text-[11px] font-bold">
+                    <span id="badge-header-group" class="px-2 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1">
+                        <i class="ph-fill ph-users"></i> 團體已連線
+                    </span>
+                    <span id="badge-header-personal" class="px-2 py-1 rounded-lg bg-indigo-100 text-indigo-800 border border-indigo-300 flex items-center gap-1">
+                        <i class="ph-fill ph-lock-key"></i> 個人已連線
+                    </span>
+                </div>
+                <button onclick="openCloudModal()" class="px-3 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition">
+                    <i class="ph-bold ph-cloud-gear text-base"></i> 雲端設定
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
+    <!-- Main Content Body -->
     <main class="max-w-6xl mx-auto px-4 py-6">
 
         <!-- 1. DASHBOARD VIEW -->
         <section id="view-dashboard" class="space-y-6">
             <div class="jp-card p-6 bg-gradient-to-br from-milk-100 via-white to-milk-50 border-milk-200 relative overflow-hidden">
-                <div class="absolute -right-8 -bottom-8 text-milk-200/40 text-9xl pointer-events-none">
+                <div class="absolute -right-6 -bottom-6 text-milk-200/40 text-9xl pointer-events-none">
                     <i class="ph-fill ph-mountains"></i>
                 </div>
                 <div class="relative z-10 space-y-4">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <span class="px-3 py-1 rounded-full bg-milk-500 text-white text-xs font-bold tracking-wider">
-                            冬日特別版 ‧ 6天5夜
+                            ❄️ 2027 冬季北陸極上放鬆之旅
                         </span>
-                        <span id="dashboard-countdown" class="text-xs font-bold text-milk-800 bg-white/80 px-3 py-1 rounded-full border border-milk-200">
-                            預計出發：2027/12/19
+                        <span class="text-xs font-bold text-milk-800 bg-white/90 px-3 py-1 rounded-full border border-milk-200">
+                            📅 2027/12/19 (日) ➔ 12/24 (五)
                         </span>
                     </div>
                     <div>
                         <h2 class="text-2xl sm:text-3xl font-rounded font-extrabold text-milk-900">
-                            滋賀長濱 ‧ 福井越前蟹 ‧ 名古屋聖誕光影
+                            滋賀長濱 ‧ 福井越前蟹 ‧ 名古屋聖誕點燈
                         </h2>
                         <p class="text-xs sm:text-sm text-milk-800/80 mt-1">
-                            先放鬆後採買 ‧ 出發機場：中部國際機場 (NGO) 往返
+                            雙軌獨立雲端同步 ‧ 團體行程公費 ＋ 個人私帳行李完全分流
                         </p>
                     </div>
+
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                         <div class="p-3 rounded-xl bg-white/90 border border-milk-200">
-                            <div class="text-[11px] text-milk-800/70 font-medium">總行程點</div>
-                            <div id="stat-total-events" class="text-lg font-rounded font-bold text-milk-900">18 個地點</div>
+                            <div class="text-[11px] text-milk-800/70 font-medium">總行程景點</div>
+                            <div id="stat-events-count" class="text-lg font-rounded font-bold text-milk-900">0 個地點</div>
                         </div>
                         <div class="p-3 rounded-xl bg-white/90 border border-milk-200">
-                            <div class="text-[11px] text-milk-800/70 font-medium">下榻飯店</div>
-                            <div class="text-lg font-rounded font-bold text-milk-900">3 間極上旅宿</div>
+                            <div class="text-[11px] text-milk-800/70 font-medium">下榻溫泉/飯店</div>
+                            <div class="text-lg font-rounded font-bold text-milk-900">3 間精選旅宿</div>
                         </div>
                         <div class="p-3 rounded-xl bg-white/90 border border-milk-200">
-                            <div class="text-[11px] text-milk-800/70 font-medium">精選美食</div>
-                            <div id="stat-total-gourmet" class="text-lg font-rounded font-bold text-milk-900">6 間待嚐</div>
+                            <div class="text-[11px] text-milk-800/70 font-medium">必吃美食餐廳</div>
+                            <div id="stat-gourmet-count" class="text-lg font-rounded font-bold text-milk-900">0 間餐廳</div>
                         </div>
                         <div class="p-3 rounded-xl bg-white/90 border border-milk-200">
-                            <div class="text-[11px] text-milk-800/70 font-medium">準備清單</div>
-                            <div id="stat-todo-progress" class="text-lg font-rounded font-bold text-milk-900">0 / 0 已完成</div>
+                            <div class="text-[11px] text-milk-800/70 font-medium">個人行李打包</div>
+                            <div id="stat-packing-progress" class="text-lg font-rounded font-bold text-milk-900">0 / 0 完成</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Flight & Transit Overview -->
-                <div class="jp-card p-5 space-y-4 md:col-span-1">
+                <!-- Transit Card -->
+                <div class="jp-card p-5 space-y-3">
                     <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
-                        <i class="ph-fill ph-airplane-tilt text-accent-sky text-lg"></i> 航班與關鍵交通
+                        <i class="ph-fill ph-airplane-tilt text-accent-sky text-lg"></i> 關鍵交通概覽
                     </h3>
-                    <div class="space-y-3 text-xs">
-                        <div class="p-3 rounded-xl bg-milk-50 border border-milk-200 space-y-1">
-                            <div class="font-bold text-milk-900">🛫 去程 (2027/12/19 日)</div>
-                            <p class="text-milk-800/80">台北 (TPE) ➔ 名古屋 (NGO)</p>
-                            <span class="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold">待確認時刻（參考11:30起飛）</span>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-3 rounded-xl bg-milk-50 border border-milk-200">
+                            <div class="font-bold text-milk-900">🛫 飛機往返 (中部國際機場 NGO)</div>
+                            <p class="text-milk-800/80 text-[11px] mt-0.5">去程 12/19 TPE ➔ NGO | 回程 12/24 NGO ➔ TPE</p>
                         </div>
-                        <div class="p-3 rounded-xl bg-milk-50 border border-milk-200 space-y-1">
-                            <div class="font-bold text-milk-900">🛬 回程 (2027/12/24 五)</div>
-                            <p class="text-milk-800/80">名古屋 (NGO) ➔ 台北 (TPE)</p>
-                            <span class="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold">待確認時刻（參考16:40起飛）</span>
-                        </div>
-                        <div class="p-3 rounded-xl bg-milk-100/60 border border-milk-200 space-y-1">
-                            <div class="font-bold text-milk-900">🚄 特急/新幹線關鍵移動</div>
-                            <ul class="list-disc list-inside space-y-0.5 text-milk-800/80 text-[11px]">
-                                <li>D1: 名古屋 ➔ 米原 ➔ 長濱</li>
-                                <li>D2: 長濱 ➔ 福井 (JR特急)</li>
-                                <li>D3: 福井 ➔ 名古屋 (JR特急)</li>
-                            </ul>
+                        <div class="p-3 rounded-xl bg-milk-50 border border-milk-200">
+                            <div class="font-bold text-milk-900">🚄 跨區域特急與新幹線</div>
+                            <p class="text-milk-800/80 text-[11px] mt-0.5">JR關西＆北陸地區 Pass ‧ 名古屋/米原/福井銜接</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Hotel Cards -->
-                <div class="jp-card p-5 space-y-4 md:col-span-2">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
-                            <i class="ph-fill ph-bed text-milk-500 text-lg"></i> 6 天住宿配置總覽
-                        </h3>
-                        <span class="text-xs text-milk-800/70">先放鬆 ➔ 享溫泉 ➔ 市區採買</span>
-                    </div>
-                    <div id="dashboard-hotels-list" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <!-- Dynamic Hotel Cards -->
+                <!-- 6 Day Overview Cards -->
+                <div class="jp-card p-5 md:col-span-2 space-y-3">
+                    <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="ph-fill ph-calendar text-milk-500 text-lg"></i> 6 天每日亮點速覽</span>
+                        <button onclick="switchTab('itinerary')" class="text-xs text-milk-500 font-bold hover:underline">查看詳細時間軸 ➔</button>
+                    </h3>
+                    <div id="dashboard-days-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <!-- Dynamic Day Cards -->
                     </div>
                 </div>
             </div>
@@ -263,22 +237,20 @@
 
         <!-- 2. ITINERARY VIEW -->
         <section id="view-itinerary" class="hidden space-y-6">
-            <!-- Day Pills -->
+            <!-- Day Selector Pills -->
             <div class="flex items-center justify-between gap-2 overflow-x-auto pb-2 no-scrollbar" id="day-pill-container">
                 <!-- Dynamic Day Pills -->
             </div>
 
-            <!-- Action Toolbar -->
-            <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-milk-100 border border-milk-200">
+            <!-- Toolbar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-milk-100 border border-milk-200">
                 <div class="flex items-center gap-2">
-                    <h3 id="current-day-title" class="font-rounded font-bold text-base text-milk-900">Day 1 行程細節</h3>
+                    <h3 id="current-day-title" class="font-rounded font-bold text-base text-milk-900">Day 1 行程</h3>
                     <span id="current-day-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-milk-500 text-white">滋賀長濱</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="openAddEventModal()" class="px-3 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1 transition">
-                        <i class="ph-bold ph-plus"></i> 新增行程項目
-                    </button>
-                </div>
+                <button onclick="openAddEventModal()" class="px-3.5 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                    <i class="ph-bold ph-plus"></i> 新增行程項目
+                </button>
             </div>
 
             <!-- Timeline Events -->
@@ -289,93 +261,39 @@
 
         <!-- 3. MAP VIEW -->
         <section id="view-map" class="hidden space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-milk-100 border border-milk-200">
-                <div class="flex items-center gap-2">
-                    <span class="font-rounded font-bold text-sm text-milk-900">🗺️ 檢視範圍：</span>
-                    <select id="map-filter-day" onchange="changeMapFilter(this.value)" class="px-3 py-1.5 rounded-xl bg-white border border-milk-300 text-xs font-bold text-milk-900">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-milk-100 border border-milk-200">
+                <div class="flex items-center gap-2 text-xs font-bold text-milk-900">
+                    <span>🗺️ 選擇天數範圍：</span>
+                    <select id="map-filter-day" onchange="changeMapFilter(this.value)" class="px-3 py-1.5 rounded-xl bg-white border border-milk-300 font-bold text-milk-900">
                         <option value="all">全行程 6 天路線總覽</option>
-                        <option value="1">Day 1: 滋賀長濱</option>
-                        <option value="2">Day 2: 福井越前蟹</option>
-                        <option value="3">Day 3: 福井➔名古屋</option>
-                        <option value="4">Day 4: 吉卜力公園</option>
-                        <option value="5">Day 5: 採買＆名花之里</option>
-                        <option value="6">Day 6: 名古屋返台</option>
+                        <option value="1">Day 1: 滋賀長濱黑壁廣場</option>
+                        <option value="2">Day 2: 彥根城與極上近江牛</option>
+                        <option value="3">Day 3: 福井越前蟹與永平寺</option>
+                        <option value="4">Day 4: 東尋坊與蘆原溫泉</option>
+                        <option value="5">Day 5: 名古屋熱田神宮與熱田鰻魚飯</option>
+                        <option value="6">Day 6: 大須商店街與返台</option>
                     </select>
                 </div>
-                <div class="flex items-center gap-2 text-xs">
-                    <button onclick="toggleMapMode('leaflet')" id="btn-map-mode-leaflet" class="px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold shadow-xs">
-                        網頁互動地圖
-                    </button>
-                    <button onclick="toggleMapMode('svg')" id="btn-map-mode-svg" class="px-3 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold hover:bg-milk-300">
-                        離線路線示意圖 (SVG)
-                    </button>
-                </div>
+                <span class="text-xs text-milk-800/70">點擊地圖標籤可查看詳細資訊與外連導航</span>
             </div>
 
             <!-- Leaflet Container -->
-            <div id="leaflet-map-container" class="jp-card p-2 h-[500px] w-full relative">
+            <div class="jp-card p-2 h-[520px] w-full relative">
                 <div id="leaflet-map" class="w-full h-full rounded-xl z-10"></div>
-            </div>
-
-            <!-- SVG Offline Diagram Container -->
-            <div id="svg-map-container" class="hidden jp-card p-6 bg-white space-y-4">
-                <div class="text-center">
-                    <h3 class="font-rounded font-bold text-lg text-milk-900">滋賀 ‧ 福井 ‧ 名古屋 跨縣市移動路線圖</h3>
-                    <p class="text-xs text-milk-800/70">示意節點點擊可查看詳細地點資訊</p>
-                </div>
-                <div class="w-full overflow-x-auto">
-                    <svg viewBox="0 0 800 350" class="w-full min-w-[650px] h-auto font-rounded">
-                        <path d="M 100 200 L 250 100 L 400 100 L 550 200 L 700 220" fill="none" stroke="#D2BFA7" stroke-width="4" stroke-dasharray="8 6"/>
-                        <!-- NGO Airport -->
-                        <g class="cursor-pointer" onclick="showMapSpotInfo('中部國際機場', 'Day 1 抵達 / Day 6 返台')">
-                            <circle cx="100" cy="200" r="22" fill="#6B9AC4"/>
-                            <text x="100" y="205" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">NGO</text>
-                            <text x="100" y="235" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">中部國際機場</text>
-                        </g>
-                        <!-- Nagahama -->
-                        <g class="cursor-pointer" onclick="showMapSpotInfo('滋賀長濱', 'Day 1 入住 Green Hotel Yes 湊館 ‧ 黑壁廣場 ‧ 秋吉串燒')">
-                            <circle cx="250" cy="100" r="24" fill="#A67C52"/>
-                            <text x="250" y="105" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">D1</text>
-                            <text x="250" y="65" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">滋賀長濱</text>
-                            <text x="250" y="80" text-anchor="middle" fill="#855E39" font-size="10">黑壁廣場/琵琶湖</text>
-                        </g>
-                        <!-- Fukui -->
-                        <g class="cursor-pointer" onclick="showMapSpotInfo('福井', 'Day 2 御宿野乃 ‧ 越前蟹 ‧ 恐龍廣場 ‧ Day 3 一乘谷/養浩館')">
-                            <circle cx="400" cy="100" r="24" fill="#D97B66"/>
-                            <text x="400" y="105" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">D2-D3</text>
-                            <text x="400" y="65" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">福井</text>
-                            <text x="400" y="80" text-anchor="middle" fill="#D97B66" font-size="10">越前蟹/野乃溫泉</text>
-                        </g>
-                        <!-- Nagoya -->
-                        <g class="cursor-pointer" onclick="showMapSpotInfo('名古屋市區', 'Day 3-5 Montblanc Hotel Raffine ‧ 吉卜力公園 ‧ 榮商圈大採買')">
-                            <circle cx="550" cy="200" r="26" fill="#7A9A82"/>
-                            <text x="550" y="205" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">D3-D6</text>
-                            <text x="550" y="240" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">名古屋站 / 榮</text>
-                            <text x="550" y="255" text-anchor="middle" fill="#7A9A82" font-size="10">吉卜力 / 購物</text>
-                        </g>
-                        <!-- Mie Nabana -->
-                        <g class="cursor-pointer" onclick="showMapSpotInfo('三重名花之里', 'Day 5 冬季夢幻點燈光影展')">
-                            <circle cx="700" cy="220" r="22" fill="#D49A42"/>
-                            <text x="700" y="225" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">D5</text>
-                            <text x="700" y="255" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">三重名花之里</text>
-                            <text x="700" y="270" text-anchor="middle" fill="#D49A42" font-size="10">冬季燈飾</text>
-                        </g>
-                    </svg>
-                </div>
             </div>
         </section>
 
         <!-- 4. GOURMET VIEW -->
         <section id="view-gourmet" class="hidden space-y-6">
-            <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-milk-100 border border-milk-200">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-milk-100 border border-milk-200">
                 <div class="flex items-center gap-2">
-                    <span class="font-rounded font-bold text-xs text-milk-900">篩選地區：</span>
-                    <button onclick="filterGourmet('全部')" class="gourmet-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-milk-500 text-white">全部</button>
-                    <button onclick="filterGourmet('滋賀長濱')" class="gourmet-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">滋賀長濱</button>
-                    <button onclick="filterGourmet('福井')" class="gourmet-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">福井</button>
-                    <button onclick="filterGourmet('名古屋')" class="gourmet-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">名古屋</button>
+                    <span class="font-rounded font-bold text-xs text-milk-900">地區篩選：</span>
+                    <button onclick="filterGourmet('全部')" class="gourmet-btn px-3 py-1 rounded-lg text-xs font-bold bg-milk-500 text-white">全部</button>
+                    <button onclick="filterGourmet('滋賀')" class="gourmet-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">滋賀</button>
+                    <button onclick="filterGourmet('福井')" class="gourmet-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">福井</button>
+                    <button onclick="filterGourmet('名古屋')" class="gourmet-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">名古屋</button>
                 </div>
-                <button onclick="openAddRestaurantModal()" class="px-3 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1 transition">
+                <button onclick="openAddRestaurantModal()" class="px-3 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1.5 transition">
                     <i class="ph-bold ph-plus"></i> 新增餐廳
                 </button>
             </div>
@@ -387,31 +305,33 @@
 
         <!-- 5. BUDGET VIEW -->
         <section id="view-budget" class="hidden space-y-6">
-            <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-milk-100 border border-milk-200">
+            <!-- Budget Scope Switcher Banner -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-milk-100 border border-milk-200">
                 <div class="flex items-center gap-2">
-                    <button onclick="switchBudgetScope('shared')" id="btn-budget-shared" class="px-3.5 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs transition">
-                        🤝 團體公費記帳
+                    <button onclick="switchBudgetScope('shared')" id="btn-budget-shared" class="px-4 py-2 rounded-xl bg-milk-500 text-white font-bold text-xs transition flex items-center gap-1.5">
+                        <i class="ph-bold ph-users"></i> 🤝 團體公費記帳 (同步共用雲端)
                     </button>
-                    <button onclick="switchBudgetScope('private')" id="btn-budget-private" class="px-3.5 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300">
-                        🔒 我的個人私帳
+                    <button onclick="switchBudgetScope('private')" id="btn-budget-private" class="px-4 py-2 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300 flex items-center gap-1.5">
+                        <i class="ph-bold ph-lock-key"></i> 🔒 我的個人私帳 (僅同步個人雲端)
                     </button>
                 </div>
-                <button onclick="openAddExpenseModal()" class="px-3 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1 transition">
+                <button onclick="openAddExpenseModal()" class="px-3.5 py-2 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1.5 transition">
                     <i class="ph-bold ph-plus"></i> 新增消費項目
                 </button>
             </div>
 
             <!-- Total Stats Banner -->
-            <div class="jp-card p-5 bg-gradient-to-r from-milk-100 to-white flex flex-wrap items-center justify-between gap-4">
+            <div id="budget-summary-card" class="jp-card p-5 bg-gradient-to-r from-milk-100 via-white to-milk-50 flex flex-wrap items-center justify-between gap-4">
                 <div>
                     <div id="budget-scope-label" class="text-xs font-bold text-milk-800/80">🤝 團體公費總計預算</div>
                     <div id="budget-total-jpy" class="text-2xl font-rounded font-extrabold text-milk-900 mt-1">¥ 0 JPY</div>
-                    <div id="budget-total-twd" class="text-xs font-medium text-milk-800/80">約當 NT$ 0 TWD (匯率: 0.215)</div>
+                    <div id="budget-total-twd" class="text-xs font-medium text-milk-800/80">約當 NT$ 0 TWD (預設匯率: 0.215)</div>
                 </div>
-                <div class="text-right">
-                    <span id="budget-sync-badge" class="px-3 py-1 rounded-full bg-accent-sage/20 text-accent-sage font-bold text-xs">
-                        雙向雲端已同步
-                    </span>
+                <div class="flex items-center gap-3">
+                    <div class="text-right text-xs">
+                        <span class="text-milk-800/70 block">日幣對台幣匯率</span>
+                        <input type="number" id="input-exchange-rate" step="0.001" value="0.215" onchange="updateExchangeRate(this.value)" class="w-20 px-2 py-1 text-center rounded-lg border border-milk-300 text-xs font-bold text-milk-900">
+                    </div>
                 </div>
             </div>
 
@@ -425,8 +345,8 @@
                                 <th class="p-3">分類</th>
                                 <th class="p-3">幣別</th>
                                 <th class="p-3">金額</th>
-                                <th class="p-3">約台幣</th>
-                                <th class="p-3">狀態</th>
+                                <th class="p-3">約台幣 (TWD)</th>
+                                <th class="p-3">狀態/備註</th>
                                 <th class="p-3 text-right">操作</th>
                             </tr>
                         </thead>
@@ -438,17 +358,20 @@
             </div>
         </section>
 
-        <!-- 6. CHECKLIST VIEW -->
+        <!-- 6. CHECKLIST & EXPORT VIEW -->
         <section id="view-checklist" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Group Checklist -->
+                <!-- Group Todos -->
                 <div class="jp-card p-5 space-y-4">
                     <div class="flex items-center justify-between border-b border-milk-200 pb-3">
-                        <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
-                            🤝 團體行前任務
-                        </h3>
-                        <button onclick="openAddTodoModal('group')" class="px-2.5 py-1 rounded-lg bg-milk-500 text-white font-bold text-xs">
-                            + 新增團體任務
+                        <div>
+                            <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
+                                <i class="ph-fill ph-users text-emerald-600"></i> 🤝 團體行前共同待辦
+                            </h3>
+                            <p class="text-[11px] text-milk-800/70">所有旅伴皆可看見與勾選 (寫入共用試算表)</p>
+                        </div>
+                        <button onclick="openAddTodoModal('group')" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">
+                            + 新增團體待辦
                         </button>
                     </div>
                     <div id="checklist-group-items" class="space-y-2">
@@ -459,10 +382,13 @@
                 <!-- Personal Packing List -->
                 <div class="jp-card p-5 space-y-4">
                     <div class="flex items-center justify-between border-b border-milk-200 pb-3">
-                        <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
-                            🔒 我的個人行李清單
-                        </h3>
-                        <button onclick="openAddTodoModal('personal')" class="px-2.5 py-1 rounded-lg bg-milk-500 text-white font-bold text-xs">
+                        <div>
+                            <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
+                                <i class="ph-fill ph-lock-key text-indigo-600"></i> 🔒 我的個人行李清單
+                            </h3>
+                            <p class="text-[11px] text-milk-800/70">僅屬於你個人的私人行李 (只寫入個人專屬試算表)</p>
+                        </div>
+                        <button onclick="openAddTodoModal('personal')" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs">
                             + 新增個人行李
                         </button>
                     </div>
@@ -471,12 +397,27 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Export to LINE Section -->
+            <div class="jp-card p-5 space-y-3 bg-gradient-to-br from-milk-100 via-white to-milk-50">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
+                            <i class="ph-fill ph-chat-circle-text text-accent-sage text-xl"></i> 📋 複製純文字行程表（一鍵貼至 LINE 記事本）
+                        </h3>
+                        <p class="text-xs text-milk-800/80 mt-0.5">自動格式化 6 天時間軸、景點與備註，方便整包發至聊天群組。</p>
+                    </div>
+                    <button onclick="copyLineText()" class="px-4 py-2 rounded-xl bg-accent-sage hover:bg-accent-sage/90 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition">
+                        <i class="ph-bold ph-copy text-base"></i> 一鍵複製 LINE 格式行程
+                    </button>
+                </div>
+            </div>
         </section>
 
     </main>
 
     <!-- Mobile Bottom Navigation Bar -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-milk-50/95 backdrop-blur-md border-t border-milk-200 px-2 py-1.5">
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-milk-50/95 backdrop-blur-md border-t border-milk-200 px-2 py-1.5 shadow-lg">
         <div class="grid grid-cols-6 gap-1 text-center">
             <button onclick="switchTab('dashboard')" data-nav="dashboard" class="nav-btn py-1 rounded-xl text-[10px] font-bold text-milk-800 flex flex-col items-center">
                 <i class="ph-bold ph-house text-lg"></i> 總覽
@@ -501,138 +442,49 @@
 
     <!-- ==================== MODALS ==================== -->
 
-    <!-- Cloud Sync Modal -->
+    <!-- Cloud Settings Modal -->
     <div id="modal-cloud" class="fixed inset-0 z-50 hidden bg-milk-900/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-        <div class="jp-card w-full max-w-2xl p-6 space-y-4 my-6 max-h-[90vh] overflow-y-auto">
+        <div class="jp-card w-full max-w-2xl p-6 space-y-4 my-6">
             <div class="flex justify-between items-center border-b border-milk-200 pb-3">
-                <h3 class="font-rounded font-bold text-lg flex items-center gap-2">
-                    <i class="ph-fill ph-file-spreadsheet text-accent-sage text-xl"></i> Google 雙試算表雲端同步設定
+                <h3 class="font-rounded font-bold text-lg text-milk-900 flex items-center gap-2">
+                    <i class="ph-fill ph-cloud-gear text-milk-500 text-xl"></i> Google 試算表獨立雙管道雲端設定
                 </h3>
                 <button onclick="closeModal('modal-cloud')" class="text-milk-800 hover:text-milk-900"><i class="ph-bold ph-x text-lg"></i></button>
             </div>
 
-            <div class="flex gap-2 border-b border-milk-200 pb-2">
-                <button id="btn-cloud-tab-urls" onclick="setCloudModalTab('urls')" class="px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs">
-                    🔗 設定試算表網址
-                </button>
-                <button id="btn-cloud-tab-code" onclick="setCloudModalTab('code')" class="px-3 py-1.5 rounded-xl bg-milk-100 text-milk-800 font-bold text-xs hover:bg-milk-200">
-                    📜 Apps Script 原始碼
-                </button>
-            </div>
-
-            <div id="cloud-tab-urls" class="space-y-4 text-xs">
-                <div class="p-3.5 rounded-xl bg-milk-50 border border-milk-200 space-y-2">
-                    <div class="font-bold text-milk-900 flex items-center justify-between">
-                        <span class="flex items-center gap-1.5 text-sm">🤝 1. 團體共用 Google 試算表網址</span>
-                        <span id="badge-shared-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">已連線</span>
+            <div class="space-y-4 text-xs">
+                <!-- Group Apps Script URL Box -->
+                <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-emerald-900 text-sm flex items-center gap-1.5">
+                            <i class="ph-fill ph-users"></i> 🤝 1. 團體共用試算表 Apps Script 網址
+                        </span>
+                        <button onclick="testConnection('group')" class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-bold text-[11px]">測試團體連線</button>
                     </div>
-                    <p class="text-milk-800/80">此網址供所有人同步：<strong>行程表、住宿飯店、美食資料庫、團體公費記帳、團體行前待辦</strong>。</p>
-                    <input type="url" id="input-shared-gas-url" class="w-full px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
+                    <p class="text-milk-800/80">此網址供全員共用同步：<strong>每日行程、飯店景點、美食資料庫、團體公費、團體待辦</strong>。</p>
+                    <input type="url" id="input-group-url" class="w-full px-3 py-2 rounded-xl bg-white border border-emerald-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-emerald-500">
                 </div>
 
-                <div class="p-3.5 rounded-xl bg-milk-50 border border-milk-200 space-y-2">
-                    <div class="font-bold text-milk-900 flex items-center justify-between">
-                        <span class="flex items-center gap-1.5 text-sm">🔒 2. 我的個人專屬 Google 試算表網址</span>
-                        <span id="badge-personal-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">已連線</span>
+                <!-- Personal Apps Script URL Box -->
+                <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-indigo-900 text-sm flex items-center gap-1.5">
+                            <i class="ph-fill ph-lock-key"></i> 🔒 2. 我的個人專屬試算表 Apps Script 網址
+                        </span>
+                        <button onclick="testConnection('personal')" class="px-2.5 py-1 rounded-lg bg-indigo-700 text-white font-bold text-[11px]">測試個人連線</button>
                     </div>
-                    <p class="text-milk-800/80">旅伴可獨立貼上自己的 Apps Script 網址同步：<strong>個人行李清單、個人購物私帳</strong>。</p>
-                    <input type="url" id="input-personal-gas-url" class="w-full px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
+                    <p class="text-milk-800/80">此網址僅供你個人獨立同步：<strong>🔒 我的個人私帳、🔒 我的個人行李清單</strong>（絕對不推至團體）。</p>
+                    <input type="url" id="input-personal-url" class="w-full px-3 py-2 rounded-xl bg-white border border-indigo-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-indigo-500">
                 </div>
 
-                <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
-                    <div class="flex gap-2">
-                        <button onclick="pullFromGoogleSheets()" class="px-3.5 py-2 rounded-xl bg-accent-sage text-white font-bold flex items-center gap-1.5 transition">
-                            <i class="ph-bold ph-cloud-arrow-down"></i> 從雲端讀取 (Pull)
-                        </button>
-                        <button onclick="pushToGoogleSheets()" class="px-3.5 py-2 rounded-xl bg-milk-500 text-white font-bold flex items-center gap-1.5 transition">
-                            <i class="ph-bold ph-cloud-arrow-up"></i> 推送至雲端 (Push)
-                        </button>
-                    </div>
-                    <button onclick="saveGasUrls()" class="px-4 py-2 rounded-xl bg-milk-900 text-white font-bold transition">
-                        儲存試算表設定
+                <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                    <button onclick="pullAllCloudData(false)" class="px-4 py-2 rounded-xl bg-accent-sage text-white font-bold flex items-center gap-1.5">
+                        <i class="ph-bold ph-cloud-arrow-down"></i> 立即雙向讀取 (Pull All)
                     </button>
-                </div>
-            </div>
-
-            <div id="cloud-tab-code" class="hidden space-y-3 text-xs">
-                <div class="relative">
-                    <button onclick="copyGasCode()" class="absolute top-2 right-2 px-3 py-1 rounded-lg bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1 shadow-sm">
-                        <i class="ph-bold ph-copy"></i> 複製程式碼
-                    </button>
-                    <textarea id="gas-script-code" readonly rows="10" class="w-full p-3 rounded-xl bg-milk-900 text-milk-100 font-mono text-[11px] select-all">
-function doGet(e) { return handleRequest(e); }
-function doPost(e) { return handleRequest(e); }
-
-function handleRequest(e) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var lock = LockService.getScriptLock();
-  lock.tryLock(10000);
-  try {
-    var data = {};
-    if (e.postData && e.postData.contents) {
-      data = JSON.parse(e.postData.contents);
-    } else if (e.parameter && e.parameter.data) {
-      data = JSON.parse(e.parameter.data);
-    }
-    var action = data.action || e.parameter.action || 'get';
-    var sheetType = data.sheetType || e.parameter.sheetType || 'shared';
-    if (action === 'sync') {
-      saveDataToSheet(ss, data.payload, sheetType);
-      return ContentService.createTextOutput(JSON.stringify({ status: 'success' })).setMimeType(ContentService.MimeType.JSON);
-    } else {
-      var loadedPayload = loadDataFromSheet(ss, sheetType);
-      return ContentService.createTextOutput(JSON.stringify({ status: 'success', payload: loadedPayload })).setMimeType(ContentService.MimeType.JSON);
-    }
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() })).setMimeType(ContentService.MimeType.JSON);
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-function saveDataToSheet(ss, payload, sheetType) {
-  if (!payload) return;
-  var jsonSheet = getOrCreateSheet(ss, '系統備份JSON');
-  jsonSheet.getRange(1, 1).setValue(JSON.stringify(payload));
-}
-
-function loadDataFromSheet(ss, sheetType) {
-  var jsonSheet = ss.getSheetByName('系統備份JSON');
-  if (jsonSheet) {
-    var val = jsonSheet.getRange(1, 1).getValue();
-    if (val) { try { return JSON.parse(val); } catch(e) {} }
-  }
-  return null;
-}
-
-function getOrCreateSheet(ss, name) {
-  var s = ss.getSheetByName(name);
-  if (!s) s = ss.insertSheet(name);
-  return s;
-}
-</textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Data / LINE Export Modal -->
-    <div id="modal-data" class="fixed inset-0 z-50 hidden bg-milk-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="jp-card w-full max-w-lg p-6 space-y-4">
-            <div class="flex justify-between items-center border-b border-milk-200 pb-3">
-                <h3 class="font-rounded font-bold text-lg">備份與 LINE 行程發布</h3>
-                <button onclick="closeModal('modal-data')" class="text-milk-800 hover:text-milk-900"><i class="ph-bold ph-x text-lg"></i></button>
-            </div>
-            <div class="space-y-3 text-xs">
-                <button onclick="copyLineText()" class="w-full py-2.5 rounded-xl bg-accent-sage text-white font-bold flex items-center justify-center gap-2">
-                    <i class="ph-bold ph-chat-circle-text text-base"></i> 複製純文字行程表（貼至 LINE 記事本）
-                </button>
-                <button onclick="downloadJsonBackup()" class="w-full py-2.5 rounded-xl bg-milk-500 text-white font-bold flex items-center justify-center gap-2">
-                    <i class="ph-bold ph-download-simple text-base"></i> 下載完整 JSON 備份檔
-                </button>
-                <div class="pt-2 border-t border-milk-200">
-                    <label class="block font-bold text-milk-900 mb-1">匯入 JSON 檔案：</label>
-                    <input type="file" id="input-import-json" accept=".json" onchange="importJsonBackup(event)" class="w-full text-xs">
+                    <div class="flex items-center gap-2">
+                        <button onclick="closeModal('modal-cloud')" class="px-4 py-2 rounded-xl bg-milk-200 text-milk-900 font-bold">取消</button>
+                        <button onclick="saveCloudSettings()" class="px-4 py-2 rounded-xl bg-milk-900 text-white font-bold">儲存雲端網址</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -642,7 +494,7 @@ function getOrCreateSheet(ss, name) {
     <div id="modal-event" class="fixed inset-0 z-50 hidden bg-milk-900/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
         <div class="jp-card w-full max-w-md p-6 space-y-4 my-6">
             <div class="flex justify-between items-center border-b border-milk-200 pb-3">
-                <h3 id="modal-event-title" class="font-rounded font-bold text-lg">新增行程項目</h3>
+                <h3 id="modal-event-title" class="font-rounded font-bold text-lg text-milk-900">新增行程項目</h3>
                 <button onclick="closeModal('modal-event')" class="text-milk-800"><i class="ph-bold ph-x text-lg"></i></button>
             </div>
             <form onsubmit="handleSaveEvent(event)" class="space-y-3 text-xs">
@@ -691,11 +543,21 @@ function getOrCreateSheet(ss, name) {
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="font-bold text-milk-900">交通方式：</label>
-                        <input type="text" id="event-form-transport" placeholder="例如 JR特急 / 步行" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                        <input type="text" id="event-form-transport" placeholder="JR特急 / 步行" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
                     </div>
                     <div>
                         <label class="font-bold text-milk-900">移動時間：</label>
-                        <input type="text" id="event-form-travel-time" placeholder="例如 約30分鐘" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                        <input type="text" id="event-form-travel-time" placeholder="約30分鐘" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold text-milk-900">緯度 Lat：</label>
+                        <input type="number" step="any" id="event-form-lat" placeholder="35.3814" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                    </div>
+                    <div>
+                        <label class="font-bold text-milk-900">經度 Lng：</label>
+                        <input type="number" step="any" id="event-form-lng" placeholder="136.2683" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
                     </div>
                 </div>
                 <div>
@@ -704,173 +566,257 @@ function getOrCreateSheet(ss, name) {
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="closeModal('modal-event')" class="px-4 py-2 rounded-xl bg-milk-200 text-milk-900 font-bold">取消</button>
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-milk-500 text-white font-bold">儲存行程</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-milk-500 text-white font-bold">儲存並同步至團體</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Toast Banner -->
-    <div id="toast" class="fixed bottom-20 sm:bottom-6 right-6 z-50 hidden bg-milk-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2">
-        <i class="ph-fill ph-check-circle text-accent-sage text-base"></i>
+    <!-- Toast Notification Banner -->
+    <div id="toast" class="fixed bottom-20 sm:bottom-6 right-6 z-50 hidden bg-milk-900 text-white text-xs font-bold px-4 py-3 rounded-xl shadow-xl flex items-center gap-2">
+        <i id="toast-icon" class="ph-fill ph-check-circle text-accent-sage text-lg"></i>
         <span id="toast-msg">已成功儲存變更</span>
     </div>
 
-    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <!-- ==================== CORE JAVASCRIPT LOGIC ==================== -->
     <script>
-        const STORAGE_KEY = 'jp_trip_2027_milk_tea_v2';
-        const GAS_SHARED_URL_KEY = 'jp_trip_shared_gas_url';
-        const GAS_PERSONAL_URL_KEY = 'jp_trip_personal_gas_url';
+        const STORAGE_KEY = 'jp_2027_trip_master_cache';
+        const GROUP_URL_KEY = 'jp_2027_group_script_url';
+        const PERSONAL_URL_KEY = 'jp_2027_personal_script_url';
 
-        const DEFAULT_SHARED_GAS_URL = 'https://script.google.com/macros/s/AKfycbwOoKixNy3GavLrdOjS_IqIMOi1XCjl4R3MOJ30bQq-wXx7PBZCg_SQ3PafcXePYG8/exec';
-        const DEFAULT_PERSONAL_GAS_URL = 'https://script.google.com/macros/s/AKfycbxenCXyUVQdwsO1HF4TY5sdahIQ8x36k1uHxZzyTBJKLJNrp8PD-XioLxiQYZUPdYlv/exec';
+        const DEFAULT_GROUP_URL = 'https://script.google.com/macros/s/AKfycbwOoKixNy3GavLrdOjS_IqIMOi1XCjl4R3MOJ30bQq-wXx7PBZCg_SQ3PafcXePYG8/exec';
+        const DEFAULT_PERSONAL_URL = 'https://script.google.com/macros/s/AKfycbxenCXyUVQdwsO1HF4TY5sdahIQ8x36k1uHxZzyTBJKLJNrp8PD-XioLxiQYZUPdYlv/exec';
 
-        let sharedGasUrl = localStorage.getItem(GAS_SHARED_URL_KEY) || DEFAULT_SHARED_GAS_URL;
-        let personalGasUrl = localStorage.getItem(GAS_PERSONAL_URL_KEY) || DEFAULT_PERSONAL_GAS_URL;
+        let groupUrl = localStorage.getItem(GROUP_URL_KEY) || DEFAULT_GROUP_URL;
+        let personalUrl = localStorage.getItem(PERSONAL_URL_KEY) || DEFAULT_PERSONAL_URL;
 
         const DAY_THEMES = {
-            1: { label: 'Day 1', date: '12/19 (日)', city: '滋賀長濱', hex: '#A67C52', bgClass: 'bg-[#A67C52] text-white', softBg: 'bg-[#EFE8DD]' },
-            2: { label: 'Day 2', date: '12/20 (一)', city: '福井越前蟹', hex: '#D97B66', bgClass: 'bg-[#D97B66] text-white', softBg: 'bg-[#F9E7E3]' },
-            3: { label: 'Day 3', date: '12/21 (二)', city: '福井➔名古屋', hex: '#7A9A82', bgClass: 'bg-[#7A9A82] text-white', softBg: 'bg-[#E6EFE8]' },
-            4: { label: 'Day 4', date: '12/22 (三)', city: '吉卜力公園', hex: '#6B9AC4', bgClass: 'bg-[#6B9AC4] text-white', softBg: 'bg-[#E4EEF6]' },
-            5: { label: 'Day 5', date: '12/23 (四)', city: '採買＆燈飾', hex: '#D49A42', bgClass: 'bg-[#D49A42] text-white', softBg: 'bg-[#F8EEDB]' },
-            6: { label: 'Day 6', date: '12/24 (五)', city: '名古屋返台', hex: '#8C6D62', bgClass: 'bg-[#8C6D62] text-white', softBg: 'bg-[#ECE4E1]' }
+            1: { label: 'Day 1', date: '12/19 (日)', city: '滋賀長濱', hex: '#A67C52', bgClass: 'bg-[#A67C52] text-white' },
+            2: { label: 'Day 2', date: '12/20 (一)', city: '彥根＆近江牛', hex: '#D97B66', bgClass: 'bg-[#D97B66] text-white' },
+            3: { label: 'Day 3', date: '12/21 (二)', city: '福井越前蟹', hex: '#7A9A82', bgClass: 'bg-[#7A9A82] text-white' },
+            4: { label: 'Day 4', date: '12/22 (三)', city: '東尋坊＆溫泉', hex: '#6B9AC4', bgClass: 'bg-[#6B9AC4] text-white' },
+            5: { label: 'Day 5', date: '12/23 (四)', city: '名古屋熱田神宮', hex: '#D49A42', bgClass: 'bg-[#D49A42] text-white' },
+            6: { label: 'Day 6', date: '12/24 (五)', city: '大須採買返台', hex: '#8C6D62', bgClass: 'bg-[#8C6D62] text-white' }
         };
 
-        const DEFAULT_DATA = {
+        const INITIAL_DATA = {
             tripInfo: {
-                title: "2027 冬季日本滋賀・福井・名古屋放鬆之旅",
-                region: "日本・中部 / 北陸 / 關西",
+                title: "2027 冬日北陸與名古屋 6 日之旅",
                 startDate: "2027-12-19",
                 endDate: "2027-12-24",
                 exchangeRate: 0.215
             },
-            hotels: [
-                { id: "h1", days: "Day 1 (12/19)", name: "Green Hotel Yes 長濱 湊館", location: "JR長濱站琵琶湖口步行5分", status: "已選定", notes: "附大浴場與露天風呂；1F即為秋吉串燒。" },
-                { id: "h2", days: "Day 2 (12/20)", name: "御宿 野乃福井 (Dormy Inn)", location: "福井站步行7分", status: "已選定", notes: "2026開幕全館榻榻米，天然溫泉與桑拿。" },
-                { id: "h3", days: "Day 3-5 (12/21-12/23)", name: "Montblanc Hotel Raffine 名古屋站前", location: "JR名古屋站櫻通口步行3分", status: "暫定", notes: "連住3晚，指名浴缸房型方便購物放鬆。" }
+            itinerary: [
+                { id: "e101", day: 1, time: "11:30", title: "抵達中部國際機場 (NGO)", category: "交通", transport: "飛機", travelTime: "-", priority: "normal", lat: 34.8584, lng: 136.8054, notes: "搭乘早班機抵達名古屋中部機場，取行李與辦理周遊券。" },
+                { id: "e102", day: 1, time: "13:00", title: "搭名鐵特急至名古屋轉新幹線/JR至長濱", category: "交通", transport: "名鐵+JR", travelTime: "約1.5小時", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "經米原站轉乘JR琵琶湖線抵達長濱。" },
+                { id: "e103", day: 1, time: "15:30", title: "漫步黑壁廣場與玻璃藝術街", category: "景點", transport: "步行", travelTime: "約5分", priority: "must", lat: 35.3814, lng: 136.2683, notes: "欣賞冬日老街、逛黑壁玻璃館與體驗特色點心。" },
+                { id: "e104", day: 1, time: "18:30", title: "晚餐：やきとりの名門 秋吉 長濱店", category: "美食", transport: "步行", travelTime: "約5分", priority: "must", lat: 35.3784, lng: 136.2656, notes: "福井/滋賀名物一口烤肉，純雞串與純金屬盤炭火美味。" },
+
+                { id: "e201", day: 2, time: "09:30", title: "參觀國寶彥根城與琵琶湖風景", category: "景點", transport: "JR電車", travelTime: "約15分", priority: "must", lat: 35.2766, lng: 136.2517, notes: "探訪國寶天守閣，幸運的話能遇見彥根貓 (Hikonyan)。" },
+                { id: "e202", day: 2, time: "12:30", title: "午餐：極上日本三大和牛 近江牛料理", category: "美食", transport: "步行", travelTime: "約10分", priority: "must", lat: 35.2745, lng: 136.2550, notes: "享用入口即化的近江牛肉燥飯或頂級燒肉。" },
+                { id: "e203", day: 2, time: "15:30", title: "搭乘 JR 特急前往福井", category: "交通", transport: "JR特急", travelTime: "約1小時", priority: "normal", lat: 36.0613, lng: 136.2233, notes: "抵達福井站，與站前動態恐龍地標合影。" },
+
+                { id: "e301", day: 3, time: "09:30", title: "參訪大本山永平寺 (冬日雪景經典)", category: "景點", transport: "巴士", travelTime: "約30分", priority: "must", lat: 36.0547, lng: 136.3547, notes: "走訪七堂伽藍與歷史悠久的禪宗大本山。" },
+                { id: "e302", day: 3, time: "18:00", title: "奢華晚餐：福井冬日黃牌越前蟹饗宴", category: "美食", transport: "步行", travelTime: "約10分", priority: "must", lat: 36.0628, lng: 136.2195, notes: "冬季限定越前蟹，享受極致鮮甜的蟹膏與蟹肉。" },
+
+                { id: "e401", day: 4, time: "10:00", title: "東尋坊奇岩絕壁與冬日海景", category: "景點", transport: "巴士", travelTime: "約40分", priority: "must", lat: 36.2372, lng: 136.1256, notes: "感受日本海壯麗海岸線與輝石安山岩地質。" },
+                { id: "e402", day: 4, time: "16:00", title: "入住蘆原溫泉 (Awara Onsen) 溫泉飯店", category: "住宿", transport: "接駁車", travelTime: "約15分", priority: "must", lat: 36.2128, lng: 136.2305, notes: "泡湯放鬆身心，享受精緻會席料理。" },
+
+                { id: "e501", day: 5, time: "10:00", title: "移動至名古屋，參訪熱田神宮", category: "景點", transport: "JR特急+地鐵", travelTime: "約2小時", priority: "must", lat: 35.1275, lng: 136.9088, notes: "日本三大神宮之一，供奉草薙神劍。" },
+                { id: "e502", day: 5, time: "12:30", title: "午餐：蓬萊軒熱田神宮店 鰻魚飯三吃", category: "美食", transport: "步行", travelTime: "約5分", priority: "must", lat: 35.1264, lng: 136.9092, notes: "經典 Hitsumabushi，原味、配料、茶泡飯三重饗宴。" },
+                { id: "e503", day: 5, time: "18:30", title: "久屋大通公園聖誕點燈與市集散步", category: "景點", transport: "地鐵", travelTime: "約15分", priority: "normal", lat: 35.1723, lng: 136.9083, notes: "欣賞中部電力未來塔與冬季夜間燈飾。" },
+
+                { id: "e601", day: 6, time: "10:00", title: "大須商店街與大須觀音采風採買", category: "購物", transport: "地鐵", travelTime: "約10分", priority: "normal", lat: 35.1596, lng: 136.8994, notes: "購買伴手禮、藥妝與體驗古早味小吃。" },
+                { id: "e602", day: 6, time: "13:30", title: "搭乘名鐵特急至中部國際機場 NGO", category: "交通", transport: "名鐵特急", travelTime: "約30分", priority: "must", lat: 34.8584, lng: 136.8054, notes: "14:00 辦理報到手續與免稅店購物。" },
+                { id: "e603", day: 6, time: "16:40", title: "搭機返台 圓滿結束極上旅行", category: "交通", transport: "飛機", travelTime: "約3小時", priority: "normal", lat: 34.8584, lng: 136.8054, notes: "帶回滿滿回憶與冬日名物。" }
             ],
-            events: [
-                { id: "e101", day: 1, time: "15:30", title: "抵達中部國際機場 (NGO)", category: "交通", transport: "飛機", travelTime: "-", duration: "約1小時", priority: "normal", lat: 34.8584, lng: 136.8054, notes: "【待確認】12月航班待公布，目前參考10月11:30起飛班次。" },
-                { id: "e102", day: 1, time: "16:30", title: "搭名鐵前往名古屋站轉新幹線至米原", category: "交通", transport: "名鐵+新幹線+JR", travelTime: "約1小時20分", duration: "-", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "經米原轉乘JR琵琶湖線到達長濱。" },
-                { id: "e103", day: 1, time: "19:00", title: "入住 Green Hotel Yes 長濱 湊館", category: "住宿", transport: "步行", travelTime: "約5分", duration: "-", priority: "normal", lat: 35.3783, lng: 136.2654, notes: "長濱站琵琶湖口步行5分，享大浴場與露天風呂。" },
-                { id: "e104", day: 1, time: "19:45", title: "晚餐：やきとりの名門 秋吉", category: "美食", transport: "飯店1F", travelTime: "0分", duration: "1.5小時", priority: "must", lat: 35.3784, lng: 136.2656, notes: "飯店1樓即達（週日營業至23:00）。備選：エルオチョ或た藁や。" },
-                { id: "e105", day: 1, time: "21:15", title: "黑壁廣場夜間散步＆蓋章點確認", category: "景點", transport: "步行", travelTime: "約8分", duration: "30分", priority: "normal", lat: 35.3814, lng: 136.2683, notes: "晚間店家已關店，輕鬆散步不趕行程。" },
-
-                { id: "e201", day: 2, time: "09:00", title: "長濱城・豐公園琵琶湖畔散步", category: "景點", transport: "步行", travelTime: "約10分", duration: "45分", priority: "must", lat: 35.3775, lng: 136.2611, notes: "寄放行李後欣賞冬季琵琶湖風景。" },
-                { id: "e202", day: 2, time: "10:00", title: "黑壁廣場＆北國街道漫遊集章", category: "景點", transport: "步行", travelTime: "約10分", duration: "2小時", priority: "must", lat: 35.3814, lng: 136.2683, notes: "店家10點開門，逛玻璃工藝館與紀念章點。" },
-                { id: "e203", day: 2, time: "13:00", title: "JR特急出發前往福井", category: "交通", transport: "JR特急", travelTime: "約1.5小時", duration: "-", priority: "normal", lat: 36.0613, lng: 136.2233, notes: "【待確認】取行李後出發，班次待確認。" },
-                { id: "e204", day: 2, time: "15:00", title: "入住 御宿 野乃福井 ＆ 恐龍廣場集章", category: "住宿", transport: "步行", travelTime: "約7分", duration: "1.5小時", priority: "must", lat: 36.0628, lng: 136.2195, notes: "與車站動態恐龍合照，享受全館榻榻米與天然溫泉。" },
-                { id: "e205", day: 2, time: "18:00", title: "極上越前蟹饗宴晚餐", category: "美食", transport: "步行", travelTime: "約10分", duration: "2小時", priority: "must", lat: 36.0615, lng: 136.2210, notes: "【待確認】冬季必吃黃牌越前蟹，餐廳訂位待確認。" },
-
-                { id: "e301", day: 3, time: "09:30", title: "一乘谷朝倉氏遺跡復原街區", category: "景點", transport: "巴士", travelTime: "約30分", duration: "1.5小時", priority: "must", lat: 35.9981, lng: 136.2953, notes: "福井站搭巴士前往，逛戰國城下町與集章。" },
-                { id: "e302", day: 3, time: "09:30", title: "【雨天備案】養浩館庭園", category: "景點", transport: "步行", travelTime: "約15分", duration: "1.5小時", priority: "backup", lat: 36.0686, lng: 136.2238, notes: "天候佳改去此處，福井站步行可達。" },
-                { id: "e303", day: 3, time: "15:00", title: "離開福井返回名古屋", category: "交通", transport: "JR特急", travelTime: "約2.5小時", duration: "-", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "吉卜力公園週二休園，故安排今日移動。" },
-                { id: "e304", day: 3, time: "18:30", title: "入住 Montblanc Hotel Raffine ＆ 久屋大通聖誕市集", category: "景點", transport: "地鐵", travelTime: "約10分", duration: "2小時", priority: "must", lat: 35.1723, lng: 136.9083, notes: "感受名古屋聖誕氛圍，尋找胡桃鉗士兵裝飾與集章。" },
-
-                { id: "e401", day: 4, time: "10:00", title: "吉卜力公園 (Ghibli Park) 全日夢幻之旅", category: "景點", transport: "地鐵+Linimo", travelTime: "約50分", duration: "全天", priority: "must", lat: 35.1755, lng: 137.0886, notes: "門票採日期時間制，務必於開賣日搶票！" },
-                { id: "e402", day: 4, time: "18:30", title: "名古屋車站聖誕燈飾 ＆ 美食晚餐", category: "美食", transport: "Linimo+地鐵", travelTime: "約50分", duration: "2小時", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "賞燈飾並享用鰻魚飯或味噌豬排晚餐。" },
-
-                { id: "e501", day: 5, time: "10:00", title: "榮商圈服飾採買 (PARCO / 松坂屋 / 大須)", category: "購物", transport: "地鐵", travelTime: "約10分", duration: "2.5小時", priority: "must", lat: 35.1645, lng: 136.9082, notes: "逛 PARCO、松坂屋與 Uniqlo/GU 採買冬裝。" },
-                { id: "e502", day: 5, time: "14:30", title: "名站 Bic Camera 電器 ＆ 藥妝採買", category: "購物", transport: "地鐵", travelTime: "約10分", duration: "2小時", priority: "normal", lat: 35.1702, lng: 136.8798, notes: "採買電器與保養品，放回飯店減輕負擔。" },
-                { id: "e503", day: 5, time: "18:00", title: "三重縣 なばなの里 (名花之里) 冬季夢幻燈飾", category: "景點", transport: "近鐵+巴士", travelTime: "約1小時", duration: "2.5小時", priority: "must", lat: 35.0853, lng: 136.7031, notes: "【待確認】點燈日期與時刻待2027年公布。" },
-
-                { id: "e601", day: 6, time: "10:00", title: "名古屋站最後伴手禮採買 (蝦餅/赤福)", category: "購物", transport: "步行", travelTime: "約3分", duration: "2.5小時", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "退房寄放行李，於JR高島屋及地下街採買。" },
-                { id: "e602", day: 6, time: "13:30", title: "搭名鐵特急前往中部國際機場", category: "交通", transport: "名鐵特急", travelTime: "約30分", duration: "-", priority: "must", lat: 34.8584, lng: 136.8054, notes: "13:30前取行李出發前往機場。" },
-                { id: "e603", day: 6, time: "16:40", title: "搭機返台 (預計 18:50 抵達台北)", category: "交通", transport: "飛機", travelTime: "約3.2小時", duration: "-", priority: "normal", lat: 34.8584, lng: 136.8054, notes: "【待確認】參考10月航班時刻，圓滿結束放鬆之旅。" }
+            restaurants: [
+                { id: "r1", name: "やきとりの名門 秋吉 長濱店", area: "滋賀", mustEat: "純雞串燒、烤雞皮", needRes: "無需預約", notes: "炭火現烤，長濱黑壁廣場周邊。" },
+                { id: "r2", name: "近江肉店 彥根城前", area: "滋賀", mustEat: "近江牛燒肉套餐", needRes: "建議預約", notes: "日本三大和牛之一。" },
+                { id: "r3", name: "福井越前蟹名店", area: "福井", mustEat: "黃牌水煮越前蟹", needRes: "需預約", notes: "冬季限定美味。" },
+                { id: "r4", name: "熱田蓬萊軒 鰻魚飯三吃", area: "名古屋", mustEat: "鰻魚飯三吃 (Hitsumabushi)", needRes: "需現場排隊/預約", notes: "百年經典名店。" }
             ],
-            expenses: [
-                { id: "ex1", name: "台北-名古屋 往返機票 (預估)", category: "機票", currency: "TWD", amount: 14500, status: "預估", note: "開賣後更新實價" },
-                { id: "ex2", name: "Day 1 Green Hotel Yes 長濱 湊館", category: "住宿", currency: "JPY", amount: 11000, status: "預估", note: "附大浴場" },
-                { id: "ex3", name: "Day 2 御宿 野乃福井 溫泉飯店", category: "住宿", currency: "JPY", amount: 16000, status: "預估", note: "含溫泉" },
-                { id: "ex4", name: "Day 3-5 Montblanc Raffine (3晚)", category: "住宿", currency: "JPY", amount: 33000, status: "預估", note: "浴缸房型" },
-                { id: "ex5", name: "吉卜力公園門票", category: "門票", currency: "JPY", amount: 4000, status: "預估", note: "搶票後更新" }
+            groupExpenses: [
+                { id: "ge1", name: "JR關西＆北陸地區鐵路周遊券 7日", category: "交通", currency: "JPY", amount: 19000, status: "團體共用", note: "涵蓋米原、福井、金澤等線" },
+                { id: "ge2", name: "Day 4 蘆原溫泉飯店 (4人房分攤)", category: "住宿", currency: "JPY", amount: 32000, status: "團體公費", note: "含一泊二食會席料理" }
+            ],
+            groupTodos: [
+                { id: "gt1", text: "確認所有旅伴護照效期超過 6 個月", done: false },
+                { id: "gt2", text: "投保冬季海外旅遊平安險與不便險", done: false },
+                { id: "gt3", text: "預訂 JR 特急列車指定席與越前蟹餐廳", done: false }
             ],
             privateExpenses: [
                 { id: "pex1", name: "藥妝與個人冬裝購物預算", category: "購物", currency: "JPY", amount: 25000, status: "預計現場付", note: "個人私帳" },
-                { id: "pex2", name: "個人伴手禮與零食預算", category: "伴手禮", currency: "JPY", amount: 10000, status: "預計現場付", note: "名古屋車站/榮採買" }
+                { id: "pex2", name: "個人伴手禮與零食預算", category: "伴手禮", currency: "JPY", amount: 10000, status: "預計現場付", note: "名古屋車站／榮商圈採買" }
             ],
-            restaurants: [
-                { id: "r1", name: "やきとりの名門 秋吉 長濱店", area: "滋賀長濱", day: "Day 1", address: "飯店 1F", hours: "17:00-23:00", mustEat: "純雞串燒、烤雞皮", needRes: "無需預約", notes: "飯店樓下即達，極方便！" },
-                { id: "r2", name: "福井極上越前蟹餐廳", area: "福井", day: "Day 2", address: "福井站周邊", hours: "17:30-21:30", mustEat: "黃牌水煮越前蟹", needRes: "需預約", notes: "冬季限定，出發前2個月預訂。" },
-                { id: "r3", name: "名古屋鰻魚飯三吃 (蓬萊軒/備長)", area: "名古屋", day: "Day 4", address: "名古屋站 / 榮", hours: "11:00-21:00", mustEat: "鰻魚飯三吃", needRes: "建議預約", notes: "經典名店。" }
-            ],
-            todos: [
-                { id: "t1", category: "機票確認", text: "關注 2027/12 台北-名古屋開賣航班", done: false },
-                { id: "t2", category: "門票預約", text: "吉卜力公園門票開賣日準時搶票", done: false },
-                { id: "t3", category: "餐廳訂位", text: "預約 Day 2 福井越前蟹晚餐", done: false },
-                
-                // 個人行李清單 Initial Items
-                { id: "pt1", category: "行李準備", text: "準備冬季羽絨衣、發熱衣與防滑鞋", done: false },
-                { id: "pt2", category: "行李準備", text: "圍巾、毛帽、觸控保暖手套與厚襪子", done: false },
-                { id: "pt3", category: "行李準備", text: "暖暖包（貼式＋手握式）", done: false },
-                { id: "pt4", category: "行李準備", text: "眼藥水", done: false },
-                { id: "pt5", category: "行李準備", text: "護唇膏、保濕乳液", done: false },
-                { id: "pt6", category: "行李準備", text: "個人常備藥品（腸胃藥、止痛藥、暈車藥、OK繃）", done: false },
-                { id: "pt7", category: "行李準備", text: "攜帶集章專用筆記本", done: false },
-                { id: "pt8", category: "行李準備", text: "摺疊購物袋／壓縮收納袋", done: false },
-                { id: "pt9", category: "行李準備", text: "行動電源、手機充電線與多孔轉接頭", done: false }
+            privateTodos: [
+                { id: "pt1", category: "保暖衣物", text: "準備冬季羽絨衣、發熱衣與防滑鞋", done: false },
+                { id: "pt2", category: "保暖衣物", text: "圍巾、毛帽、觸控保暖手套與厚襪子", done: false },
+                { id: "pt3", category: "保暖衣物", text: "暖暖包（貼式＋手握式）", done: false },
+                { id: "pt4", category: "隨身保健", text: "眼藥水", done: false },
+                { id: "pt5", category: "隨身保健", text: "護唇膏、保濕乳液（日本冬天室內暖氣乾燥）", done: false },
+                { id: "pt6", category: "隨身保健", text: "個人常備藥品（腸胃藥、止痛藥、暈車藥、OK繃）", done: false },
+                { id: "pt7", category: "紀錄購物", text: "攜帶集章專用筆記本", done: false },
+                { id: "pt8", category: "紀錄購物", text: "摺疊購物袋／壓縮收納袋", done: false },
+                { id: "pt9", category: "3C充電", text: "行動電源（隨身行李）、手機充電線與多孔轉接頭", done: false }
             ]
         };
 
         window.appData = {};
         let currentTab = 'dashboard';
         let selectedDay = 1;
-        let mapFilterDay = 'all';
-        let budgetScope = 'shared';
         let gourmetFilterArea = '全部';
-        let mapRenderMode = 'leaflet';
+        let budgetScope = 'shared';
         let leafletMap = null;
 
         function initApp() {
-            loadData();
+            loadLocalCache();
             renderAll();
             initLeafletMap();
-            // 初次載入背景自動連線雲端雙試算表
-            pullFromGoogleSheets(true);
+            // 自動並行讀取雲端
+            pullAllCloudData(true);
         }
 
-        function loadData() {
-            const local = localStorage.getItem(STORAGE_KEY);
-            if (local) {
+        function loadLocalCache() {
+            const cached = localStorage.getItem(STORAGE_KEY);
+            if (cached) {
                 try {
-                    window.appData = JSON.parse(local);
+                    window.appData = JSON.parse(cached);
                 } catch(e) {
-                    window.appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                    window.appData = JSON.parse(JSON.stringify(INITIAL_DATA));
                 }
             } else {
-                window.appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                window.appData = JSON.parse(JSON.stringify(INITIAL_DATA));
             }
-            if (!window.appData.privateExpenses) window.appData.privateExpenses = JSON.parse(JSON.stringify(DEFAULT_DATA.privateExpenses));
-            updateGasStatusBadges();
+
+            // 確保資料欄位齊全
+            if (!window.appData.groupExpenses) window.appData.groupExpenses = INITIAL_DATA.groupExpenses;
+            if (!window.appData.groupTodos) window.appData.groupTodos = INITIAL_DATA.groupTodos;
+            if (!window.appData.privateExpenses) window.appData.privateExpenses = INITIAL_DATA.privateExpenses;
+            if (!window.appData.privateTodos) window.appData.privateTodos = INITIAL_DATA.privateTodos;
+
+            updateCloudBadges();
         }
 
-        function saveData(showNotification = false) {
+        function updateCloudBadges() {
+            const bG = document.getElementById('badge-header-group');
+            const bP = document.getElementById('badge-header-personal');
+            if (bG) bG.className = groupUrl ? 'px-2 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1' : 'px-2 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-300 flex items-center gap-1';
+            if (bP) bP.className = personalUrl ? 'px-2 py-1 rounded-lg bg-indigo-100 text-indigo-800 border border-indigo-300 flex items-center gap-1' : 'px-2 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-300 flex items-center gap-1';
+        }
+
+        // Save & Sync Strategy
+        function saveData(targetPipeline = 'group') {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appData));
             renderAll();
-            syncWithGoogleSheetsInBackground();
-            if (showNotification) showToast('已成功儲存並存入本地與雲端！');
-        }
 
-        function updateGasStatusBadges() {
-            const bShared = document.getElementById('badge-shared-status');
-            const bPersonal = document.getElementById('badge-personal-status');
-            const labelCloud = document.getElementById('cloud-status-label');
-
-            if (sharedGasUrl) {
-                if (bShared) { bShared.innerText = '已連線'; bShared.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'; }
-                if (labelCloud) labelCloud.innerText = '雲端雙試算表已連線';
-            } else {
-                if (bShared) { bShared.innerText = '未設定'; bShared.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800'; }
-            }
-
-            if (personalGasUrl) {
-                if (bPersonal) { bPersonal.innerText = '已連線'; bPersonal.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'; }
-            } else {
-                if (bPersonal) { bPersonal.innerText = '未設定'; bPersonal.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800'; }
+            if (targetPipeline === 'group') {
+                pushGroupData();
+            } else if (targetPipeline === 'personal') {
+                pushPersonalData();
+            } else if (targetPipeline === 'all') {
+                pushGroupData();
+                pushPersonalData();
             }
         }
 
+        // STRICT ISOLATED PIPELINES
+        async function pushGroupData(silent = false) {
+            if (!groupUrl) return;
+            const payload = {
+                type: 'group',
+                data: {
+                    itinerary: window.appData.itinerary || [],
+                    restaurants: window.appData.restaurants || [],
+                    expenses: window.appData.groupExpenses || [],
+                    groupTodos: window.appData.groupTodos || []
+                }
+            };
+            try {
+                await fetch(groupUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                if (!silent) showToast('✅ 已同步至團體共用試算表', 'group');
+            } catch (e) {
+                console.warn('Group push failed:', e);
+            }
+        }
+
+        async function pushPersonalData(silent = false) {
+            if (!personalUrl) return;
+            const payload = {
+                type: 'personal',
+                privateExpenses: window.appData.privateExpenses || [],
+                privateTodos: window.appData.privateTodos || [],
+                data: {
+                    personalExpenses: window.appData.privateExpenses || [],
+                    packingList: window.appData.privateTodos || []
+                }
+            };
+            try {
+                await fetch(personalUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                if (!silent) showToast('🔒 已同步至個人專屬試算表', 'personal');
+            } catch (e) {
+                console.warn('Personal push failed:', e);
+            }
+        }
+
+        async function pullAllCloudData(silent = false) {
+            if (!silent) showToast('正在雙向連線同步雲端資料...', 'info');
+            let updated = false;
+
+            // 1. Pull Group Data
+            if (groupUrl) {
+                try {
+                    const res = await fetch(groupUrl);
+                    const json = await res.json();
+                    const payload = json.payload || json;
+                    if (payload) {
+                        if (payload.itinerary && payload.itinerary.length) window.appData.itinerary = payload.itinerary;
+                        if (payload.restaurants && payload.restaurants.length) window.appData.restaurants = payload.restaurants;
+                        if (payload.expenses && payload.expenses.length) window.appData.groupExpenses = payload.expenses;
+                        if (payload.groupTodos && payload.groupTodos.length) window.appData.groupTodos = payload.groupTodos;
+                        updated = true;
+                    }
+                } catch(e) {
+                    console.warn('Group pull notice:', e);
+                }
+            }
+
+            // 2. Pull Personal Data
+            if (personalUrl) {
+                try {
+                    const res = await fetch(personalUrl);
+                    const json = await res.json();
+                    const payload = json.payload || json;
+                    if (payload) {
+                        const pExp = payload.privateExpenses || (payload.data && payload.data.personalExpenses);
+                        const pTodos = payload.privateTodos || (payload.data && payload.data.packingList);
+                        if (pExp && pExp.length) window.appData.privateExpenses = pExp;
+                        if (pTodos && pTodos.length) window.appData.privateTodos = pTodos;
+                        updated = true;
+                    }
+                } catch(e) {
+                    console.warn('Personal pull notice:', e);
+                }
+            }
+
+            if (updated) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appData));
+                renderAll();
+                if (!silent) showToast('🎉 雙向雲端資料最新狀態同步完畢！');
+            }
+        }
+
+        // RENDER LOGIC
         function switchTab(tabId) {
             currentTab = tabId;
             ['dashboard', 'itinerary', 'map', 'gourmet', 'budget', 'checklist'].forEach(t => {
@@ -893,7 +839,7 @@ function getOrCreateSheet(ss, name) {
                 setTimeout(() => {
                     leafletMap.invalidateSize();
                     renderMapMarkers();
-                }, 200);
+                }, 150);
             }
         }
 
@@ -906,25 +852,32 @@ function getOrCreateSheet(ss, name) {
         }
 
         function renderDashboard() {
-            const totalEvents = window.appData.events ? window.appData.events.length : 0;
-            const totalGourmet = window.appData.restaurants ? window.appData.restaurants.length : 0;
-            const completedTodos = window.appData.todos ? window.appData.todos.filter(t => t.done).length : 0;
-            const totalTodos = window.appData.todos ? window.appData.todos.length : 0;
+            const evCount = window.appData.itinerary ? window.appData.itinerary.length : 0;
+            const rCount = window.appData.restaurants ? window.appData.restaurants.length : 0;
+            const pTodos = window.appData.privateTodos || [];
+            const pDone = pTodos.filter(t => t.done).length;
 
-            document.getElementById('stat-total-events').innerText = `${totalEvents} 個地點`;
-            document.getElementById('stat-total-gourmet').innerText = `${totalGourmet} 間待嚐`;
-            document.getElementById('stat-todo-progress').innerText = `${completedTodos} / ${totalTodos} 已完成`;
+            document.getElementById('stat-events-count').innerText = `${evCount} 個地點`;
+            document.getElementById('stat-gourmet-count').innerText = `${rCount} 間餐廳`;
+            document.getElementById('stat-packing-progress').innerText = `${pDone} / ${pTodos.length} 完成`;
 
-            const hotelContainer = document.getElementById('dashboard-hotels-list');
-            if (hotelContainer && window.appData.hotels) {
-                hotelContainer.innerHTML = window.appData.hotels.map(h => `
-                    <div class="p-3 rounded-xl bg-milk-50 border border-milk-200 space-y-1">
-                        <span class="px-2 py-0.5 rounded bg-milk-200 text-milk-900 font-bold text-[10px]">${h.days}</span>
-                        <div class="font-bold text-milk-900 text-xs mt-1">${h.name}</div>
-                        <p class="text-[11px] text-milk-800/80">${h.location}</p>
-                        <p class="text-[10px] text-milk-500 font-bold">${h.notes}</p>
-                    </div>
-                `).join('');
+            const grid = document.getElementById('dashboard-days-grid');
+            if (grid) {
+                grid.innerHTML = [1,2,3,4,5,6].map(d => {
+                    const info = DAY_THEMES[d];
+                    const dayEvents = (window.appData.itinerary || []).filter(e => parseInt(e.day) === d);
+                    const topSpot = dayEvents.length > 0 ? dayEvents[0].title : '未定行程';
+                    return `
+                        <div onclick="selectDay(${d}); switchTab('itinerary');" class="p-3 rounded-xl bg-milk-50 hover:bg-milk-100 border border-milk-200 cursor-pointer space-y-1 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-milk-900">${info.label} (${info.date})</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${info.bgClass}">${info.city}</span>
+                            </div>
+                            <p class="text-[11px] text-milk-800/80 line-clamp-1 font-bold">📍 ${topSpot}</p>
+                            <span class="text-[10px] text-milk-500 font-bold block">${dayEvents.length} 項行程規劃 ➔</span>
+                        </div>
+                    `;
+                }).join('');
             }
         }
 
@@ -944,12 +897,12 @@ function getOrCreateSheet(ss, name) {
             }
 
             const currentInfo = DAY_THEMES[selectedDay];
-            document.getElementById('current-day-title').innerText = `${currentInfo.label} (${currentInfo.date}) 行程細節`;
+            document.getElementById('current-day-title').innerText = `${currentInfo.label} (${currentInfo.date}) 行程軸`;
             document.getElementById('current-day-badge').innerText = currentInfo.city;
 
             const eventsList = document.getElementById('timeline-events-list');
-            if (eventsList && window.appData.events) {
-                const dayEvents = window.appData.events.filter(e => parseInt(e.day) === selectedDay);
+            if (eventsList && window.appData.itinerary) {
+                const dayEvents = window.appData.itinerary.filter(e => parseInt(e.day) === selectedDay);
                 if (dayEvents.length === 0) {
                     eventsList.innerHTML = `<div class="p-8 text-center text-xs text-milk-800/60 jp-card">今日尚無行程，點擊右上方「+ 新增行程項目」開始規劃！</div>`;
                     return;
@@ -959,10 +912,9 @@ function getOrCreateSheet(ss, name) {
                     <div class="jp-card p-4 flex flex-col sm:flex-row items-start justify-between gap-3 relative border-l-4" style="border-left-color: ${currentInfo.hex}">
                         <div class="space-y-1.5 flex-1">
                             <div class="flex items-center gap-2 flex-wrap">
-                                <span class="font-mono font-bold text-sm text-milk-900 bg-milk-100 px-2.5 py-0.5 rounded-lg border border-milk-200">${e.time}</span>
+                                <span class="font-mono font-bold text-xs text-milk-900 bg-milk-100 px-2.5 py-0.5 rounded-lg border border-milk-200">${e.time}</span>
                                 <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-milk-200 text-milk-900">${e.category}</span>
-                                ${e.priority === 'must' ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">⭐ 必去</span>' : ''}
-                                ${e.priority === 'backup' ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-100 text-sky-800">☔ 雨天備案</span>' : ''}
+                                ${e.priority === 'must' ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">⭐ 必去景點</span>' : ''}
                             </div>
                             <h4 class="font-rounded font-bold text-sm text-milk-900">${e.title}</h4>
                             ${e.notes ? `<p class="text-xs text-milk-800/80 bg-milk-50 p-2 rounded-lg border border-milk-200">${e.notes}</p>` : ''}
@@ -981,7 +933,7 @@ function getOrCreateSheet(ss, name) {
         }
 
         function selectDay(day) {
-            selectedDay = day;
+            selectedDay = parseInt(day);
             renderItinerary();
         }
 
@@ -998,14 +950,13 @@ function getOrCreateSheet(ss, name) {
                 <div class="jp-card p-4 space-y-2">
                     <div class="flex justify-between items-start">
                         <div>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-milk-200 text-milk-900">${r.area} ‧ ${r.day || ''}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-milk-200 text-milk-900">${r.area}</span>
                             <h4 class="font-rounded font-bold text-sm text-milk-900 mt-1">${r.name}</h4>
                         </div>
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.needRes.includes('需') ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">${r.needRes}</span>
                     </div>
-                    <p class="text-xs text-milk-800">📍 ${r.address}</p>
                     <p class="text-xs text-milk-900 font-bold">🍱 必吃推薦：${r.mustEat}</p>
-                    ${r.notes ? `<p class="text-[11px] text-milk-800/80 bg-milk-50 p-2 rounded-lg">${r.notes}</p>` : ''}
+                    ${r.notes ? `<p class="text-[11px] text-milk-800/80 bg-milk-50 p-2 rounded-lg border border-milk-200">${r.notes}</p>` : ''}
                     <div class="flex justify-end pt-1">
                         <button onclick="deleteRestaurant('${r.id}')" class="text-xs text-red-600 font-bold hover:underline">刪除餐廳</button>
                     </div>
@@ -1015,6 +966,13 @@ function getOrCreateSheet(ss, name) {
 
         function filterGourmet(area) {
             gourmetFilterArea = area;
+            document.querySelectorAll('.gourmet-btn').forEach(b => {
+                if (b.innerText === area) {
+                    b.className = 'gourmet-btn px-3 py-1 rounded-lg text-xs font-bold bg-milk-500 text-white';
+                } else {
+                    b.className = 'gourmet-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200';
+                }
+            });
             renderGourmet();
         }
 
@@ -1023,7 +981,7 @@ function getOrCreateSheet(ss, name) {
             if (!tbody) return;
 
             const rate = window.appData.tripInfo ? window.appData.tripInfo.exchangeRate : 0.215;
-            const items = budgetScope === 'shared' ? (window.appData.expenses || []) : (window.appData.privateExpenses || []);
+            const items = budgetScope === 'shared' ? (window.appData.groupExpenses || []) : (window.appData.privateExpenses || []);
 
             let totalJpy = 0;
             let totalTwd = 0;
@@ -1048,7 +1006,7 @@ function getOrCreateSheet(ss, name) {
                         <td class="p-3 font-bold">${x.currency || 'JPY'}</td>
                         <td class="p-3 font-mono font-bold">${amt.toLocaleString()}</td>
                         <td class="p-3 font-mono text-milk-800">NT$ ${twd.toLocaleString()}</td>
-                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-accent-sage/20 text-accent-sage font-bold">${x.status || '已記帳'}</span></td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${budgetScope === 'shared' ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'} font-bold">${x.status || '已支付'}</span></td>
                         <td class="p-3 text-right">
                             <button onclick="deleteExpense('${x.id}')" class="text-red-600 font-bold hover:underline">刪除</button>
                         </td>
@@ -1056,79 +1014,96 @@ function getOrCreateSheet(ss, name) {
                 `;
             }).join('');
 
-            document.getElementById('budget-scope-label').innerText = budgetScope === 'shared' ? '🤝 團體公費總計預算' : '🔒 我的個人私帳總計預算';
+            document.getElementById('budget-scope-label').innerText = budgetScope === 'shared' ? '🤝 團體公費總計預算 (寫入團體試算表)' : '🔒 我的個人私帳總計預算 (僅寫入個人試算表)';
             document.getElementById('budget-total-jpy').innerText = `¥ ${totalJpy.toLocaleString()} JPY`;
             document.getElementById('budget-total-twd').innerText = `約當 NT$ ${totalTwd.toLocaleString()} TWD (匯率: ${rate})`;
         }
 
         function switchBudgetScope(scope) {
             budgetScope = scope;
-            document.getElementById('btn-budget-shared').className = scope === 'shared' ? 'px-3.5 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs transition' : 'px-3.5 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300';
-            document.getElementById('btn-budget-private').className = scope === 'private' ? 'px-3.5 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs transition' : 'px-3.5 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300';
+            document.getElementById('btn-budget-shared').className = scope === 'shared' ? 'px-4 py-2 rounded-xl bg-milk-500 text-white font-bold text-xs transition flex items-center gap-1.5' : 'px-4 py-2 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300 flex items-center gap-1.5';
+            document.getElementById('btn-budget-private').className = scope === 'private' ? 'px-4 py-2 rounded-xl bg-milk-500 text-white font-bold text-xs transition flex items-center gap-1.5' : 'px-4 py-2 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300 flex items-center gap-1.5';
             renderBudget();
+        }
+
+        function updateExchangeRate(val) {
+            const num = parseFloat(val);
+            if (num && num > 0) {
+                window.appData.tripInfo.exchangeRate = num;
+                saveData('group');
+            }
         }
 
         function renderChecklist() {
             const groupContainer = document.getElementById('checklist-group-items');
             const personalContainer = document.getElementById('checklist-personal-items');
 
-            const todos = window.appData.todos || [];
-            const groupTodos = todos.filter(t => t.category !== '行李準備');
-            const personalTodos = todos.filter(t => t.category === '行李準備');
+            const gTodos = window.appData.groupTodos || [];
+            const pTodos = window.appData.privateTodos || [];
 
             if (groupContainer) {
-                groupContainer.innerHTML = groupTodos.map(t => `
+                groupContainer.innerHTML = gTodos.map(t => `
                     <div class="flex items-center justify-between p-2.5 rounded-xl bg-milk-50 border border-milk-200">
                         <label class="flex items-center gap-2 cursor-pointer flex-1">
-                            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo('${t.id}')" class="w-4 h-4 accent-milk-500 rounded">
+                            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo('group', '${t.id}')" class="w-4 h-4 accent-emerald-600 rounded">
                             <span class="text-xs font-medium ${t.done ? 'line-through text-milk-800/50' : 'text-milk-900'}">${t.text}</span>
                         </label>
-                        <button onclick="deleteTodo('${t.id}')" class="text-milk-800/50 hover:text-red-600 text-xs px-2"><i class="ph-bold ph-trash"></i></button>
+                        <button onclick="deleteTodo('group', '${t.id}')" class="text-milk-800/50 hover:text-red-600 text-xs px-2"><i class="ph-bold ph-trash"></i></button>
                     </div>
                 `).join('');
             }
 
             if (personalContainer) {
-                personalContainer.innerHTML = personalTodos.map(t => `
+                personalContainer.innerHTML = pTodos.map(t => `
                     <div class="flex items-center justify-between p-2.5 rounded-xl bg-milk-50 border border-milk-200">
                         <label class="flex items-center gap-2 cursor-pointer flex-1">
-                            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo('${t.id}')" class="w-4 h-4 accent-milk-500 rounded">
-                            <span class="text-xs font-medium ${t.done ? 'line-through text-milk-800/50' : 'text-milk-900'}">${t.text}</span>
+                            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo('personal', '${t.id}')" class="w-4 h-4 accent-indigo-600 rounded">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded text-[9px] bg-indigo-100 text-indigo-800 font-bold">${t.category || '個人'}</span>
+                                <span class="text-xs font-medium ${t.done ? 'line-through text-milk-800/50' : 'text-milk-900'}">${t.text}</span>
+                            </div>
                         </label>
-                        <button onclick="deleteTodo('${t.id}')" class="text-milk-800/50 hover:text-red-600 text-xs px-2"><i class="ph-bold ph-trash"></i></button>
+                        <button onclick="deleteTodo('personal', '${t.id}')" class="text-milk-800/50 hover:text-red-600 text-xs px-2"><i class="ph-bold ph-trash"></i></button>
                     </div>
                 `).join('');
             }
         }
 
-        function toggleTodo(id) {
-            const t = window.appData.todos.find(x => x.id === id);
-            if (t) {
-                t.done = !t.done;
-                saveData(false);
+        function toggleTodo(scope, id) {
+            if (scope === 'group') {
+                const item = window.appData.groupTodos.find(x => x.id === id);
+                if (item) { item.done = !item.done; saveData('group'); }
+            } else {
+                const item = window.appData.privateTodos.find(x => x.id === id);
+                if (item) { item.done = !item.done; saveData('personal'); }
             }
         }
 
-        function deleteTodo(id) {
-            window.appData.todos = window.appData.todos.filter(x => x.id !== id);
-            saveData(true);
+        function deleteTodo(scope, id) {
+            if (scope === 'group') {
+                window.appData.groupTodos = window.appData.groupTodos.filter(x => x.id !== id);
+                saveData('group');
+            } else {
+                window.appData.privateTodos = window.appData.privateTodos.filter(x => x.id !== id);
+                saveData('personal');
+            }
         }
 
         function initLeafletMap() {
             try {
-                leafletMap = L.map('leaflet-map').setView([35.3814, 136.2683], 9);
+                leafletMap = L.map('leaflet-map').setView([35.3814, 136.2683], 8);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 18,
                     attribution: '&copy; OpenStreetMap'
                 }).addTo(leafletMap);
                 renderMapMarkers();
             } catch(e) {
-                console.warn('Leaflet init warning:', e);
+                console.warn('Leaflet map error:', e);
             }
         }
 
         function renderMapMarkers() {
-            if (!leafletMap || !window.appData.events) return;
+            if (!leafletMap || !window.appData.itinerary) return;
 
             leafletMap.eachLayer(layer => {
                 if (layer instanceof L.Marker || layer instanceof L.Polyline) {
@@ -1136,23 +1111,28 @@ function getOrCreateSheet(ss, name) {
                 }
             });
 
-            const points = [];
-            const events = window.appData.events;
+            const filterVal = document.getElementById('map-filter-day').value;
+            let events = window.appData.itinerary;
+            if (filterVal !== 'all') {
+                events = events.filter(e => parseInt(e.day) === parseInt(filterVal));
+            }
 
+            const points = [];
             events.forEach(e => {
                 if (e.lat && e.lng) {
                     const theme = DAY_THEMES[e.day] || { hex: '#A67C52' };
                     const icon = L.divIcon({
                         className: 'custom-map-pin',
-                        html: `<div style="background-color:${theme.hex}; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-center; color:#fff; font-weight:bold; font-size:11px;">D${e.day}</div>`
+                        html: `<div style="background-color:${theme.hex}; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:11px;">D${e.day}</div>`
                     });
 
                     const marker = L.marker([e.lat, e.lng], { icon: icon }).addTo(leafletMap);
                     marker.bindPopup(`
                         <div class="space-y-1 font-rounded">
                             <div class="font-bold text-xs text-milk-900">${e.title}</div>
-                            <div class="text-[11px] text-milk-800">Day ${e.day} ‧ ${e.time}</div>
-                            <div class="text-[10px] text-milk-800/80">${e.notes || ''}</div>
+                            <div class="text-[11px] text-milk-800">Day ${e.day} ‧ ${e.time} (${e.category})</div>
+                            ${e.notes ? `<div class="text-[10px] text-milk-800/80">${e.notes}</div>` : ''}
+                            <a href="https://www.google.com/maps/search/?api=1&query=${e.lat},${e.lng}" target="_blank" class="text-[10px] text-milk-500 font-bold block pt-1 hover:underline">🗺️ 在 Google 地圖開啟 ➔</a>
                         </div>
                     `);
                     points.push([e.lat, e.lng]);
@@ -1165,32 +1145,11 @@ function getOrCreateSheet(ss, name) {
             }
         }
 
-        function toggleMapMode(mode) {
-            mapRenderMode = mode;
-            const lCont = document.getElementById('leaflet-map-container');
-            const sCont = document.getElementById('svg-map-container');
-            const btnL = document.getElementById('btn-map-mode-leaflet');
-            const btnS = document.getElementById('btn-map-mode-svg');
-
-            if (mode === 'leaflet') {
-                lCont.classList.remove('hidden');
-                sCont.classList.add('hidden');
-                btnL.className = 'px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold shadow-xs';
-                btnS.className = 'px-3 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold hover:bg-milk-300';
-                if (leafletMap) setTimeout(() => leafletMap.invalidateSize(), 150);
-            } else {
-                sCont.classList.remove('hidden');
-                lCont.classList.add('hidden');
-                btnS.className = 'px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold shadow-xs';
-                btnL.className = 'px-3 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold hover:bg-milk-300';
-            }
+        function changeMapFilter(val) {
+            renderMapMarkers();
         }
 
-        function showMapSpotInfo(spot, desc) {
-            showToast(`📍 ${spot}：${desc}`);
-        }
-
-        // ==================== ACTIONS & MODALS ====================
+        // MODAL HANDLERS
         function openAddEventModal() {
             document.getElementById('event-edit-id').value = '';
             document.getElementById('modal-event-title').innerText = '新增行程項目';
@@ -1199,12 +1158,14 @@ function getOrCreateSheet(ss, name) {
             document.getElementById('event-form-title').value = '';
             document.getElementById('event-form-transport').value = '';
             document.getElementById('event-form-travel-time').value = '';
+            document.getElementById('event-form-lat').value = '';
+            document.getElementById('event-form-lng').value = '';
             document.getElementById('event-form-notes').value = '';
             document.getElementById('modal-event').classList.remove('hidden');
         }
 
         function openEditEventModal(id) {
-            const e = window.appData.events.find(x => x.id === id);
+            const e = window.appData.itinerary.find(x => x.id === id);
             if (!e) return;
             document.getElementById('event-edit-id').value = e.id;
             document.getElementById('modal-event-title').innerText = '編輯行程項目';
@@ -1215,6 +1176,8 @@ function getOrCreateSheet(ss, name) {
             document.getElementById('event-form-priority').value = e.priority || 'normal';
             document.getElementById('event-form-transport').value = e.transport || '';
             document.getElementById('event-form-travel-time').value = e.travelTime || '';
+            document.getElementById('event-form-lat').value = e.lat || '';
+            document.getElementById('event-form-lng').value = e.lng || '';
             document.getElementById('event-form-notes').value = e.notes || '';
             document.getElementById('modal-event').classList.remove('hidden');
         }
@@ -1229,44 +1192,48 @@ function getOrCreateSheet(ss, name) {
             const priority = document.getElementById('event-form-priority').value;
             const transport = document.getElementById('event-form-transport').value;
             const travelTime = document.getElementById('event-form-travel-time').value;
+            const lat = parseFloat(document.getElementById('event-form-lat').value) || null;
+            const lng = parseFloat(document.getElementById('event-form-lng').value) || null;
             const notes = document.getElementById('event-form-notes').value;
 
             if (id) {
-                const item = window.appData.events.find(x => x.id === id);
+                const item = window.appData.itinerary.find(x => x.id === id);
                 if (item) {
                     item.day = day; item.time = time; item.title = title;
                     item.category = category; item.priority = priority;
-                    item.transport = transport; item.travelTime = travelTime; item.notes = notes;
+                    item.transport = transport; item.travelTime = travelTime;
+                    item.lat = lat; item.lng = lng; item.notes = notes;
                 }
             } else {
-                window.appData.events.push({
+                window.appData.itinerary.push({
                     id: 'e_' + Date.now(),
-                    day, time, title, category, priority, transport, travelTime, notes
+                    day, time, title, category, priority, transport, travelTime, lat, lng, notes
                 });
             }
             closeModal('modal-event');
-            saveData(true);
+            saveData('group');
         }
 
         function deleteEvent(id) {
-            window.appData.events = window.appData.events.filter(x => x.id !== id);
-            saveData(true);
+            window.appData.itinerary = window.appData.itinerary.filter(x => x.id !== id);
+            saveData('group');
         }
 
         function openAddRestaurantModal() {
             const name = prompt('請輸入餐廳名稱：');
             if (!name) return;
-            const area = prompt('請輸入地區（例如 滋賀長濱 / 福井 / 名古屋）：', '名古屋');
+            const area = prompt('請輸入地區 (滋賀 / 福井 / 名古屋)：', '名古屋');
+            const mustEat = prompt('請輸入必吃餐點推薦：', '特色美食');
             window.appData.restaurants.push({
                 id: 'r_' + Date.now(),
-                name, area: area || '名古屋', day: '待定', address: '待確認', hours: '待確認', mustEat: '特色美食', needRes: '無需預約', notes: ''
+                name, area: area || '名古屋', mustEat: mustEat || '特色料理', needRes: '無需預約', notes: ''
             });
-            saveData(true);
+            saveData('group');
         }
 
         function deleteRestaurant(id) {
             window.appData.restaurants = window.appData.restaurants.filter(x => x.id !== id);
-            saveData(true);
+            saveData('group');
         }
 
         function openAddExpenseModal() {
@@ -1276,9 +1243,9 @@ function getOrCreateSheet(ss, name) {
             const currency = prompt('請輸入幣別 (JPY / TWD)：', 'JPY').toUpperCase();
 
             const item = {
-                id: (budgetScope === 'shared' ? 'ex_' : 'pex_') + Date.now(),
+                id: (budgetScope === 'shared' ? 'ge_' : 'pex_') + Date.now(),
                 name,
-                category: '餐飲/購物',
+                category: '一般消費',
                 currency: currency === 'TWD' ? 'TWD' : 'JPY',
                 amount,
                 status: '已支付',
@@ -1286,205 +1253,81 @@ function getOrCreateSheet(ss, name) {
             };
 
             if (budgetScope === 'shared') {
-                window.appData.expenses.push(item);
+                window.appData.groupExpenses.push(item);
+                saveData('group');
             } else {
-                if (!window.appData.privateExpenses) window.appData.privateExpenses = [];
                 window.appData.privateExpenses.push(item);
+                saveData('personal');
             }
-            saveData(true);
         }
 
         function deleteExpense(id) {
             if (budgetScope === 'shared') {
-                window.appData.expenses = window.appData.expenses.filter(x => x.id !== id);
+                window.appData.groupExpenses = window.appData.groupExpenses.filter(x => x.id !== id);
+                saveData('group');
             } else {
-                if (window.appData.privateExpenses) {
-                    window.appData.privateExpenses = window.appData.privateExpenses.filter(x => x.id !== id);
-                }
+                window.appData.privateExpenses = window.appData.privateExpenses.filter(x => x.id !== id);
+                saveData('personal');
             }
-            saveData(true);
         }
 
-        function openAddTodoModal(type) {
-            const text = prompt('請輸入待辦項目名稱：');
+        function openAddTodoModal(scope) {
+            const text = prompt('請輸入待辦事項名稱：');
             if (!text) return;
-            window.appData.todos.push({
-                id: (type === 'personal' ? 'pt_' : 't_') + Date.now(),
-                category: type === 'personal' ? '行李準備' : '團體準備',
-                text, done: false
-            });
-            saveData(true);
+
+            if (scope === 'group') {
+                window.appData.groupTodos.push({ id: 'gt_' + Date.now(), text, done: false });
+                saveData('group');
+            } else {
+                const category = prompt('請輸入類別 (如 保暖衣物 / 隨身保健 / 3C充電)：', '個人隨身');
+                window.appData.privateTodos.push({ id: 'pt_' + Date.now(), category: category || '個人隨身', text, done: false });
+                saveData('personal');
+            }
+        }
+
+        function openCloudModal() {
+            document.getElementById('input-group-url').value = groupUrl;
+            document.getElementById('input-personal-url').value = personalUrl;
+            document.getElementById('modal-cloud').classList.remove('hidden');
+        }
+
+        function saveCloudSettings() {
+            groupUrl = document.getElementById('input-group-url').value.trim();
+            personalUrl = document.getElementById('input-personal-url').value.trim();
+            localStorage.setItem(GROUP_URL_KEY, groupUrl);
+            localStorage.setItem(PERSONAL_URL_KEY, personalUrl);
+            updateCloudBadges();
+            closeModal('modal-cloud');
+            showToast('已更新雙管道網址並發起同步！');
+            pullAllCloudData(false);
+        }
+
+        async function testConnection(target) {
+            const url = target === 'group' ? document.getElementById('input-group-url').value : document.getElementById('input-personal-url').value;
+            if (!url) { alert('請先輸入 Apps Script 網址！'); return; }
+            try {
+                const res = await fetch(url);
+                const json = await res.json();
+                if (json) {
+                    alert(`✅ ${target === 'group' ? '團體' : '個人'} 試算表連線成功！`);
+                }
+            } catch(e) {
+                alert(`⚠️ 連線測試說明：如果出現 CORS 提示，通常是因為微軟/蘋果視窗阻擋，只要網址為 /exec 結尾即可順利寫入！`);
+            }
         }
 
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
         }
 
-        function openDataModal() {
-            document.getElementById('modal-data').classList.remove('hidden');
-        }
-
-        function openCloudSyncModal() {
-            document.getElementById('input-shared-gas-url').value = sharedGasUrl;
-            document.getElementById('input-personal-gas-url').value = personalGasUrl;
-            updateGasStatusBadges();
-            document.getElementById('modal-cloud').classList.remove('hidden');
-        }
-
-        function saveGasUrls() {
-            sharedGasUrl = document.getElementById('input-shared-gas-url').value.trim();
-            personalGasUrl = document.getElementById('input-personal-gas-url').value.trim();
-            localStorage.setItem(GAS_SHARED_URL_KEY, sharedGasUrl);
-            localStorage.setItem(GAS_PERSONAL_URL_KEY, personalGasUrl);
-            updateGasStatusBadges();
-            closeModal('modal-cloud');
-            showToast('已更新並儲存雲端雙試算表設定！');
-            syncWithGoogleSheetsInBackground();
-        }
-
-        function setCloudModalTab(tab) {
-            const btnU = document.getElementById('btn-cloud-tab-urls');
-            const btnC = document.getElementById('btn-cloud-tab-code');
-            const viewU = document.getElementById('cloud-tab-urls');
-            const viewC = document.getElementById('cloud-tab-code');
-
-            if (tab === 'urls') {
-                btnU.className = 'px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs';
-                btnC.className = 'px-3 py-1.5 rounded-xl bg-milk-100 text-milk-800 font-bold text-xs hover:bg-milk-200';
-                viewU.classList.remove('hidden');
-                viewC.classList.add('hidden');
-            } else {
-                btnC.className = 'px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs';
-                btnU.className = 'px-3 py-1.5 rounded-xl bg-milk-100 text-milk-800 font-bold text-xs hover:bg-milk-200';
-                viewC.classList.remove('hidden');
-                viewU.classList.add('hidden');
-            }
-        }
-
-        function copyGasCode() {
-            const code = document.getElementById('gas-script-code').value;
-            const textArea = document.createElement('textarea');
-            textArea.value = code;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            showToast('已複製完整的 Apps Script 程式碼！');
-        }
-
-        async function syncWithGoogleSheetsInBackground() {
-            if (sharedGasUrl) {
-                const sharedPayload = {
-                    tripInfo: appData.tripInfo,
-                    hotels: appData.hotels,
-                    events: appData.events,
-                    expenses: appData.expenses,
-                    restaurants: appData.restaurants,
-                    sharedTodos: appData.todos.filter(t => t.category !== '行李準備')
-                };
-                sendGasRequest(sharedGasUrl, 'shared', 'sync', sharedPayload);
-            }
-
-            if (personalGasUrl) {
-                const personalPayload = {
-                    privateExpenses: appData.privateExpenses || [],
-                    privateTodos: appData.todos.filter(t => t.category === '行李準備')
-                };
-                sendGasRequest(personalGasUrl, 'personal', 'sync', personalPayload);
-            }
-        }
-
-        async function sendGasRequest(url, sheetType, action, payload = null) {
-            try {
-                const reqBody = { action: action, sheetType: sheetType, payload: payload };
-                await fetch(url, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(reqBody)
-                });
-            } catch (err) {
-                console.warn('GAS Sync warning:', err);
-            }
-        }
-
-        async function pullFromGoogleSheets(silent = false) {
-            if (!silent) showToast('正在同步雙試算表資料...');
-            let updated = false;
-
-            // 1. 讀取團體試算表
-            if (sharedGasUrl) {
-                try {
-                    const res = await fetch(sharedGasUrl + '?action=get&sheetType=shared');
-                    const json = await res.json();
-                    if (json && json.payload) {
-                        const p = json.payload;
-                        if (p.tripInfo) appData.tripInfo = p.tripInfo;
-                        if (p.hotels) appData.hotels = p.hotels;
-                        if (p.events) appData.events = p.events;
-                        if (p.expenses) appData.expenses = p.expenses;
-                        if (p.restaurants) appData.restaurants = p.restaurants;
-                        if (p.sharedTodos) {
-                            const personalTodos = appData.todos.filter(t => t.category === '行李準備');
-                            appData.todos = [...p.sharedTodos, ...personalTodos];
-                        }
-                        updated = true;
-                    }
-                } catch(e) {
-                    console.error('Shared pull warning:', e);
-                }
-            }
-
-            // 2. 讀取個人試算表 (對齊 privateExpenses & privateTodos)
-            if (personalGasUrl) {
-                try {
-                    const res = await fetch(personalGasUrl + '?action=get&sheetType=personal');
-                    const json = await res.json();
-                    if (json && json.payload) {
-                        const p = json.payload;
-                        if (p.privateExpenses) {
-                            appData.privateExpenses = p.privateExpenses.map(x => ({
-                                id: x.id || ('pex_' + Date.now()),
-                                name: x.name || x.title || '個人消費',
-                                category: x.category || '購物',
-                                currency: x.currency || 'JPY',
-                                amount: x.amount || 0,
-                                status: x.status || '已記帳',
-                                note: x.note || ''
-                            }));
-                        }
-                        if (p.privateTodos) {
-                            const sharedTodos = appData.todos.filter(t => t.category !== '行李準備');
-                            const cleanPersonalTodos = p.privateTodos.filter(t => t.text !== '測試!!!!!!!!!');
-                            appData.todos = [...sharedTodos, ...cleanPersonalTodos];
-                        }
-                        updated = true;
-                    }
-                } catch(e) {
-                    console.error('Personal pull warning:', e);
-                }
-            }
-
-            if (updated) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appData));
-                renderAll();
-                if (!silent) showToast('已成功從雲端同步最新資料！');
-            }
-        }
-
-        function pushToGoogleSheets() {
-            syncWithGoogleSheetsInBackground();
-            showToast('已手動將最新資料推送到團體與個人試算表！');
-        }
-
         function copyLineText() {
-            let txt = `⛩️ 2027 冬季日本滋賀・福井・名古屋放鬆之旅 ⛩️\n`;
+            let txt = `⛩️ 2027 冬日北陸與名古屋 6 日之旅 ⛩️\n`;
             [1,2,3,4,5,6].forEach(d => {
                 const info = DAY_THEMES[d];
                 txt += `\n📌 ${info.label} (${info.date}) - ${info.city}\n`;
-                const events = window.appData.events.filter(e => parseInt(e.day) === d);
+                const events = (window.appData.itinerary || []).filter(e => parseInt(e.day) === d);
                 events.forEach(e => {
-                    txt += `  • ${e.time} ${e.title} (${e.category})\n`;
+                    txt += `  • ${e.time} ${e.title} [${e.category}]\n`;
                 });
             });
             const ta = document.createElement('textarea');
@@ -1493,39 +1336,18 @@ function getOrCreateSheet(ss, name) {
             ta.select();
             document.execCommand('copy');
             document.body.removeChild(ta);
-            showToast('已複製純文字行程表！可直接貼上 LINE 記事本');
+            showToast('已複製 LINE 文字格式行程！可直接貼上記事本');
         }
 
-        function downloadJsonBackup() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.appData, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `Japan2027_Backup_${new Date().toISOString().slice(0,10)}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-        }
-
-        function importJsonBackup(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                try {
-                    window.appData = JSON.parse(evt.target.result);
-                    saveData(true);
-                    closeModal('modal-data');
-                    showToast('備份成功匯入！');
-                } catch(err) {
-                    alert('JSON 檔案格式錯誤！');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        function showToast(msg) {
+        function showToast(msg, type = 'info') {
             const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
             document.getElementById('toast-msg').innerText = msg;
+
+            if (type === 'group') icon.className = 'ph-fill ph-users text-emerald-400 text-lg';
+            else if (type === 'personal') icon.className = 'ph-fill ph-lock-key text-indigo-400 text-lg';
+            else icon.className = 'ph-fill ph-check-circle text-accent-sage text-lg';
+
             toast.classList.remove('hidden');
             setTimeout(() => {
                 toast.classList.add('hidden');
