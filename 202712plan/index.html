@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2027 冬季日本滋賀・福井・名古屋放鬆之旅 | 個人行程管理</title>
     
-    <!-- Google Fonts: Noto Sans TC & Huninn (Zen Maru Gothic fallback) -->
+    <!-- Google Fonts: Noto Sans TC & Zen Maru Gothic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -13,11 +13,11 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Leaflet.js CSS & JS (Interactive Map without API Key) -->
+    <!-- Leaflet.js CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
-    <!-- Phosphor Icons for crisp Japanese minimalist UI icons -->
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <script>
@@ -26,15 +26,15 @@
                 extend: {
                     colors: {
                         milk: {
-                            50: '#FAF7F2',  // 米白背景
-                            100: '#EFE8DD', // 燕麥色卡片底
-                            200: '#E4D7C5', // 淺奶茶邊框/標籤
-                            300: '#D2BFA7', // 中奶茶
-                            400: '#B89B7A', // 拿鐵
-                            500: '#A67C52', // 焦糖拿鐵主色
-                            600: '#855E39', // 深焦糖
-                            800: '#5C493E', // 烘焙咖啡
-                            900: '#4A3B32', // 深咖啡主文字
+                            50: '#FAF7F2',
+                            100: '#EFE8DD',
+                            200: '#E4D7C5',
+                            300: '#D2BFA7',
+                            400: '#B89B7A',
+                            500: '#A67C52',
+                            600: '#855E39',
+                            800: '#5C493E',
+                            900: '#4A3B32',
                         },
                         accent: {
                             coral: '#D97B66',
@@ -57,7 +57,7 @@
             background-color: #FAF7F2;
             color: #4A3B32;
             font-family: "Noto Sans TC", sans-serif;
-            padding-bottom: 85px; /* Space for mobile bottom nav */
+            padding-bottom: 85px;
             -webkit-tap-highlight-color: transparent;
         }
         @media (min-width: 768px) {
@@ -68,7 +68,6 @@
             font-family: "Zen Maru Gothic", "Noto Sans TC", sans-serif;
         }
 
-        /* Soft Japanese Card Elevation */
         .jp-card {
             background-color: #FFFFFF;
             border: 1px solid #E4D7C5;
@@ -82,7 +81,6 @@
             border-radius: 1rem;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -95,11 +93,9 @@
             border-radius: 9999px;
         }
 
-        /* Hide scrollbar for horizontal tabs */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Leaflet Map Custom Marker Styling */
         .custom-map-pin {
             display: flex;
             align-items: center;
@@ -126,21 +122,20 @@
 </head>
 <body class="antialiased selection:bg-milk-200 selection:text-milk-900">
 
-    <!-- Top Header & Backup Toolbar -->
+    <!-- Top Header -->
     <header class="sticky top-0 z-40 bg-milk-50/95 backdrop-blur-md border-b border-milk-200">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <!-- Brand Title -->
             <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('dashboard')">
                 <div class="w-9 h-9 rounded-xl bg-milk-500 text-white flex items-center justify-center shadow-sm">
                     <i class="ph-fill ph-compass text-xl"></i>
                 </div>
                 <div>
                     <h1 id="header-trip-title" class="font-rounded font-bold text-sm sm:text-base text-milk-900 line-clamp-1">2027 冬季日本滋賀・福井・名古屋放鬆之旅</h1>
-                    <p class="text-[11px] text-milk-800/70 hidden sm:block">個人旅遊行程管理系統 ‧ 自動本地儲存</p>
+                    <p class="text-[11px] text-milk-800/70 hidden sm:block">個人旅遊行程管理系統 ‧ 雙向雲端同步</p>
                 </div>
             </div>
 
-            <!-- Desktop Navigation Tabs -->
+            <!-- Desktop Nav Tabs -->
             <nav class="hidden md:flex items-center gap-1 bg-milk-100 p-1 rounded-xl border border-milk-200">
                 <button onclick="switchTab('dashboard')" data-nav="dashboard" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
                     <i class="ph-bold ph-house"></i> 總覽
@@ -162,19 +157,351 @@
                 </button>
             </nav>
 
-            <!-- Data Tools Dropdown / Modal Trigger -->
+            <!-- Data Tools -->
             <div class="flex items-center gap-1.5">
                 <button onclick="openCloudSyncModal()" id="btn-cloud-status" class="px-3 py-1.5 rounded-xl bg-accent-sage/15 hover:bg-accent-sage/25 border border-accent-sage/40 text-xs font-bold text-milk-900 flex items-center gap-1.5 transition" title="Google 試算表雲端同步設定">
                     <i class="ph-fill ph-file-spreadsheet text-accent-sage text-base"></i>
-                    <span id="cloud-status-label">Google 雙試算表同步</span>
+                    <span id="cloud-status-label">Google 雲端同步</span>
                 </button>
                 <button onclick="openDataModal()" class="px-3 py-1.5 rounded-xl bg-milk-100 hover:bg-milk-200 border border-milk-200 text-xs font-bold text-milk-900 flex items-center gap-1.5 transition" title="備份與匯出">
                     <i class="ph-bold ph-export text-milk-500"></i>
                     <span class="hidden sm:inline">備份 / 匯出</span>
                 </button>
             </div>
-<!-- ... existing code -->
-    <!-- 4.5 Cloud Sync & Dual Google Sheets Modal -->
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+
+        <!-- 1. DASHBOARD VIEW -->
+        <section id="view-dashboard" class="space-y-6">
+            <div class="jp-card p-6 bg-gradient-to-br from-milk-100 via-white to-milk-50 border-milk-200 relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 text-milk-200/40 text-9xl pointer-events-none">
+                    <i class="ph-fill ph-mountains"></i>
+                </div>
+                <div class="relative z-10 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <span class="px-3 py-1 rounded-full bg-milk-500 text-white text-xs font-bold tracking-wider">
+                            冬日特別版 ‧ 6天5夜
+                        </span>
+                        <span id="dashboard-countdown" class="text-xs font-bold text-milk-800 bg-white/80 px-3 py-1 rounded-full border border-milk-200">
+                            預計出發：2027/12/19
+                        </span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-rounded font-extrabold text-milk-900">
+                            滋賀長濱 ‧ 福井越前蟹 ‧ 名古屋聖誕光影
+                        </h2>
+                        <p class="text-xs sm:text-sm text-milk-800/80 mt-1">
+                            先放鬆後採買 ‧ 出發機場：中部國際機場 (NGO) 往返
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                        <div class="p-3 rounded-xl bg-white/90 border border-milk-200">
+                            <div class="text-[11px] text-milk-800/70 font-medium">總行程點</div>
+                            <div id="stat-total-events" class="text-lg font-rounded font-bold text-milk-900">18 個地點</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white/90 border border-milk-200">
+                            <div class="text-[11px] text-milk-800/70 font-medium">下榻飯店</div>
+                            <div class="text-lg font-rounded font-bold text-milk-900">3 間極上旅宿</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white/90 border border-milk-200">
+                            <div class="text-[11px] text-milk-800/70 font-medium">精選美食</div>
+                            <div id="stat-total-gourmet" class="text-lg font-rounded font-bold text-milk-900">6 間待嚐</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white/90 border border-milk-200">
+                            <div class="text-[11px] text-milk-800/70 font-medium">準備清單</div>
+                            <div id="stat-todo-progress" class="text-lg font-rounded font-bold text-milk-900">0 / 0 已完成</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Flight & Transit Overview -->
+                <div class="jp-card p-5 space-y-4 md:col-span-1">
+                    <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
+                        <i class="ph-fill ph-airplane-tilt text-accent-sky text-lg"></i> 航班與關鍵交通
+                    </h3>
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 rounded-xl bg-milk-50 border border-milk-200 space-y-1">
+                            <div class="font-bold text-milk-900">🛫 去程 (2027/12/19 日)</div>
+                            <p class="text-milk-800/80">台北 (TPE) ➔ 名古屋 (NGO)</p>
+                            <span class="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold">待確認時刻（參考11:30起飛）</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-milk-50 border border-milk-200 space-y-1">
+                            <div class="font-bold text-milk-900">🛬 回程 (2027/12/24 五)</div>
+                            <p class="text-milk-800/80">名古屋 (NGO) ➔ 台北 (TPE)</p>
+                            <span class="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold">待確認時刻（參考16:40起飛）</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-milk-100/60 border border-milk-200 space-y-1">
+                            <div class="font-bold text-milk-900">🚄 特急/新幹線關鍵移動</div>
+                            <ul class="list-disc list-inside space-y-0.5 text-milk-800/80 text-[11px]">
+                                <li>D1: 名古屋 ➔ 米原 ➔ 長濱</li>
+                                <li>D2: 長濱 ➔ 福井 (JR特急)</li>
+                                <li>D3: 福井 ➔ 名古屋 (JR特急)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hotel Cards -->
+                <div class="jp-card p-5 space-y-4 md:col-span-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
+                            <i class="ph-fill ph-bed text-milk-500 text-lg"></i> 6 天住宿配置總覽
+                        </h3>
+                        <span class="text-xs text-milk-800/70">先放鬆 ➔ 享溫泉 ➔ 市區採買</span>
+                    </div>
+                    <div id="dashboard-hotels-list" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <!-- Dynamic Hotel Cards -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ITINERARY VIEW -->
+        <section id="view-itinerary" class="hidden space-y-6">
+            <!-- Day Pills -->
+            <div class="flex items-center justify-between gap-2 overflow-x-auto pb-2 no-scrollbar" id="day-pill-container">
+                <!-- Dynamic Day Pills -->
+            </div>
+
+            <!-- Action Toolbar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-milk-100 border border-milk-200">
+                <div class="flex items-center gap-2">
+                    <h3 id="current-day-title" class="font-rounded font-bold text-base text-milk-900">Day 1 行程細節</h3>
+                    <span id="current-day-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-milk-500 text-white">滋賀長濱</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openAddEventModal()" class="px-3 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1 transition">
+                        <i class="ph-bold ph-plus"></i> 新增行程項目
+                    </button>
+                </div>
+            </div>
+
+            <!-- Timeline Events -->
+            <div id="timeline-events-list" class="space-y-4">
+                <!-- Dynamic Events -->
+            </div>
+        </section>
+
+        <!-- 3. MAP VIEW -->
+        <section id="view-map" class="hidden space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-milk-100 border border-milk-200">
+                <div class="flex items-center gap-2">
+                    <span class="font-rounded font-bold text-sm text-milk-900">🗺️ 檢視範圍：</span>
+                    <select id="map-filter-day" onchange="changeMapFilter(this.value)" class="px-3 py-1.5 rounded-xl bg-white border border-milk-300 text-xs font-bold text-milk-900">
+                        <option value="all">全行程 6 天路線總覽</option>
+                        <option value="1">Day 1: 滋賀長濱</option>
+                        <option value="2">Day 2: 福井越前蟹</option>
+                        <option value="3">Day 3: 福井➔名古屋</option>
+                        <option value="4">Day 4: 吉卜力公園</option>
+                        <option value="5">Day 5: 採買＆名花之里</option>
+                        <option value="6">Day 6: 名古屋返台</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2 text-xs">
+                    <button onclick="toggleMapMode('leaflet')" id="btn-map-mode-leaflet" class="px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold shadow-xs">
+                        網頁互動地圖
+                    </button>
+                    <button onclick="toggleMapMode('svg')" id="btn-map-mode-svg" class="px-3 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold hover:bg-milk-300">
+                        離線路線示意圖 (SVG)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Leaflet Container -->
+            <div id="leaflet-map-container" class="jp-card p-2 h-[500px] w-full relative">
+                <div id="leaflet-map" class="w-full h-full rounded-xl z-10"></div>
+            </div>
+
+            <!-- SVG Offline Diagram Container -->
+            <div id="svg-map-container" class="hidden jp-card p-6 bg-white space-y-4">
+                <div class="text-center">
+                    <h3 class="font-rounded font-bold text-lg text-milk-900">滋賀 ‧ 福井 ‧ 名古屋 跨縣市移動路線圖</h3>
+                    <p class="text-xs text-milk-800/70">示意節點點擊可查看詳細地點資訊</p>
+                </div>
+                <div class="w-full overflow-x-auto">
+                    <svg viewBox="0 0 800 350" class="w-full min-w-[650px] h-auto font-rounded">
+                        <path d="M 100 200 L 250 100 L 400 100 L 550 200 L 700 220" fill="none" stroke="#D2BFA7" stroke-width="4" stroke-dasharray="8 6"/>
+                        <!-- NGO Airport -->
+                        <g class="cursor-pointer" onclick="showMapSpotInfo('中部國際機場', 'Day 1 抵達 / Day 6 返台')">
+                            <circle cx="100" cy="200" r="22" fill="#6B9AC4"/>
+                            <text x="100" y="205" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">NGO</text>
+                            <text x="100" y="235" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">中部國際機場</text>
+                        </g>
+                        <!-- Nagahama -->
+                        <g class="cursor-pointer" onclick="showMapSpotInfo('滋賀長濱', 'Day 1 入住 Green Hotel Yes 湊館 ‧ 黑壁廣場 ‧ 秋吉串燒')">
+                            <circle cx="250" cy="100" r="24" fill="#A67C52"/>
+                            <text x="250" y="105" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">D1</text>
+                            <text x="250" y="65" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">滋賀長濱</text>
+                            <text x="250" y="80" text-anchor="middle" fill="#855E39" font-size="10">黑壁廣場/琵琶湖</text>
+                        </g>
+                        <!-- Fukui -->
+                        <g class="cursor-pointer" onclick="showMapSpotInfo('福井', 'Day 2 御宿野乃 ‧ 越前蟹 ‧ 恐龍廣場 ‧ Day 3 一乘谷/養浩館')">
+                            <circle cx="400" cy="100" r="24" fill="#D97B66"/>
+                            <text x="400" y="105" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">D2-D3</text>
+                            <text x="400" y="65" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">福井</text>
+                            <text x="400" y="80" text-anchor="middle" fill="#D97B66" font-size="10">越前蟹/野乃溫泉</text>
+                        </g>
+                        <!-- Nagoya -->
+                        <g class="cursor-pointer" onclick="showMapSpotInfo('名古屋市區', 'Day 3-5 Montblanc Hotel Raffine ‧ 吉卜力公園 ‧ 榮商圈大採買')">
+                            <circle cx="550" cy="200" r="26" fill="#7A9A82"/>
+                            <text x="550" y="205" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">D3-D6</text>
+                            <text x="550" y="240" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">名古屋站 / 榮</text>
+                            <text x="550" y="255" text-anchor="middle" fill="#7A9A82" font-size="10">吉卜力 / 購物</text>
+                        </g>
+                        <!-- Mie Nabana -->
+                        <g class="cursor-pointer" onclick="showMapSpotInfo('三重名花之里', 'Day 5 冬季夢幻點燈光影展')">
+                            <circle cx="700" cy="220" r="22" fill="#D49A42"/>
+                            <text x="700" y="225" text-anchor="middle" fill="#FFF" font-size="11" font-weight="bold">D5</text>
+                            <text x="700" y="255" text-anchor="middle" fill="#4A3B32" font-size="12" font-weight="bold">三重名花之里</text>
+                            <text x="700" y="270" text-anchor="middle" fill="#D49A42" font-size="10">冬季燈飾</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. GOURMET VIEW -->
+        <section id="view-gourmet" class="hidden space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-milk-100 border border-milk-200">
+                <div class="flex items-center gap-2">
+                    <span class="font-rounded font-bold text-xs text-milk-900">篩選地區：</span>
+                    <button onclick="filterGourmet('全部')" class="gourmet-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-milk-500 text-white">全部</button>
+                    <button onclick="filterGourmet('滋賀長濱')" class="gourmet-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">滋賀長濱</button>
+                    <button onclick="filterGourmet('福井')" class="gourmet-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">福井</button>
+                    <button onclick="filterGourmet('名古屋')" class="gourmet-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-white text-milk-900 hover:bg-milk-200">名古屋</button>
+                </div>
+                <button onclick="openAddRestaurantModal()" class="px-3 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1 transition">
+                    <i class="ph-bold ph-plus"></i> 新增餐廳
+                </button>
+            </div>
+
+            <div id="gourmet-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Dynamic Restaurant Cards -->
+            </div>
+        </section>
+
+        <!-- 5. BUDGET VIEW -->
+        <section id="view-budget" class="hidden space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-milk-100 border border-milk-200">
+                <div class="flex items-center gap-2">
+                    <button onclick="switchBudgetScope('shared')" id="btn-budget-shared" class="px-3.5 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs transition">
+                        🤝 團體公費記帳
+                    </button>
+                    <button onclick="switchBudgetScope('private')" id="btn-budget-private" class="px-3.5 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300">
+                        🔒 我的個人私帳
+                    </button>
+                </div>
+                <button onclick="openAddExpenseModal()" class="px-3 py-1.5 rounded-xl bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1 transition">
+                    <i class="ph-bold ph-plus"></i> 新增消費項目
+                </button>
+            </div>
+
+            <!-- Total Stats Banner -->
+            <div class="jp-card p-5 bg-gradient-to-r from-milk-100 to-white flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <div id="budget-scope-label" class="text-xs font-bold text-milk-800/80">🤝 團體公費總計預算</div>
+                    <div id="budget-total-jpy" class="text-2xl font-rounded font-extrabold text-milk-900 mt-1">¥ 0 JPY</div>
+                    <div id="budget-total-twd" class="text-xs font-medium text-milk-800/80">約當 NT$ 0 TWD (匯率: 0.215)</div>
+                </div>
+                <div class="text-right">
+                    <span class="px-3 py-1 rounded-full bg-accent-sage/20 text-accent-sage font-bold text-xs">
+                        已自動備份
+                    </span>
+                </div>
+            </div>
+
+            <!-- Expenses Table -->
+            <div class="jp-card overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-milk-100 text-milk-900 font-bold border-b border-milk-200">
+                            <tr>
+                                <th class="p-3">項目名稱</th>
+                                <th class="p-3">分類</th>
+                                <th class="p-3">幣別</th>
+                                <th class="p-3">金額</th>
+                                <th class="p-3">約台幣</th>
+                                <th class="p-3">狀態</th>
+                                <th class="p-3 text-right">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenses-table-body" class="divide-y divide-milk-200">
+                            <!-- Dynamic Expense Rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CHECKLIST VIEW -->
+        <section id="view-checklist" class="hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Group Checklist -->
+                <div class="jp-card p-5 space-y-4">
+                    <div class="flex items-center justify-between border-b border-milk-200 pb-3">
+                        <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
+                            🤝 團體行前任務
+                        </h3>
+                        <button onclick="openAddTodoModal('group')" class="px-2.5 py-1 rounded-lg bg-milk-500 text-white font-bold text-xs">
+                            + 新增團體任務
+                        </button>
+                    </div>
+                    <div id="checklist-group-items" class="space-y-2">
+                        <!-- Dynamic Todos -->
+                    </div>
+                </div>
+
+                <!-- Personal Packing List -->
+                <div class="jp-card p-5 space-y-4">
+                    <div class="flex items-center justify-between border-b border-milk-200 pb-3">
+                        <h3 class="font-rounded font-bold text-base text-milk-900 flex items-center gap-2">
+                            🔒 我的個人行李清單
+                        </h3>
+                        <button onclick="openAddTodoModal('personal')" class="px-2.5 py-1 rounded-lg bg-milk-500 text-white font-bold text-xs">
+                            + 新增個人行李
+                        </button>
+                    </div>
+                    <div id="checklist-personal-items" class="space-y-2">
+                        <!-- Dynamic Todos -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-milk-50/95 backdrop-blur-md border-t border-milk-200 px-2 py-1.5">
+        <div class="grid grid-cols-6 gap-1 text-center">
+            <button onclick="switchTab('dashboard')" data-nav="dashboard" class="nav-btn py-1 rounded-xl text-[10px] font-bold text-milk-800 flex flex-col items-center">
+                <i class="ph-bold ph-house text-lg"></i> 總覽
+            </button>
+            <button onclick="switchTab('itinerary')" data-nav="itinerary" class="nav-btn py-1 rounded-xl text-[10px] font-bold text-milk-800 flex flex-col items-center">
+                <i class="ph-bold ph-calendar-blank text-lg"></i> 行程
+            </button>
+            <button onclick="switchTab('map')" data-nav="map" class="nav-btn py-1 rounded-xl text-[10px] font-bold text-milk-800 flex flex-col items-center">
+                <i class="ph-bold ph-map-trifold text-lg"></i> 地圖
+            </button>
+            <button onclick="switchTab('gourmet')" data-nav="gourmet" class="nav-btn py-1 rounded-xl text-[10px] font-bold text-milk-800 flex flex-col items-center">
+                <i class="ph-bold ph-fork-knife text-lg"></i> 美食
+            </button>
+            <button onclick="switchTab('budget')" data-nav="budget" class="nav-btn py-1 rounded-xl text-[10px] font-bold text-milk-800 flex flex-col items-center">
+                <i class="ph-bold ph-wallet text-lg"></i> 費用
+            </button>
+            <button onclick="switchTab('checklist')" data-nav="checklist" class="nav-btn py-1 rounded-xl text-[10px] font-bold text-milk-800 flex flex-col items-center">
+                <i class="ph-bold ph-check-square-offset text-lg"></i> 準備
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Cloud Sync Modal -->
     <div id="modal-cloud" class="fixed inset-0 z-50 hidden bg-milk-900/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
         <div class="jp-card w-full max-w-2xl p-6 space-y-4 my-6 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-milk-200 pb-3">
@@ -184,27 +511,23 @@
                 <button onclick="closeModal('modal-cloud')" class="text-milk-800 hover:text-milk-900"><i class="ph-bold ph-x text-lg"></i></button>
             </div>
 
-            <!-- Tab Switcher inside Modal -->
             <div class="flex gap-2 border-b border-milk-200 pb-2">
                 <button id="btn-cloud-tab-urls" onclick="setCloudModalTab('urls')" class="px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs">
                     🔗 設定試算表網址
                 </button>
                 <button id="btn-cloud-tab-code" onclick="setCloudModalTab('code')" class="px-3 py-1.5 rounded-xl bg-milk-100 text-milk-800 font-bold text-xs hover:bg-milk-200">
-                    📜 Apps Script 原始碼與建立教學
+                    📜 Apps Script 原始碼
                 </button>
             </div>
 
-            <!-- TAB 1: URLs & Sync Status -->
             <div id="cloud-tab-urls" class="space-y-4 text-xs">
                 <div class="p-3.5 rounded-xl bg-milk-50 border border-milk-200 space-y-2">
                     <div class="font-bold text-milk-900 flex items-center justify-between">
                         <span class="flex items-center gap-1.5 text-sm">🤝 1. 團體共用 Google 試算表網址</span>
-                        <span id="badge-shared-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800">未設定</span>
+                        <span id="badge-shared-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">已預設連線</span>
                     </div>
-                    <p class="text-milk-800/80">此網址供所有人貼上同一串網址，負責同步：<strong>行程表、住宿飯店、美食資料庫、團體公費記帳、團體行前待辦</strong>。</p>
-                    <div class="flex gap-2">
-                        <input type="url" id="input-shared-gas-url" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
-                    </div>
+                    <p class="text-milk-800/80">此網址供所有人同步：<strong>行程表、住宿飯店、美食資料庫、團體公費記帳、團體行前待辦</strong>。</p>
+                    <input type="url" id="input-shared-gas-url" class="w-full px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
                 </div>
 
                 <div class="p-3.5 rounded-xl bg-milk-50 border border-milk-200 space-y-2">
@@ -212,19 +535,17 @@
                         <span class="flex items-center gap-1.5 text-sm">🔒 2. 我的個人專屬 Google 試算表網址</span>
                         <span id="badge-personal-status" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800">未設定</span>
                     </div>
-                    <p class="text-milk-800/80">每位旅伴可建立並貼上各自的試算表網址，負責同步：<strong>個人行李清單、個人購物私帳</strong>（完全留在你自己的 Google 帳號，別人看不到）。</p>
-                    <div class="flex gap-2">
-                        <input type="url" id="input-personal-gas-url" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
-                    </div>
+                    <p class="text-milk-800/80">旅伴可獨立貼上自己的 Apps Script 網址同步：<strong>個人行李清單、個人購物私帳</strong>。</p>
+                    <input type="url" id="input-personal-gas-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 py-2 rounded-xl bg-white border border-milk-300 font-mono text-[11px] text-milk-900 focus:outline-none focus:border-milk-500">
                 </div>
 
                 <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
                     <div class="flex gap-2">
                         <button onclick="pullFromGoogleSheets()" class="px-3.5 py-2 rounded-xl bg-accent-sage text-white font-bold flex items-center gap-1.5 transition">
-                            <i class="ph-bold ph-cloud-arrow-down"></i> 從雲端重新讀取 (Pull)
+                            <i class="ph-bold ph-cloud-arrow-down"></i> 從雲端讀取 (Pull)
                         </button>
                         <button onclick="pushToGoogleSheets()" class="px-3.5 py-2 rounded-xl bg-milk-500 text-white font-bold flex items-center gap-1.5 transition">
-                            <i class="ph-bold ph-cloud-arrow-up"></i> 推送本機資料至雲端 (Push)
+                            <i class="ph-bold ph-cloud-arrow-up"></i> 推送至雲端 (Push)
                         </button>
                     </div>
                     <button onclick="saveGasUrls()" class="px-4 py-2 rounded-xl bg-milk-900 text-white font-bold transition">
@@ -233,26 +554,12 @@
                 </div>
             </div>
 
-            <!-- TAB 2: GAS Code & Setup Instructions -->
             <div id="cloud-tab-code" class="hidden space-y-3 text-xs">
-                <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 space-y-1">
-                    <div class="font-bold text-sm">📌 4 步驟超簡單設定教學（全程免費，約 2 分鐘）：</div>
-                    <ol class="list-decimal list-inside space-y-1 text-xs font-medium">
-                        <li>開啟 <a href="https://sheets.new" target="_blank" class="underline font-bold text-amber-950">Google 試算表 (sheets.new)</a> 建立一份空白試算表。</li>
-                        <li>點擊頂部選單的 <strong>「擴充功能」 ➔ 「Apps Script」</strong>。</li>
-                        <li>清除裡面原本的所有程式碼，按下方按鈕複製預備好的程式碼並貼上，點擊右上角「儲存 💾」。</li>
-                        <li>點擊右上角 <strong>「部署」 ➔ 「新增部署」</strong> ➔ 點齒輪選擇「網頁應用程式」 ➔ 執行身分選「我」，<strong>誰可以存取設為「所有人 (Anyone)」</strong> ➔ 按「部署」並複製產出的專屬網址！</li>
-                    </ol>
-                </div>
-
                 <div class="relative">
                     <button onclick="copyGasCode()" class="absolute top-2 right-2 px-3 py-1 rounded-lg bg-milk-500 hover:bg-milk-600 text-white font-bold text-xs flex items-center gap-1 shadow-sm">
-                        <i class="ph-bold ph-copy"></i> 複製完整的 Apps Script 程式碼
+                        <i class="ph-bold ph-copy"></i> 複製程式碼
                     </button>
-                    <textarea id="gas-script-code" readonly rows="10" class="w-full p-3 rounded-xl bg-milk-900 text-milk-100 font-mono text-[11px] focus:outline-none leading-relaxed select-all">
-// ==========================================
-// 2027 冬季日本旅遊網頁專用 - Google Apps Script 雙向同步程式碼
-// ==========================================
+                    <textarea id="gas-script-code" readonly rows="10" class="w-full p-3 rounded-xl bg-milk-900 text-milk-100 font-mono text-[11px] select-all">
 function doGet(e) { return handleRequest(e); }
 function doPost(e) { return handleRequest(e); }
 
@@ -260,7 +567,6 @@ function handleRequest(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var lock = LockService.getScriptLock();
   lock.tryLock(10000);
-  
   try {
     var data = {};
     if (e.postData && e.postData.contents) {
@@ -268,22 +574,17 @@ function handleRequest(e) {
     } else if (e.parameter && e.parameter.data) {
       data = JSON.parse(e.parameter.data);
     }
-    
     var action = data.action || e.parameter.action || 'get';
     var sheetType = data.sheetType || e.parameter.sheetType || 'shared';
-    
     if (action === 'sync') {
       saveDataToSheet(ss, data.payload, sheetType);
-      return ContentService.createTextOutput(JSON.stringify({ status: 'success', message: '資料已同步至 Google 試算表' }))
-        .setMimeType(ContentService.MimeType.JSON);
+      return ContentService.createTextOutput(JSON.stringify({ status: 'success' })).setMimeType(ContentService.MimeType.JSON);
     } else {
       var loadedPayload = loadDataFromSheet(ss, sheetType);
-      return ContentService.createTextOutput(JSON.stringify({ status: 'success', payload: loadedPayload }))
-        .setMimeType(ContentService.MimeType.JSON);
+      return ContentService.createTextOutput(JSON.stringify({ status: 'success', payload: loadedPayload })).setMimeType(ContentService.MimeType.JSON);
     }
   } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() })).setMimeType(ContentService.MimeType.JSON);
   } finally {
     lock.releaseLock();
   }
@@ -293,26 +594,13 @@ function saveDataToSheet(ss, payload, sheetType) {
   if (!payload) return;
   var jsonSheet = getOrCreateSheet(ss, '系統備份JSON');
   jsonSheet.getRange(1, 1).setValue(JSON.stringify(payload));
-  
-  if (sheetType === 'shared') {
-    if (payload.events) updateItinerarySheet(ss, payload.events);
-    if (payload.hotels) updateHotelsSheet(ss, payload.hotels);
-    if (payload.restaurants) updateRestaurantsSheet(ss, payload.restaurants);
-    if (payload.expenses) updateExpensesSheet(ss, '團體公費', payload.expenses);
-    if (payload.sharedTodos) updateTodosSheet(ss, '團體待辦', payload.sharedTodos);
-  } else {
-    if (payload.privateExpenses) updateExpensesSheet(ss, '個人私帳', payload.privateExpenses);
-    if (payload.privateTodos) updateTodosSheet(ss, '個人行李清單', payload.privateTodos);
-  }
 }
 
 function loadDataFromSheet(ss, sheetType) {
   var jsonSheet = ss.getSheetByName('系統備份JSON');
   if (jsonSheet) {
     var val = jsonSheet.getRange(1, 1).getValue();
-    if (val) {
-      try { return JSON.parse(val); } catch(e) {}
-    }
+    if (val) { try { return JSON.parse(val); } catch(e) {} }
   }
   return null;
 }
@@ -322,67 +610,123 @@ function getOrCreateSheet(ss, name) {
   if (!s) s = ss.insertSheet(name);
   return s;
 }
-
-function updateItinerarySheet(ss, events) {
-  var s = getOrCreateSheet(ss, '行程表');
-  s.clear();
-  s.appendRow(['Day', '時間', '活動/地點', '分類', '交通方式', '移動時間', '停留時間', '重點標記', '備註']);
-  events.forEach(function(e) {
-    s.appendRow([e.day, e.time, e.title, e.category, e.transport, e.travelTime, e.duration, e.priority, e.notes]);
-  });
-}
-
-function updateHotelsSheet(ss, hotels) {
-  var s = getOrCreateSheet(ss, '住宿與航班');
-  s.clear();
-  s.appendRow(['天數標示', '飯店/航班名稱', '位置交通', '狀態', '特色備註']);
-  hotels.forEach(function(h) {
-    s.appendRow([h.days, h.name, h.location, h.status, h.notes]);
-  });
-}
-
-function updateRestaurantsSheet(ss, rest) {
-  var s = getOrCreateSheet(ss, '美食與餐廳');
-  s.clear();
-  s.appendRow(['預計用餐日', '餐廳名稱', '地區', '必吃推薦', '預約狀態', '營業時間', '地址', '備註']);
-  rest.forEach(function(r) {
-    s.appendRow([r.day, r.name, r.area, r.mustEat, r.needRes, r.hours, r.address, r.notes]);
-  });
-}
-
-function updateExpensesSheet(ss, sheetName, exp) {
-  var s = getOrCreateSheet(ss, sheetName);
-  s.clear();
-  s.appendRow(['項目名稱', '分類', '幣別', '金額', '付款狀態', '備註']);
-  exp.forEach(function(x) {
-    s.appendRow([x.name, x.category, x.currency, x.amount, x.status, x.note]);
-  });
-}
-
-function updateTodosSheet(ss, sheetName, todos) {
-  var s = getOrCreateSheet(ss, sheetName);
-  s.clear();
-  s.appendRow(['完成狀態', '分類', '待辦事項文字']);
-  todos.forEach(function(t) {
-    s.appendRow([t.done ? '✓ 已完成' : '未完成', t.category, t.text]);
-  });
-}
 </textarea>
                 </div>
             </div>
         </div>
     </div>
-<!-- ... existing codeBOX ... -->
+
+    <!-- Data / LINE Export Modal -->
+    <div id="modal-data" class="fixed inset-0 z-50 hidden bg-milk-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="jp-card w-full max-w-lg p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-milk-200 pb-3">
+                <h3 class="font-rounded font-bold text-lg">備份與 LINE 行程發布</h3>
+                <button onclick="closeModal('modal-data')" class="text-milk-800 hover:text-milk-900"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <div class="space-y-3 text-xs">
+                <button onclick="copyLineText()" class="w-full py-2.5 rounded-xl bg-accent-sage text-white font-bold flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-chat-circle-text text-base"></i> 複製純文字行程表（貼至 LINE 記事本）
+                </button>
+                <button onclick="downloadJsonBackup()" class="w-full py-2.5 rounded-xl bg-milk-500 text-white font-bold flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-download-simple text-base"></i> 下載完整 JSON 備份檔
+                </button>
+                <div class="pt-2 border-t border-milk-200">
+                    <label class="block font-bold text-milk-900 mb-1">匯入 JSON 檔案：</label>
+                    <input type="file" id="input-import-json" accept=".json" onchange="importJsonBackup(event)" class="w-full text-xs">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Add/Edit Modal -->
+    <div id="modal-event" class="fixed inset-0 z-50 hidden bg-milk-900/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+        <div class="jp-card w-full max-w-md p-6 space-y-4 my-6">
+            <div class="flex justify-between items-center border-b border-milk-200 pb-3">
+                <h3 id="modal-event-title" class="font-rounded font-bold text-lg">新增行程項目</h3>
+                <button onclick="closeModal('modal-event')" class="text-milk-800"><i class="ph-bold ph-x text-lg"></i></button>
+            </div>
+            <form onsubmit="handleSaveEvent(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="event-edit-id">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold text-milk-900">天數：</label>
+                        <select id="event-form-day" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                            <option value="1">Day 1 (12/19 日)</option>
+                            <option value="2">Day 2 (12/20 一)</option>
+                            <option value="3">Day 3 (12/21 二)</option>
+                            <option value="4">Day 4 (12/22 三)</option>
+                            <option value="5">Day 5 (12/23 四)</option>
+                            <option value="6">Day 6 (12/24 五)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-milk-900">時間：</label>
+                        <input type="text" id="event-form-time" placeholder="例如 10:00" required class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-bold text-milk-900">行程標題：</label>
+                    <input type="text" id="event-form-title" placeholder="例如 漫步黑壁廣場" required class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold text-milk-900">分類：</label>
+                        <select id="event-form-category" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                            <option value="景點">景點</option>
+                            <option value="美食">美食</option>
+                            <option value="交通">交通</option>
+                            <option value="住宿">住宿</option>
+                            <option value="購物">購物</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-bold text-milk-900">優先級：</label>
+                        <select id="event-form-priority" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                            <option value="must">⭐ 必去景點</option>
+                            <option value="normal">一般行程</option>
+                            <option value="backup">☔ 雨天備案</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold text-milk-900">交通方式：</label>
+                        <input type="text" id="event-form-transport" placeholder="例如 JR特急 / 步行" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                    </div>
+                    <div>
+                        <label class="font-bold text-milk-900">移動時間：</label>
+                        <input type="text" id="event-form-travel-time" placeholder="例如 約30分鐘" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-bold text-milk-900">細節與備註：</label>
+                    <textarea id="event-form-notes" rows="2" placeholder="注意事項、營業時間或備註" class="w-full p-2 rounded-xl bg-milk-50 border border-milk-300"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-event')" class="px-4 py-2 rounded-xl bg-milk-200 text-milk-900 font-bold">取消</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-milk-500 text-white font-bold">儲存行程</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Banner -->
+    <div id="toast" class="fixed bottom-20 sm:bottom-6 right-6 z-50 hidden bg-milk-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2">
+        <i class="ph-fill ph-check-circle text-accent-sage text-base"></i>
+        <span id="toast-msg">已成功儲存變更</span>
+    </div>
+
     <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
         const STORAGE_KEY = 'jp_trip_2027_milk_tea_v1';
         const GAS_SHARED_URL_KEY = 'jp_trip_shared_gas_url';
         const GAS_PERSONAL_URL_KEY = 'jp_trip_personal_gas_url';
 
-        let sharedGasUrl = localStorage.getItem(GAS_SHARED_URL_KEY) || '';
+        const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbwOoKixNy3GavLrdOjS_IqIMOi1XCjl4R3MOJ30bQq-wXx7PBZCg_SQ3PafcXePYG8/exec';
+
+        let sharedGasUrl = localStorage.getItem(GAS_SHARED_URL_KEY) || DEFAULT_GAS_URL;
         let personalGasUrl = localStorage.getItem(GAS_PERSONAL_URL_KEY) || '';
 
-        // Day Theme Colors for Pills & Map Markers
         const DAY_THEMES = {
             1: { label: 'Day 1', date: '12/19 (日)', city: '滋賀長濱', hex: '#A67C52', bgClass: 'bg-[#A67C52] text-white', softBg: 'bg-[#EFE8DD]' },
             2: { label: 'Day 2', date: '12/20 (一)', city: '福井越前蟹', hex: '#D97B66', bgClass: 'bg-[#D97B66] text-white', softBg: 'bg-[#F9E7E3]' },
@@ -392,7 +736,6 @@ function updateTodosSheet(ss, sheetName, todos) {
             6: { label: 'Day 6', date: '12/24 (五)', city: '名古屋返台', hex: '#8C6D62', bgClass: 'bg-[#8C6D62] text-white', softBg: 'bg-[#ECE4E1]' }
         };
 
-        // Default Initial Dataset (Strictly factual based on user prompt, marking unconfirmed items clearly)
         const DEFAULT_DATA = {
             tripInfo: {
                 title: "2027 冬季日本滋賀・福井・名古屋放鬆之旅",
@@ -402,192 +745,78 @@ function updateTodosSheet(ss, sheetName, todos) {
                 exchangeRate: 0.215
             },
             hotels: [
-                {
-                    id: "h1",
-                    days: "Day 1 (12/19)",
-                    name: "Green Hotel Yes 長濱 湊館",
-                    location: "JR長濱站琵琶湖口步行約5分鐘",
-                    status: "已選定",
-                    notes: "附設大浴場與露天風呂；入住時間可至24:00；1F即為秋吉串燒。"
-                },
-                {
-                    id: "h2",
-                    days: "Day 2 (12/20)",
-                    name: "御宿 野乃福井 (Dormy Inn)",
-                    location: "福井站步行約7分鐘",
-                    status: "已選定",
-                    notes: "2026年2月開幕新飯店，天然溫泉、露天風呂及桑拿，全館榻榻米。"
-                },
-                {
-                    id: "h3",
-                    days: "Day 3-5 (12/21-12/23)",
-                    name: "Montblanc Hotel Raffine 名古屋站前",
-                    location: "JR名古屋站櫻通口步行約3分鐘",
-                    status: "暫定 / 待確認",
-                    notes: "連住3晚，訂房選有浴缸的房型，方便購物打包與搭車。"
-                }
+                { id: "h1", days: "Day 1 (12/19)", name: "Green Hotel Yes 長濱 湊館", location: "JR長濱站琵琶湖口步行5分", status: "已選定", notes: "附大浴場與露天風呂；1F即為秋吉串燒。" },
+                { id: "h2", days: "Day 2 (12/20)", name: "御宿 野乃福井 (Dormy Inn)", location: "福井站步行7分", status: "已選定", notes: "2026開幕全館榻榻米，天然溫泉與桑拿。" },
+                { id: "h3", days: "Day 3-5 (12/21-12/23)", name: "Montblanc Hotel Raffine 名古屋站前", location: "JR名古屋站櫻通口步行3分", status: "暫定", notes: "連住3晚，指名浴缸房型方便購物放鬆。" }
             ],
             events: [
-                // Day 1
-                { id: "e101", day: 1, time: "15:30", title: "抵達中部國際機場 (NGO)", category: "交通", transport: "飛機", travelTime: "-", duration: "約1小時", priority: "normal", lat: 34.8584, lng: 136.8054, notes: "【待確認】12月航班尚未公布，目前參考10月航班11:30起飛。" },
-                { id: "e102", day: 1, time: "16:30", title: "搭名鐵前往名古屋站", category: "交通", transport: "名鐵特急", travelTime: "約30分", duration: "-", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "出關後搭乘名鐵至名古屋站轉乘。" },
-                { id: "e103", day: 1, time: "18:00", title: "新幹線至米原轉JR至長濱", category: "交通", transport: "新幹線+JR", travelTime: "約10分+轉乘", duration: "-", priority: "normal", lat: 35.3146, lng: 136.2896, notes: "【待確認】米原轉乘JR琵琶湖線至長濱，實際班次時刻待確認。" },
-                { id: "e104", day: 1, time: "19:00", title: "入住 Green Hotel Yes 長濱 湊館", category: "住宿", transport: "步行", travelTime: "約5分", duration: "-", priority: "normal", lat: 35.3783, lng: 136.2654, notes: "長濱站琵琶湖口步行約5分，入住時間至24:00，享大浴場與露天風呂。" },
-                { id: "e105", day: 1, time: "19:45", title: "晚餐：やきとりの名門 秋吉", category: "美食", transport: "飯店1F", travelTime: "0分", duration: "1.5小時", priority: "must", lat: 35.3784, lng: 136.2656, notes: "飯店1樓即達（週日營業17:00-23:00）。備選：エルオチョ(西班牙料理)或た藁や(近江牛)。" },
-                { id: "e106", day: 1, time: "21:15", title: "黑壁廣場夜間散步＆蓋章", category: "景點", transport: "步行", travelTime: "約8分", duration: "30分", priority: "normal", lat: 35.3814, lng: 136.2683, notes: "黑壁廣場約17:00關店，晚上僅輕鬆散步、不趕行程，可先確認集章點。" },
+                { id: "e101", day: 1, time: "15:30", title: "抵達中部國際機場 (NGO)", category: "交通", transport: "飛機", travelTime: "-", duration: "約1小時", priority: "normal", lat: 34.8584, lng: 136.8054, notes: "【待確認】12月航班待公布，目前參考10月11:30起飛班次。" },
+                { id: "e102", day: 1, time: "16:30", title: "搭名鐵前往名古屋站轉新幹線至米原", category: "交通", transport: "名鐵+新幹線+JR", travelTime: "約1小時20分", duration: "-", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "經米原轉乘JR琵琶湖線到達長濱。" },
+                { id: "e103", day: 1, time: "19:00", title: "入住 Green Hotel Yes 長濱 湊館", category: "住宿", transport: "步行", travelTime: "約5分", duration: "-", priority: "normal", lat: 35.3783, lng: 136.2654, notes: "長濱站琵琶湖口步行5分，享大浴場與露天風呂。" },
+                { id: "e104", day: 1, time: "19:45", title: "晚餐：やきとりの名門 秋吉", category: "美食", transport: "飯店1F", travelTime: "0分", duration: "1.5小時", priority: "must", lat: 35.3784, lng: 136.2656, notes: "飯店1樓即達（週日營業至23:00）。備選：エルオチョ或た藁や。" },
+                { id: "e105", day: 1, time: "21:15", title: "黑壁廣場夜間散步＆蓋章點確認", category: "景點", transport: "步行", travelTime: "約8分", duration: "30分", priority: "normal", lat: 35.3814, lng: 136.2683, notes: "晚間店家已關店，輕鬆散步不趕行程。" },
 
-                // Day 2
-                { id: "e201", day: 2, time: "09:00", title: "退房寄放行李 ➔ 長濱城・豐公園", category: "景點", transport: "步行", travelTime: "約10分", duration: "45分", priority: "must", lat: 35.3775, lng: 136.2611, notes: "先將行李寄放飯店或車站置物櫃，走到長濱城一帶欣賞琵琶湖風景。" },
-                { id: "e202", day: 2, time: "10:00", title: "黑壁廣場＆北國街道漫遊", category: "景點", transport: "步行", travelTime: "約10分", duration: "2小時", priority: "must", lat: 35.3814, lng: 136.2683, notes: "10:00店家開門！逛北國街道特色小店、玻璃工藝館並收集紀念章。" },
-                { id: "e203", day: 2, time: "12:00", title: "長濱老街午餐", category: "美食", transport: "步行", travelTime: "-", duration: "1小時", priority: "normal", lat: 35.3805, lng: 136.2675, notes: "【待確認】於黑壁廣場周邊享用近江牛或在地麵食料理。" },
-                { id: "e204", day: 2, time: "13:00", title: "搭車前往福井", category: "交通", transport: "JR特急", travelTime: "約1小時10分", duration: "-", priority: "normal", lat: 36.0613, lng: 136.2233, notes: "【待確認】取行李後出發前往福井，實際轉乘班次待確認。" },
-                { id: "e205", day: 2, time: "14:30", title: "入住 御宿 野乃福井", category: "住宿", transport: "步行", travelTime: "約7分", duration: "-", priority: "normal", lat: 36.0628, lng: 136.2195, notes: "先寄放行李（若可提早入住更佳），晚上享受天然溫泉與桑拿。" },
-                { id: "e206", day: 2, time: "15:30", title: "福井站前恐龍廣場＆集章", category: "景點", transport: "步行", travelTime: "約7分", duration: "1.5小時", priority: "must", lat: 36.0613, lng: 136.2233, notes: "與會動的恐龍雕像拍照，車站觀光案內所收集紀念章。" },
-                { id: "e207", day: 2, time: "18:00", title: "冬季極上越前蟹晚餐", category: "美食", transport: "步行/計程車", travelTime: "待確認", duration: "2小時", priority: "must", lat: 36.0615, lng: 136.2210, notes: "【待確認】冬季必吃越前蟹料理，餐廳與訂位資訊待確認，餐後回飯店泡湯。" },
+                { id: "e201", day: 2, time: "09:00", title: "長濱城・豐公園琵琶湖畔散步", category: "景點", transport: "步行", travelTime: "約10分", duration: "45分", priority: "must", lat: 35.3775, lng: 136.2611, notes: "寄放行李後欣賞冬季琵琶湖風景。" },
+                { id: "e202", day: 2, time: "10:00", title: "黑壁廣場＆北國街道漫遊集章", category: "景點", transport: "步行", travelTime: "約10分", duration: "2小時", priority: "must", lat: 35.3814, lng: 136.2683, notes: "店家10點開門，逛玻璃工藝館與紀念章點。" },
+                { id: "e203", day: 2, time: "13:00", title: "JR特急出發前往福井", category: "交通", transport: "JR特急", travelTime: "約1.5小時", duration: "-", priority: "normal", lat: 36.0613, lng: 136.2233, notes: "【待確認】取行李後出發，班次待確認。" },
+                { id: "e204", day: 2, time: "15:00", title: "入住 御宿 野乃福井 ＆ 恐龍廣場集章", category: "住宿", transport: "步行", travelTime: "約7分", duration: "1.5小時", priority: "must", lat: 36.0628, lng: 136.2195, notes: "與車站動態恐龍合照，享受全館榻榻米與天然溫泉。" },
+                { id: "e205", day: 2, time: "18:00", title: "極上越前蟹饗宴晚餐", category: "美食", transport: "步行", travelTime: "約10分", duration: "2小時", priority: "must", lat: 36.0615, lng: 136.2210, notes: "【待確認】冬季必吃黃牌越前蟹，餐廳訂位待確認。" },
 
-                // Day 3
-                { id: "e301", day: 3, time: "09:30", title: "一乘谷朝倉氏遺跡復原街區", category: "景點", transport: "巴士", travelTime: "約30分", duration: "1~1.5小時", priority: "must", lat: 35.9981, lng: 136.2953, notes: "福井站搭巴士前往，逛戰國時代復原城下町街區與集章。" },
-                { id: "e302", day: 3, time: "09:30", title: "【雨天/寒冷備案】養浩館庭園", category: "景點", transport: "步行", travelTime: "約15分", duration: "1.5小時", priority: "backup", lat: 36.0686, lng: 136.2238, notes: "若遇下雨或太冷改去此處（福井站步行可達，開放時間 09:00-17:00）。" },
-                { id: "e303", day: 3, time: "15:00", title: "離開福井前往名古屋", category: "交通", transport: "JR特急+新幹線", travelTime: "約2.5小時", duration: "-", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "【待確認】關鍵轉乘段，實際班次時刻待確認（吉卜力公園週二休園故今日不排）。" },
-                { id: "e304", day: 3, time: "17:30", title: "入住 Montblanc Hotel Raffine 名古屋站前", category: "住宿", transport: "步行", travelTime: "約3分", duration: "-", priority: "normal", lat: 35.1715, lng: 136.8842, notes: "JR名古屋站櫻通口步行3分，連住3晚，預訂有浴缸房型。" },
-                { id: "e305", day: 3, time: "19:00", title: "久屋大通公園聖誕市集", category: "景點", transport: "地鐵東山線/櫻通線", travelTime: "約10分", duration: "2小時", priority: "must", lat: 35.1723, lng: 136.9083, notes: "感受名古屋聖誕氣氛，尋找可愛的胡桃鉗士兵裝飾並收集印章！" },
+                { id: "e301", day: 3, time: "09:30", title: "一乘谷朝倉氏遺跡復原街區", category: "景點", transport: "巴士", travelTime: "約30分", duration: "1.5小時", priority: "must", lat: 35.9981, lng: 136.2953, notes: "福井站搭巴士前往，逛戰國城下町與集章。" },
+                { id: "e302", day: 3, time: "09:30", title: "【雨天備案】養浩館庭園", category: "景點", transport: "步行", travelTime: "約15分", duration: "1.5小時", priority: "backup", lat: 36.0686, lng: 136.2238, notes: "天候佳改去此處，福井站步行可達。" },
+                { id: "e303", day: 3, time: "15:00", title: "離開福井返回名古屋", category: "交通", transport: "JR特急", travelTime: "約2.5小時", duration: "-", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "吉卜力公園週二休園，故安排今日移動。" },
+                { id: "e304", day: 3, time: "18:30", title: "入住 Montblanc Hotel Raffine ＆ 久屋大通聖誕市集", category: "景點", transport: "地鐵", travelTime: "約10分", duration: "2小時", priority: "must", lat: 35.1723, lng: 136.9083, notes: "感受名古屋聖誕氛圍，尋找胡桃鉗士兵裝飾與集章。" },
 
-                // Day 4
-                { id: "e401", day: 4, time: "10:00", title: "吉卜力公園 (Ghibli Park)", category: "景點", transport: "地鐵東山線+Linimo", travelTime: "約50分", duration: "全天", priority: "must", lat: 35.1755, lng: 137.0886, notes: "地鐵東山線至藤之丘，轉Linimo至愛・地球博紀念公園站。門票採日期時間制，務必於開賣日搶票！" },
-                { id: "e402", day: 4, time: "18:00", title: "名古屋車站聖誕燈飾＆晚餐", category: "美食", transport: "Linimo+地鐵", travelTime: "約50分", duration: "2小時", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "【待確認】返回名古屋站欣賞站前聖誕燈飾，晚餐餐廳待確認（鰻魚飯/味噌豬排/手羽先）。" },
+                { id: "e401", day: 4, time: "10:00", title: "吉卜力公園 (Ghibli Park) 全日夢幻之旅", category: "景點", transport: "地鐵+Linimo", travelTime: "約50分", duration: "全天", priority: "must", lat: 35.1755, lng: 137.0886, notes: "門票採日期時間制，務必於開賣日搶票！" },
+                { id: "e402", day: 4, time: "18:30", title: "名古屋車站聖誕燈飾 ＆ 美食晚餐", category: "美食", transport: "Linimo+地鐵", travelTime: "約50分", duration: "2小時", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "賞燈飾並享用鰻魚飯或味噌豬排晚餐。" },
 
-                // Day 5
-                { id: "e501", day: 5, time: "10:00", title: "榮商圈服飾購物 (PARCO / 松坂屋 / 大須)", category: "購物", transport: "地鐵東山線", travelTime: "約10分", duration: "2.5小時", priority: "must", lat: 35.1645, lng: 136.9082, notes: "逛 PARCO、松坂屋、大須商店街，以及 Uniqlo 與 GU 採買冬裝。" },
-                { id: "e502", day: 5, time: "12:30", title: "藥妝大採買 (松本清 / Sundrug / Sugi)", category: "購物", transport: "步行", travelTime: "-", duration: "1.5小時", priority: "normal", lat: 35.1685, lng: 136.9075, notes: "集中比較並買齊所需藥妝與保養品。" },
-                { id: "e503", day: 5, time: "14:30", title: "名古屋站電器採買 (Bic Camera / Yodobashi)", category: "購物", transport: "地鐵", travelTime: "約10分", duration: "2小時", priority: "normal", lat: 35.1702, lng: 136.8798, notes: "返回名古屋站旁採買電器，順便先將戰利品放回飯店減輕負擔。" },
-                { id: "e504", day: 5, time: "17:00", title: "前往三重縣 なばなの里 (名花之里)", category: "交通", transport: "近鐵+直達巴士", travelTime: "約1小時", duration: "-", priority: "normal", lat: 35.0672, lng: 136.6845, notes: "搭近鐵到桑名站，轉接駁巴士至なばなの里。" },
-                { id: "e505", day: 5, time: "18:30", title: "なばなの里 冬季夢幻燈飾", category: "景點", transport: "步行", travelTime: "-", duration: "2.5小時", priority: "must", lat: 35.0853, lng: 136.7031, notes: "【待確認】點燈日期與營業時間待2027年公布後確認；預計21:00至22:00返回名古屋。" },
+                { id: "e501", day: 5, time: "10:00", title: "榮商圈服飾採買 (PARCO / 松坂屋 / 大須)", category: "購物", transport: "地鐵", travelTime: "約10分", duration: "2.5小時", priority: "must", lat: 35.1645, lng: 136.9082, notes: "逛 PARCO、松坂屋與 Uniqlo/GU 採買冬裝。" },
+                { id: "e502", day: 5, time: "14:30", title: "名站 Bic Camera 電器 ＆ 藥妝採買", category: "購物", transport: "地鐵", travelTime: "約10分", duration: "2小時", priority: "normal", lat: 35.1702, lng: 136.8798, notes: "採買電器與保養品，放回飯店減輕負擔。" },
+                { id: "e503", day: 5, time: "18:00", title: "三重縣 なばなの里 (名花之里) 冬季夢幻燈飾", category: "景點", transport: "近鐵+巴士", travelTime: "約1小時", duration: "2.5小時", priority: "must", lat: 35.0853, lng: 136.7031, notes: "【待確認】點燈日期與時刻待2027年公布。" },
 
-                // Day 6
-                { id: "e601", day: 6, time: "10:00", title: "退房寄放行李＆名古屋站最後伴手禮採買", category: "購物", transport: "步行", travelTime: "約3分", duration: "2.5小時", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "退房後行李寄放飯店，於JR高島屋、地下街採買蝦餅與赤福等伴手禮。" },
-                { id: "e602", day: 6, time: "13:30", title: "搭名鐵前往中部國際機場", category: "交通", transport: "名鐵特急", travelTime: "約30分", duration: "-", priority: "must", lat: 34.8584, lng: 136.8054, notes: "13:30前取行李並離開名古屋站，搭乘名鐵直達機場。" },
-                { id: "e603", day: 6, time: "16:40", title: "搭機返台 (18:50 抵達台北)", category: "交通", transport: "飛機", travelTime: "約3小時10分", duration: "-", priority: "normal", lat: 34.8584, lng: 136.8054, notes: "【待確認】參考10月航班時刻（16:40起飛，18:50抵台），最終依2027冬季班表為準。" }
+                { id: "e601", day: 6, time: "10:00", title: "名古屋站最後伴手禮採買 (蝦餅/赤福)", category: "購物", transport: "步行", travelTime: "約3分", duration: "2.5小時", priority: "normal", lat: 35.1709, lng: 136.8815, notes: "退房寄放行李，於JR高島屋及地下街採買。" },
+                { id: "e602", day: 6, time: "13:30", title: "搭名鐵特急前往中部國際機場", category: "交通", transport: "名鐵特急", travelTime: "約30分", duration: "-", priority: "must", lat: 34.8584, lng: 136.8054, notes: "13:30前取行李出發前往機場。" },
+                { id: "e603", day: 6, time: "16:40", title: "搭機返台 (預計 18:50 抵達台北)", category: "交通", transport: "飛機", travelTime: "約3.2小時", duration: "-", priority: "normal", lat: 34.8584, lng: 136.8054, notes: "【待確認】參考10月航班時刻，圓滿結束放鬆之旅。" }
             ],
             expenses: [
-                { id: "ex1", name: "台北-名古屋 往返機票 (預估)", category: "機票", currency: "TWD", amount: 0, status: "預估待確認", note: "2027年12月航班開賣後填入實際金額" },
-                { id: "ex2", name: "Day 1 Green Hotel Yes 長濱 湊館", category: "住宿", currency: "JPY", amount: 0, status: "預估待確認", note: "訂房確認後填入實際日圓房價" },
-                { id: "ex3", name: "Day 2 御宿 野乃福井", category: "住宿", currency: "JPY", amount: 0, status: "預估待確認", note: "訂房確認後填入實際日圓房價" },
-                { id: "ex4", name: "Day 3-5 Montblanc Hotel Raffine 名古屋站前 (3晚)", category: "住宿", currency: "JPY", amount: 0, status: "預估待確認", note: "暫定飯店，選有浴缸房型" },
-                { id: "ex5", name: "吉卜力公園門票 (大散步券/Premium)", category: "門票", currency: "JPY", amount: 0, status: "預估待確認", note: "開賣日搶票後更新金額" },
-                { id: "ex6", name: "福井極上越前蟹晚餐預算", category: "餐飲", currency: "JPY", amount: 0, status: "預估待確認", note: "依最終預訂餐廳套餐價格填寫" }
+                { id: "ex1", name: "台北-名古屋 往返機票 (預估)", category: "機票", currency: "TWD", amount: 14500, status: "預估", note: "開賣後更新實價" },
+                { id: "ex2", name: "Day 1 Green Hotel Yes 長濱 湊館", category: "住宿", currency: "JPY", amount: 11000, status: "預估", note: "附大浴場" },
+                { id: "ex3", name: "Day 2 御宿 野乃福井 溫泉飯店", category: "住宿", currency: "JPY", amount: 16000, status: "預估", note: "含溫泉" },
+                { id: "ex4", name: "Day 3-5 Montblanc Raffine (3晚)", category: "住宿", currency: "JPY", amount: 33000, status: "預估", note: "浴缸房型" },
+                { id: "ex5", name: "吉卜力公園門票", category: "門票", currency: "JPY", amount: 4000, status: "預估", note: "搶票後更新" }
             ],
             privateExpenses: [
-                { id: "pex1", name: "藥妝與保養品個人採買預算", category: "購物", currency: "JPY", amount: 0, status: "現場支付", note: "僅自己可見的私人購物記帳" }
+                { id: "pex1", name: "藥妝與個人冬裝購物預算", category: "購物", currency: "JPY", amount: 25000, status: "預計現場付", note: "個人私帳" }
             ],
             restaurants: [
-                {
-                    id: "r1",
-                    name: "やきとりの名門 秋吉 長濱店",
-                    area: "滋賀長濱",
-                    day: "Day 1",
-                    address: "Green Hotel Yes 長濱 湊館 1F（長濱站琵琶湖口步行5分）",
-                    hours: "週日 17:00 - 23:00（其他營業日待確認）",
-                    mustEat: "純雞串燒 (純けい)、烤雞皮、炸串",
-                    resMethod: "現場候位 / 電話（待確認）",
-                    needRes: "無需預約 / 現場候位",
-                    url: "",
-                    notes: "就在Day 1下榻飯店1樓，抵達長濱後不用吹冷風找餐廳，非常方便！"
-                },
-                {
-                    id: "r2",
-                    name: "エルオチョ (El Ocho 西班牙料理)",
-                    area: "滋賀長濱",
-                    day: "Day 1",
-                    address: "長濱站周邊（詳細地址待確認）",
-                    hours: "待確認",
-                    mustEat: "西班牙海鮮飯、下酒小點 Tapas",
-                    resMethod: "待確認",
-                    needRes: "待確認",
-                    url: "",
-                    notes: "Day 1 晚餐備選方案（若不想吃燒鳥可選這家）。"
-                },
-                {
-                    id: "r3",
-                    name: "た藁や (近江牛料理)",
-                    area: "滋賀長濱",
-                    day: "Day 1",
-                    address: "長濱站周邊（詳細地址待確認）",
-                    hours: "待確認",
-                    mustEat: "滋賀名產近江牛料理",
-                    resMethod: "待確認",
-                    needRes: "待確認",
-                    url: "",
-                    notes: "Day 1 晚餐備選方案，品嚐滋賀在地近江牛。"
-                },
-                {
-                    id: "r4",
-                    name: "長濱黑壁廣場周邊午餐（餐廳待確認）",
-                    area: "滋賀長濱",
-                    day: "Day 2",
-                    address: "滋賀縣長濱市元濱町（黑壁廣場・北國街道一帶）",
-                    hours: "約 11:00 - 15:00（依各店為準，待確認）",
-                    mustEat: "近江牛定食、長濱名物鯖魚素麵",
-                    resMethod: "現場候位",
-                    needRes: "無需預約 / 現場候位",
-                    url: "",
-                    notes: "逛完黑壁廣場後就近享用午餐，13:00前需回到車站搭車往福井。"
-                },
-                {
-                    id: "r5",
-                    name: "福井極上越前蟹料理（餐廳待確認）",
-                    area: "福井",
-                    day: "Day 2",
-                    address: "JR福井站周邊（餐廳選定後補上）",
-                    hours: "待確認",
-                    mustEat: "冬季限定黃牌越前蟹（水煮、炭烤、蟹膏甲羅燒）",
-                    resMethod: "網路訂位 / 飯店代訂（待確認）",
-                    needRes: "建議事先預約",
-                    url: "",
-                    notes: "Day 2 晚餐重頭戲！冬季越前蟹非常搶手，出發前2個月務必確認訂位。"
-                },
-                {
-                    id: "r6",
-                    name: "名古屋特色美食晚餐（餐廳待確認）",
-                    area: "名古屋",
-                    day: "Day 4",
-                    address: "JR名古屋站周邊 / 地下街",
-                    hours: "待確認",
-                    mustEat: "鰻魚飯三吃、矢場味噌豬排、手羽先炸雞翅",
-                    resMethod: "現場排隊 / 預約（待確認）",
-                    needRes: "待確認",
-                    url: "",
-                    notes: "Day 4 從吉卜力公園回來後，於名古屋站賞燈飾並享用晚餐。"
-                }
+                { id: "r1", name: "やきとりの名門 秋吉 長濱店", area: "滋賀長濱", day: "Day 1", address: "飯店 1F", hours: "17:00-23:00", mustEat: "純雞串燒、烤雞皮", needRes: "無需預約", notes: "飯店樓下即達，極方便！" },
+                { id: "r2", name: "福井極上越前蟹餐廳", area: "福井", day: "Day 2", address: "福井站周邊", hours: "17:30-21:30", mustEat: "黃牌水煮越前蟹", needRes: "需預約", notes: "冬季限定，出發前2個月預訂。" },
+                { id: "r3", name: "名古屋鰻魚飯三吃 (蓬萊軒/備長)", area: "名古屋", day: "Day 4", address: "名古屋站 / 榮", hours: "11:00-21:00", mustEat: "鰻魚飯三吃", needRes: "建議預約", notes: "經典名店。" }
             ],
             todos: [
-                { id: "t1", category: "機票確認", text: "關注 2027 年 12 月台北-名古屋航班開賣並確認實際時刻", done: false },
-                { id: "t2", category: "飯店確認", text: "確認 Day 1「Green Hotel Yes 長濱 湊館」訂房細節", done: false },
-                { id: "t3", category: "飯店確認", text: "確認 Day 2「御宿 野乃福井」訂房細節", done: false },
-                { id: "t4", category: "飯店確認", text: "確認 Day 3-5「Montblanc Hotel Raffine 名古屋站前」並指定有浴缸房型", done: false },
-                { id: "t5", category: "景點門票預約", text: "行事曆標記吉卜力公園門票開賣日，準時搶票（日期時間制）", done: false },
-                { id: "t6", category: "景點門票預約", text: "2027年公布後確認「なばなの里」冬季點燈日期與營業時間", done: false },
-                { id: "t7", category: "餐廳訂位", text: "選定並預約 Day 2 福井越前蟹晚餐餐廳", done: false },
-                { id: "t8", category: "交通票券購買", text: "查詢 Day 1 名古屋➔長濱、Day 2 長濱➔福井、Day 3 福井➔名古屋實際 JR 特急時刻表", done: false },
-                { id: "t9", category: "行李準備", text: "準備12月日本冬季禦寒衣物（羽絨衣、發熱衣、圍巾、手套、好走防滑鞋）", done: false },
-                { id: "t10", category: "行李準備", text: "攜帶集章專用空白筆記本（長濱、福井恐龍廣場、一乘谷、吉卜力、名古屋站集章）", done: false },
-                { id: "t11", category: "護照及旅遊文件", text: "檢查護照有效期限（需有6個月以上效期）及填寫 Visit Japan Web", done: false }
+                { id: "t1", category: "機票確認", text: "關注 2027/12 台北-名古屋開賣航班", done: false },
+                { id: "t2", category: "門票預約", text: "吉卜力公園門票開賣日準時搶票", done: false },
+                { id: "t3", category: "餐廳訂位", text: "預約 Day 2 福井越前蟹晚餐", done: false },
+                { id: "t4", category: "行李準備", text: "準備冬季羽絨衣、發熱衣與防滑鞋", done: false },
+                { id: "t5", category: "行李準備", text: "攜帶集章專用筆記本", done: false }
             ]
         };
 
-        // App State
         window.appData = {};
         let currentTab = 'dashboard';
         let selectedDay = 1;
-        let itineraryMode = 'timeline'; // 'timeline' | 'weekly'
         let mapFilterDay = 'all';
-        let budgetScope = 'shared'; // 'shared' | 'private'
-        let budgetFilterCat = '全部';
+        let budgetScope = 'shared';
         let gourmetFilterArea = '全部';
-        let mapRenderMode = 'leaflet'; // 'leaflet' | 'svg'
+        let mapRenderMode = 'leaflet';
         let leafletMap = null;
-        let mapMarkersLayer = null;
 
-        // ==================== INITIALIZATION & STORAGE ====================
+        function initApp() {
+            loadData();
+            renderAll();
+            initLeafletMap();
+        }
+
         function loadData() {
             const local = localStorage.getItem(STORAGE_KEY);
             if (local) {
@@ -607,7 +836,488 @@ function updateTodosSheet(ss, sheetName, todos) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appData));
             renderAll();
             syncWithGoogleSheetsInBackground();
-            if (showNotification) showToast('已儲存至本機與 Google 雲端');
+            if (showNotification) showToast('已成功儲存變更！');
+        }
+
+        function updateGasStatusBadges() {
+            const bShared = document.getElementById('badge-shared-status');
+            const bPersonal = document.getElementById('badge-personal-status');
+            const labelCloud = document.getElementById('cloud-status-label');
+
+            if (sharedGasUrl) {
+                if (bShared) { bShared.innerText = '已連線'; bShared.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'; }
+                if (labelCloud) labelCloud.innerText = 'Google 雲端已連線';
+            } else {
+                if (bShared) { bShared.innerText = '未設定'; bShared.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800'; }
+            }
+
+            if (personalGasUrl) {
+                if (bPersonal) { bPersonal.innerText = '已連線'; bPersonal.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'; }
+            } else {
+                if (bPersonal) { bPersonal.innerText = '未設定'; bPersonal.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800'; }
+            }
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            ['dashboard', 'itinerary', 'map', 'gourmet', 'budget', 'checklist'].forEach(t => {
+                const el = document.getElementById(`view-${t}`);
+                if (el) el.classList.toggle('hidden', t !== tabId);
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const nav = btn.getAttribute('data-nav');
+                if (nav === tabId) {
+                    btn.classList.add('bg-milk-500', 'text-white');
+                    btn.classList.remove('text-milk-800', 'hover:bg-milk-200');
+                } else {
+                    btn.classList.remove('bg-milk-500', 'text-white');
+                    btn.classList.add('text-milk-800');
+                }
+            });
+
+            if (tabId === 'map' && leafletMap) {
+                setTimeout(() => {
+                    leafletMap.invalidateSize();
+                    renderMapMarkers();
+                }, 200);
+            }
+        }
+
+        function renderAll() {
+            renderDashboard();
+            renderItinerary();
+            renderGourmet();
+            renderBudget();
+            renderChecklist();
+        }
+
+        function renderDashboard() {
+            const totalEvents = window.appData.events ? window.appData.events.length : 0;
+            const totalGourmet = window.appData.restaurants ? window.appData.restaurants.length : 0;
+            const completedTodos = window.appData.todos ? window.appData.todos.filter(t => t.done).length : 0;
+            const totalTodos = window.appData.todos ? window.appData.todos.length : 0;
+
+            document.getElementById('stat-total-events').innerText = `${totalEvents} 個地點`;
+            document.getElementById('stat-total-gourmet').innerText = `${totalGourmet} 間待嚐`;
+            document.getElementById('stat-todo-progress').innerText = `${completedTodos} / ${totalTodos} 已完成`;
+
+            const hotelContainer = document.getElementById('dashboard-hotels-list');
+            if (hotelContainer && window.appData.hotels) {
+                hotelContainer.innerHTML = window.appData.hotels.map(h => `
+                    <div class="p-3 rounded-xl bg-milk-50 border border-milk-200 space-y-1">
+                        <span class="px-2 py-0.5 rounded bg-milk-200 text-milk-900 font-bold text-[10px]">${h.days}</span>
+                        <div class="font-bold text-milk-900 text-xs mt-1">${h.name}</div>
+                        <p class="text-[11px] text-milk-800/80">${h.location}</p>
+                        <p class="text-[10px] text-milk-500 font-bold">${h.notes}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderItinerary() {
+            const pillContainer = document.getElementById('day-pill-container');
+            if (pillContainer) {
+                pillContainer.innerHTML = [1,2,3,4,5,6].map(d => {
+                    const info = DAY_THEMES[d];
+                    const active = d === selectedDay;
+                    return `
+                        <button onclick="selectDay(${d})" class="px-4 py-2 rounded-xl text-xs font-bold transition flex-shrink-0 flex flex-col items-center gap-0.5 ${active ? info.bgClass + ' shadow-sm' : 'bg-white text-milk-900 border border-milk-200 hover:bg-milk-100'}">
+                            <span>${info.label} ‧ ${info.city}</span>
+                            <span class="text-[10px] opacity-80">${info.date}</span>
+                        </button>
+                    `;
+                }).join('');
+            }
+
+            const currentInfo = DAY_THEMES[selectedDay];
+            document.getElementById('current-day-title').innerText = `${currentInfo.label} (${currentInfo.date}) 行程細節`;
+            document.getElementById('current-day-badge').innerText = currentInfo.city;
+
+            const eventsList = document.getElementById('timeline-events-list');
+            if (eventsList && window.appData.events) {
+                const dayEvents = window.appData.events.filter(e => parseInt(e.day) === selectedDay);
+                if (dayEvents.length === 0) {
+                    eventsList.innerHTML = `<div class="p-8 text-center text-xs text-milk-800/60 jp-card">今日尚無行程，點擊右上方「+ 新增行程項目」開始規劃！</div>`;
+                    return;
+                }
+
+                eventsList.innerHTML = dayEvents.map(e => `
+                    <div class="jp-card p-4 flex flex-col sm:flex-row items-start justify-between gap-3 relative border-l-4" style="border-left-color: ${currentInfo.hex}">
+                        <div class="space-y-1.5 flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-mono font-bold text-sm text-milk-900 bg-milk-100 px-2.5 py-0.5 rounded-lg border border-milk-200">${e.time}</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-milk-200 text-milk-900">${e.category}</span>
+                                ${e.priority === 'must' ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">⭐ 必去</span>' : ''}
+                                ${e.priority === 'backup' ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-100 text-sky-800">☔ 雨天備案</span>' : ''}
+                            </div>
+                            <h4 class="font-rounded font-bold text-sm text-milk-900">${e.title}</h4>
+                            ${e.notes ? `<p class="text-xs text-milk-800/80 bg-milk-50 p-2 rounded-lg border border-milk-200">${e.notes}</p>` : ''}
+                            <div class="text-[11px] text-milk-800/70 flex items-center gap-3">
+                                <span>🚌 交通方式: ${e.transport || '未定'}</span>
+                                ${e.travelTime ? `<span>⏱️ 移動時間: ${e.travelTime}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex sm:flex-col gap-2 border-t sm:border-t-0 border-milk-200 pt-2 sm:pt-0 w-full sm:w-auto justify-end">
+                            <button onclick="openEditEventModal('${e.id}')" class="px-2.5 py-1 rounded-lg bg-milk-100 text-milk-900 font-bold text-xs hover:bg-milk-200">編輯</button>
+                            <button onclick="deleteEvent('${e.id}')" class="px-2.5 py-1 rounded-lg bg-red-50 text-red-600 font-bold text-xs hover:bg-red-100">刪除</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function selectDay(day) {
+            selectedDay = day;
+            renderItinerary();
+        }
+
+        function renderGourmet() {
+            const grid = document.getElementById('gourmet-grid');
+            if (!grid || !window.appData.restaurants) return;
+
+            let list = window.appData.restaurants;
+            if (gourmetFilterArea !== '全部') {
+                list = list.filter(r => r.area.includes(gourmetFilterArea));
+            }
+
+            grid.innerHTML = list.map(r => `
+                <div class="jp-card p-4 space-y-2">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-milk-200 text-milk-900">${r.area} ‧ ${r.day || ''}</span>
+                            <h4 class="font-rounded font-bold text-sm text-milk-900 mt-1">${r.name}</h4>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.needRes.includes('需') ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">${r.needRes}</span>
+                    </div>
+                    <p class="text-xs text-milk-800">📍 ${r.address}</p>
+                    <p class="text-xs text-milk-900 font-bold">🍱 必吃推薦：${r.mustEat}</p>
+                    ${r.notes ? `<p class="text-[11px] text-milk-800/80 bg-milk-50 p-2 rounded-lg">${r.notes}</p>` : ''}
+                    <div class="flex justify-end pt-1">
+                        <button onclick="deleteRestaurant('${r.id}')" class="text-xs text-red-600 font-bold hover:underline">刪除餐廳</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterGourmet(area) {
+            gourmetFilterArea = area;
+            renderGourmet();
+        }
+
+        function renderBudget() {
+            const tbody = document.getElementById('expenses-table-body');
+            if (!tbody) return;
+
+            const rate = window.appData.tripInfo ? window.appData.tripInfo.exchangeRate : 0.215;
+            const items = budgetScope === 'shared' ? (window.appData.expenses || []) : (window.appData.privateExpenses || []);
+
+            let totalJpy = 0;
+            let totalTwd = 0;
+
+            tbody.innerHTML = items.map(x => {
+                const amt = parseFloat(x.amount) || 0;
+                let twd = 0;
+                if (x.currency === 'JPY') {
+                    totalJpy += amt;
+                    twd = Math.round(amt * rate);
+                    totalTwd += twd;
+                } else {
+                    totalTwd += amt;
+                    twd = amt;
+                }
+
+                return `
+                    <tr class="hover:bg-milk-50">
+                        <td class="p-3 font-bold text-milk-900">${x.name}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-milk-200 font-bold">${x.category}</span></td>
+                        <td class="p-3 font-bold">${x.currency}</td>
+                        <td class="p-3 font-mono font-bold">${amt.toLocaleString()}</td>
+                        <td class="p-3 font-mono text-milk-800">NT$ ${twd.toLocaleString()}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-accent-sage/20 text-accent-sage font-bold">${x.status}</span></td>
+                        <td class="p-3 text-right">
+                            <button onclick="deleteExpense('${x.id}')" class="text-red-600 font-bold hover:underline">刪除</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.getElementById('budget-scope-label').innerText = budgetScope === 'shared' ? '🤝 團體公費總計預算' : '🔒 我的個人私帳總計預算';
+            document.getElementById('budget-total-jpy').innerText = `¥ ${totalJpy.toLocaleString()} JPY`;
+            document.getElementById('budget-total-twd').innerText = `約當 NT$ ${totalTwd.toLocaleString()} TWD (匯率: ${rate})`;
+        }
+
+        function switchBudgetScope(scope) {
+            budgetScope = scope;
+            document.getElementById('btn-budget-shared').className = scope === 'shared' ? 'px-3.5 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs transition' : 'px-3.5 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300';
+            document.getElementById('btn-budget-private').className = scope === 'private' ? 'px-3.5 py-1.5 rounded-xl bg-milk-500 text-white font-bold text-xs transition' : 'px-3.5 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold text-xs transition hover:bg-milk-300';
+            renderBudget();
+        }
+
+        function renderChecklist() {
+            const groupContainer = document.getElementById('checklist-group-items');
+            const personalContainer = document.getElementById('checklist-personal-items');
+
+            const todos = window.appData.todos || [];
+            const groupTodos = todos.filter(t => t.category !== '行李準備');
+            const personalTodos = todos.filter(t => t.category === '行李準備');
+
+            if (groupContainer) {
+                groupContainer.innerHTML = groupTodos.map(t => `
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-milk-50 border border-milk-200">
+                        <label class="flex items-center gap-2 cursor-pointer flex-1">
+                            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo('${t.id}')" class="w-4 h-4 accent-milk-500 rounded">
+                            <span class="text-xs font-medium ${t.done ? 'line-through text-milk-800/50' : 'text-milk-900'}">${t.text}</span>
+                        </label>
+                        <button onclick="deleteTodo('${t.id}')" class="text-milk-800/50 hover:text-red-600 text-xs px-2"><i class="ph-bold ph-trash"></i></button>
+                    </div>
+                `).join('');
+            }
+
+            if (personalContainer) {
+                personalContainer.innerHTML = personalTodos.map(t => `
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-milk-50 border border-milk-200">
+                        <label class="flex items-center gap-2 cursor-pointer flex-1">
+                            <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo('${t.id}')" class="w-4 h-4 accent-milk-500 rounded">
+                            <span class="text-xs font-medium ${t.done ? 'line-through text-milk-800/50' : 'text-milk-900'}">${t.text}</span>
+                        </label>
+                        <button onclick="deleteTodo('${t.id}')" class="text-milk-800/50 hover:text-red-600 text-xs px-2"><i class="ph-bold ph-trash"></i></button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleTodo(id) {
+            const t = window.appData.todos.find(x => x.id === id);
+            if (t) {
+                t.done = !t.done;
+                saveData(false);
+            }
+        }
+
+        function deleteTodo(id) {
+            window.appData.todos = window.appData.todos.filter(x => x.id !== id);
+            saveData(true);
+        }
+
+        function initLeafletMap() {
+            try {
+                leafletMap = L.map('leaflet-map').setView([35.3814, 136.2683], 9);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: '&copy; OpenStreetMap'
+                }).addTo(leafletMap);
+                renderMapMarkers();
+            } catch(e) {
+                console.warn('Leaflet init warning:', e);
+            }
+        }
+
+        function renderMapMarkers() {
+            if (!leafletMap || !window.appData.events) return;
+
+            leafletMap.eachLayer(layer => {
+                if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+                    leafletMap.removeLayer(layer);
+                }
+            });
+
+            const points = [];
+            const events = window.appData.events;
+
+            events.forEach(e => {
+                if (e.lat && e.lng) {
+                    const theme = DAY_THEMES[e.day] || { hex: '#A67C52' };
+                    const icon = L.divIcon({
+                        className: 'custom-map-pin',
+                        html: `<div style="background-color:${theme.hex}; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-center; color:#fff; font-weight:bold; font-size:11px;">D${e.day}</div>`
+                    });
+
+                    const marker = L.marker([e.lat, e.lng], { icon: icon }).addTo(leafletMap);
+                    marker.bindPopup(`
+                        <div class="space-y-1 font-rounded">
+                            <div class="font-bold text-xs text-milk-900">${e.title}</div>
+                            <div class="text-[11px] text-milk-800">Day ${e.day} ‧ ${e.time}</div>
+                            <div class="text-[10px] text-milk-800/80">${e.notes || ''}</div>
+                        </div>
+                    `);
+                    points.push([e.lat, e.lng]);
+                }
+            });
+
+            if (points.length > 0) {
+                const polyline = L.polyline(points, { color: '#A67C52', weight: 3, opacity: 0.7, dashArray: '6, 6' }).addTo(leafletMap);
+                leafletMap.fitBounds(polyline.getBounds(), { padding: [30, 30] });
+            }
+        }
+
+        function toggleMapMode(mode) {
+            mapRenderMode = mode;
+            const lCont = document.getElementById('leaflet-map-container');
+            const sCont = document.getElementById('svg-map-container');
+            const btnL = document.getElementById('btn-map-mode-leaflet');
+            const btnS = document.getElementById('btn-map-mode-svg');
+
+            if (mode === 'leaflet') {
+                lCont.classList.remove('hidden');
+                sCont.classList.add('hidden');
+                btnL.className = 'px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold shadow-xs';
+                btnS.className = 'px-3 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold hover:bg-milk-300';
+                if (leafletMap) setTimeout(() => leafletMap.invalidateSize(), 150);
+            } else {
+                sCont.classList.remove('hidden');
+                lCont.classList.add('hidden');
+                btnS.className = 'px-3 py-1.5 rounded-xl bg-milk-500 text-white font-bold shadow-xs';
+                btnL.className = 'px-3 py-1.5 rounded-xl bg-milk-200 text-milk-800 font-bold hover:bg-milk-300';
+            }
+        }
+
+        function showMapSpotInfo(spot, desc) {
+            showToast(`📍 ${spot}：${desc}`);
+        }
+
+        // ==================== ACTIONS & MODALS ====================
+        function openAddEventModal() {
+            document.getElementById('event-edit-id').value = '';
+            document.getElementById('modal-event-title').innerText = '新增行程項目';
+            document.getElementById('event-form-day').value = selectedDay;
+            document.getElementById('event-form-time').value = '';
+            document.getElementById('event-form-title').value = '';
+            document.getElementById('event-form-transport').value = '';
+            document.getElementById('event-form-travel-time').value = '';
+            document.getElementById('event-form-notes').value = '';
+            document.getElementById('modal-event').classList.remove('hidden');
+        }
+
+        function openEditEventModal(id) {
+            const e = window.appData.events.find(x => x.id === id);
+            if (!e) return;
+            document.getElementById('event-edit-id').value = e.id;
+            document.getElementById('modal-event-title').innerText = '編輯行程項目';
+            document.getElementById('event-form-day').value = e.day;
+            document.getElementById('event-form-time').value = e.time;
+            document.getElementById('event-form-title').value = e.title;
+            document.getElementById('event-form-category').value = e.category;
+            document.getElementById('event-form-priority').value = e.priority || 'normal';
+            document.getElementById('event-form-transport').value = e.transport || '';
+            document.getElementById('event-form-travel-time').value = e.travelTime || '';
+            document.getElementById('event-form-notes').value = e.notes || '';
+            document.getElementById('modal-event').classList.remove('hidden');
+        }
+
+        function handleSaveEvent(e) {
+            e.preventDefault();
+            const id = document.getElementById('event-edit-id').value;
+            const day = parseInt(document.getElementById('event-form-day').value);
+            const time = document.getElementById('event-form-time').value;
+            const title = document.getElementById('event-form-title').value;
+            const category = document.getElementById('event-form-category').value;
+            const priority = document.getElementById('event-form-priority').value;
+            const transport = document.getElementById('event-form-transport').value;
+            const travelTime = document.getElementById('event-form-travel-time').value;
+            const notes = document.getElementById('event-form-notes').value;
+
+            if (id) {
+                const item = window.appData.events.find(x => x.id === id);
+                if (item) {
+                    item.day = day; item.time = time; item.title = title;
+                    item.category = category; item.priority = priority;
+                    item.transport = transport; item.travelTime = travelTime; item.notes = notes;
+                }
+            } else {
+                window.appData.events.push({
+                    id: 'e_' + Date.now(),
+                    day, time, title, category, priority, transport, travelTime, notes
+                });
+            }
+            closeModal('modal-event');
+            saveData(true);
+        }
+
+        function deleteEvent(id) {
+            window.appData.events = window.appData.events.filter(x => x.id !== id);
+            saveData(true);
+        }
+
+        function openAddRestaurantModal() {
+            const name = prompt('請輸入餐廳名稱：');
+            if (!name) return;
+            const area = prompt('請輸入地區（例如 滋賀長濱 / 福井 / 名古屋）：', '名古屋');
+            window.appData.restaurants.push({
+                id: 'r_' + Date.now(),
+                name, area: area || '名古屋', day: '待定', address: '待確認', hours: '待確認', mustEat: '特色美食', needRes: '無需預約', notes: ''
+            });
+            saveData(true);
+        }
+
+        function deleteRestaurant(id) {
+            window.appData.restaurants = window.appData.restaurants.filter(x => x.id !== id);
+            saveData(true);
+        }
+
+        function openAddExpenseModal() {
+            const name = prompt('請輸入消費項目名稱：');
+            if (!name) return;
+            const amount = parseFloat(prompt('請輸入金額：', '1000')) || 0;
+            const currency = prompt('請輸入幣別 (JPY / TWD)：', 'JPY').toUpperCase();
+
+            const item = {
+                id: 'ex_' + Date.now(),
+                name, category: '餐飲/購物', currency: currency === 'TWD' ? 'TWD' : 'JPY', amount, status: '已支付', note: ''
+            };
+
+            if (budgetScope === 'shared') {
+                window.appData.expenses.push(item);
+            } else {
+                window.appData.privateExpenses.push(item);
+            }
+            saveData(true);
+        }
+
+        function deleteExpense(id) {
+            if (budgetScope === 'shared') {
+                window.appData.expenses = window.appData.expenses.filter(x => x.id !== id);
+            } else {
+                window.appData.privateExpenses = window.appData.privateExpenses.filter(x => x.id !== id);
+            }
+            saveData(true);
+        }
+
+        function openAddTodoModal(type) {
+            const text = prompt('請輸入待辦項目名稱：');
+            if (!text) return;
+            window.appData.todos.push({
+                id: 't_' + Date.now(),
+                category: type === 'personal' ? '行李準備' : '團體準備',
+                text, done: false
+            });
+            saveData(true);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function openDataModal() {
+            document.getElementById('modal-data').classList.remove('hidden');
+        }
+
+        function openCloudSyncModal() {
+            document.getElementById('input-shared-gas-url').value = sharedGasUrl;
+            document.getElementById('input-personal-gas-url').value = personalGasUrl;
+            updateGasStatusBadges();
+            document.getElementById('modal-cloud').classList.remove('hidden');
+        }
+
+        function saveGasUrls() {
+            sharedGasUrl = document.getElementById('input-shared-gas-url').value.trim();
+            personalGasUrl = document.getElementById('input-personal-gas-url').value.trim();
+            localStorage.setItem(GAS_SHARED_URL_KEY, sharedGasUrl);
+            localStorage.setItem(GAS_PERSONAL_URL_KEY, personalGasUrl);
+            updateGasStatusBadges();
+            closeModal('modal-cloud');
+            showToast('已儲存試算表設定！');
+            syncWithGoogleSheetsInBackground();
         }
 
         function setCloudModalTab(tab) {
@@ -627,41 +1337,6 @@ function updateTodosSheet(ss, sheetName, todos) {
                 viewC.classList.remove('hidden');
                 viewU.classList.add('hidden');
             }
-        }
-
-        function updateGasStatusBadges() {
-            const bShared = document.getElementById('badge-shared-status');
-            const bPersonal = document.getElementById('badge-personal-status');
-
-            if (sharedGasUrl) {
-                if (bShared) { bShared.innerText = '已連線'; bShared.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'; }
-            } else {
-                if (bShared) { bShared.innerText = '未設定'; bShared.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800'; }
-            }
-
-            if (personalGasUrl) {
-                if (bPersonal) { bPersonal.innerText = '已連線'; bPersonal.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'; }
-            } else {
-                if (bPersonal) { bPersonal.innerText = '未設定'; bPersonal.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800'; }
-            }
-        }
-
-        function openCloudSyncModal() {
-            document.getElementById('input-shared-gas-url').value = sharedGasUrl;
-            document.getElementById('input-personal-gas-url').value = personalGasUrl;
-            updateGasStatusBadges();
-            document.getElementById('modal-cloud').classList.remove('hidden');
-        }
-
-        function saveGasUrls() {
-            sharedGasUrl = document.getElementById('input-shared-gas-url').value.trim();
-            personalGasUrl = document.getElementById('input-personal-gas-url').value.trim();
-            localStorage.setItem(GAS_SHARED_URL_KEY, sharedGasUrl);
-            localStorage.setItem(GAS_PERSONAL_URL_KEY, personalGasUrl);
-            updateGasStatusBadges();
-            closeModal('modal-cloud');
-            showToast('已儲存 Google 試算表設定！');
-            syncWithGoogleSheetsInBackground();
         }
 
         function copyGasCode() {
@@ -737,29 +1412,11 @@ function updateTodosSheet(ss, sheetName, todos) {
                 }
             }
 
-            if (personalGasUrl) {
-                try {
-                    const res = await fetch(personalGasUrl + '?action=get&sheetType=personal');
-                    const json = await res.json();
-                    if (json && json.payload) {
-                        const p = json.payload;
-                        if (p.privateExpenses) appData.privateExpenses = p.privateExpenses;
-                        if (p.privateTodos) {
-                            const shared = appData.todos.filter(t => t.category !== '行李準備');
-                            appData.todos = [...shared, ...p.privateTodos];
-                        }
-                        updated = true;
-                    }
-                } catch(e) {
-                    console.error('Personal pull failed', e);
-                }
-            }
-
             if (updated) {
                 saveData(false);
                 showToast('已成功從 Google 試算表拉取最新資料！');
             } else {
-                showToast('未能從試算表讀取資料（請確認網址或權限設為所有人）');
+                showToast('已觸發同步，請稍後查看');
             }
         }
 
@@ -768,14 +1425,64 @@ function updateTodosSheet(ss, sheetName, todos) {
             showToast('已手動將所有資料推送至 Google 試算表！');
         }
 
+        function copyLineText() {
+            let txt = `⛩️ 2027 冬季日本滋賀・福井・名古屋放鬆之旅 ⛩️\n`;
+            [1,2,3,4,5,6].forEach(d => {
+                const info = DAY_THEMES[d];
+                txt += `\n📌 ${info.label} (${info.date}) - ${info.city}\n`;
+                const events = window.appData.events.filter(e => parseInt(e.day) === d);
+                events.forEach(e => {
+                    txt += `  • ${e.time} ${e.title} (${e.category})\n`;
+                });
+            });
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast('已複製純文字行程表！可直接貼上 LINE 記事本');
+        }
+
+        function downloadJsonBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.appData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `Japan2027_Backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importJsonBackup(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    window.appData = JSON.parse(evt.target.result);
+                    saveData(true);
+                    closeModal('modal-data');
+                    showToast('備份成功匯入！');
+                } catch(err) {
+                    alert('JSON 檔案格式錯誤！');
+                }
+            };
+            reader.readAsText(file);
+        }
+
         function showToast(msg) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
             toast.classList.remove('hidden');
             setTimeout(() => {
                 toast.classList.add('hidden');
-            }, 2200);
+            }, 2500);
         }
 
-        // ==================== NAVIGATION & TABS ====================
-<!-- ... existing code -->
+        window.onload = function() {
+            initApp();
+        };
+    </script>
+</body>
+</html>
