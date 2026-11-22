@@ -3,60 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2027 冬季日本行程手冊｜滋賀・福井・名古屋（12/19–12/24）</title>
+  <title>2027 冬季日本行程手冊</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
-    :root {
-      --morandi-cream: #efece6;
-      --morandi-soft: #f6f3ed;
-      --card-surface: #fdfbf7;
-      --walnut-deep: #3b2d25;
-      --walnut-mid: #5a4437;
-      --walnut-light: #8c7362;
-      --matte-black: #1e1c1a;
-      --sand-border: #dcd4c8;
-      --accent-cream: #e6d5c1;
-    }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
-      background-color: var(--morandi-cream);
-      color: var(--matte-black);
-      line-height: 1.5;
-      padding-bottom: 56px;
+      background: #efece6;
+      color: #1e1c1a;
+      padding-bottom: 48px;
     }
     header {
-      background: linear-gradient(135deg, #2b211b 0%, #3e2f26 58%, #523e32 100%);
+      background: linear-gradient(135deg, #2b211b, #3e2f26, #523e32);
       color: #fdfbf7;
-      padding: 14px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      border-bottom: 1px solid #231a15;
-      box-shadow: 0 4px 14px rgba(35, 26, 21, 0.16);
-    }
-    .header-inner {
-      max-width: 1080px;
-      margin: 0 auto;
+      padding: 16px 20px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
+      border-bottom: 1px solid #231a15;
     }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand-icon {
-      width: 40px;
-      height: 40px;
+    .brand h1 { margin: 0; font-size: 18px; }
+    .brand p { margin: 3px 0 0; font-size: 12px; color: #dfd6ca; }
+    .auth-area { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(253, 251, 247, 0.14);
+      color: #f3ece2;
+    }
+    .btn-login {
+      background: #e6d5c1;
+      color: #1e1c1a;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-logout {
+      background: transparent;
+      color: #f3c4b8;
+      border: 1px solid rgba(243, 196, 184, 0.45);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .wrap { max-width: 960px; margin: 20px auto 0; padding: 0 16px; }
+    .toast {
+      display: none;
+      background: #fdfbf7;
+      border: 1px solid #dcd4c8;
+      border-left: 4px solid #3b2d25;
       border-radius: 12px;
-      background: rgba(253, 251, 247, 0.13);
-      border: 1px solid rgba(253, 251, 247, 0.22);
+      padding: 11px 14px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      color: #3b2d25;
+    }
+    .toast.show { display: block; }
+    .card {
+      background: #fdfbf7;
+      border: 1px solid #dcd4c8;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(43, 33, 27, 0.04);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 16px; color: #3b2d25; }
+    .row { display: flex; gap: 8px; margin-bottom: 12px; }
+    input[type="text"] {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1px solid #d4cbbd;
+      border-radius: 10px;
+      background: #faf8f4;
+      font-size: 14px;
+    }
+    .btn-walnut {
+      background: #3b2d25;
+      color: #fdfbf7;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-link {
+      display: none;
+      margin-left: 8px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      background: #efeae1;
+      color: #3b2d25;
+      border: 1px solid #dcd4c8;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li {
+      padding: 9px 4px;
+      border-bottom: 1px solid #efeae1;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 18px;
+      gap: 8px;
+      font-size: 14px;
     }
-    .brand
+    .done { text-decoration: line-through; color: #9c8c7e; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>2027
