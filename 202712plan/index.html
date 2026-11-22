@@ -3,84 +3,192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>❄️ 2027 冬季日本行程｜滋賀・福井・名古屋（12/19–12/24）</title>
+  <title>2027 冬季日本行程手冊｜滋賀・福井・名古屋（12/19–12/24）</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
-      --snow-bg: #f3f7fb;
-      --ice-card: #ffffff;
-      --nordic-navy: #0f294a;
-      --nordic-blue: #1d4ed8;
-      --frost-border: #dce7f3;
-      --accent-ice: #38bdf8;
+      --morandi-cream: #efece6;
+      --morandi-light: #f8f6f2;
+      --card-surface: #fdfbf7;
+      --walnut-deep: #3b2d25;
+      --walnut-mid: #5a4437;
+      --walnut-soft: #8c7362;
+      --matte-black: #1e1c1a;
+      --sand-border: #dcd4c8;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
-      background: linear-gradient(180deg, #e8f1fa 0%, var(--snow-bg) 280px, #f8fafc 100%);
-      color: #0f172a;
+      background-color: var(--morandi-cream);
+      color: var(--matte-black);
     }
-    .hero-nordic {
-      background: linear-gradient(135deg, #0b1f3a 0%, #133b6b 55%, #1e5aa8 100%);
+    .walnut-header {
+      background: linear-gradient(135deg, #2b211b 0%, #3e2f26 60%, #523e32 100%);
+      border-bottom: 1px solid #231a15;
     }
-    .glass-pill {
-      background: rgba(255, 255, 255, 0.14);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.22);
+    .glass-walnut {
+      background: rgba(253, 251, 247, 0.12);
+      border: 1px solid rgba(253, 251, 247, 0.22);
     }
     .tab-active {
-      background: linear-gradient(135deg, #0f294a, #1d4ed8);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.22);
+      background-color: var(--walnut-deep);
+      color: #fdfbf7;
+      box-shadow: 0 4px 12px rgba(43, 33, 27, 0.18);
     }
     .tab-inactive {
-      background: rgba(255, 255, 255, 0.9);
-      color: #1e3a5f;
-      border: 1px solid var(--frost-border);
+      background-color: var(--card-surface);
+      color: var(--walnut-deep);
+      border: 1px solid var(--sand-border);
     }
-    .frost-card {
-      background: var(--ice-card);
-      border: 1px solid var(--frost-border);
-      box-shadow: 0 6px 20px rgba(15, 41, 74, 0.05);
+    .tab-inactive:hover {
+      background-color: #f3efe8;
+    }
+    .warm-card {
+      background-color: var(--card-surface);
+      border: 1px solid var(--sand-border);
+      box-shadow: 0 6px 18px rgba(43, 33, 27, 0.04);
+    }
+    .btn-walnut {
+      background-color: var(--walnut-deep);
+      color: #fdfbf7;
+    }
+    .btn-walnut:hover {
+      background-color: var(--walnut-mid);
+    }
+    .btn-matte {
+      background-color: var(--matte-black);
+      color: #fdfbf7;
+    }
+    .btn-matte:hover {
+      background-color: #33302c;
     }
     #map {
-      height: 430px;
+      height: 420px;
       border-radius: 16px;
       z-index: 1;
+      border: 1px solid var(--sand-border);
     }
   </style>
 </head>
-<body class="min-h-screen pb-12">
-  <!-- 冬季北陸風格頁首與 Google 登入列 -->
-  <header class="hero-nordic text-white sticky top-0 z-30 shadow-lg">
+<body class="min-h-screen pb-14">
+  <!-- 深胡桃木質感頁首與 Google 登入列 -->
+  <header class="walnut-header text-[#fdfbf7] sticky top-0 z-30 shadow-md">
     <div class="max-w-6xl mx-auto px-4 py-3.5 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl glass-pill flex items-center justify-center text-xl">❄️</div>
+        <div class="w-10 h-10 rounded-2xl glass-walnut flex items-center justify-center text-lg">❄️</div>
         <div>
-          <h1 class="text-base sm:text-xl font-bold tracking-wide">2027 冬季北陸＆名古屋行程手冊</h1>
-          <p class="text-xs text-sky-100/90">2027/12/19 – 2027/12/24（6 天 5 夜）· 滋賀・福井・名古屋</p>
+          <h1 class="text-base sm:text-xl font-bold tracking-wide">2027 冬季日本行程手冊</h1>
+          <p class="text-xs text-[#dfd6ca]">2027/12/19 – 2027/12/24（6 天 5 夜）· 滋賀・福井・名古屋</p>
         </div>
       </div>
 
       <div class="flex items-center gap-2 flex-wrap">
-        <span id="syncStatus" class="text-xs px-3 py-1 rounded-full glass-pill text-sky-100">
-          尚未登入（本機暫存）
+        <span id="syncStatus" class="text-xs px-3 py-1 rounded-full glass-walnut text-[#e6dfd5]">
+          尚未登入（本機模式）
         </span>
 
-        <div id="userBadge" class="hidden items-center gap-2 glass-pill px-3 py-1 rounded-full text-xs">
-          <span id="userEmail" class="text-sky-200 font-semibold"></span>
-          <button onclick="logoutGoogle()" class="text-rose-200 hover:text-white underline">登出</button>
+        <div id="userBadge" class="hidden items-center gap-2 glass-walnut px-3 py-1 rounded-full text-xs">
+          <span id="userEmail" class="text-[#f5e6d3] font-semibold"></span>
+          <button type="button" onclick="logoutGoogle()" class="text-[#e8b4a6] hover:text-white underline cursor-pointer">登出</button>
         </div>
 
-        <button id="loginBtn" onclick="loginGoogle()" class="bg-sky-400 hover:bg-sky-300 text-slate-950 font-bold text-xs sm:text-sm px-4 py-1.5 rounded-xl shadow transition cursor-pointer">
+        <button id="loginBtn" type="button" onclick="loginGoogle()" class="bg-[#e6d5c1] hover:bg-[#f2e5d5] text-[#1e1c1a] font-bold text-xs sm:text-sm px-4 py-1.5 rounded-xl shadow transition cursor-pointer">
           使用 Google 帳戶登入
         </button>
       </div>
     </div>
   </header>
 
-  <!-- 提示訊息橫幅（登入狀態或除錯回饋） -->
+  <!-- 狀態提示橫幅 -->
   <div id="noticeBanner" class="hidden max-w-6xl mx-auto px-4 pt-4">
-    <div id
+    <div id="noticeInner" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-between gap-2 border">
+      <span id="noticeText"></span>
+      <button type="button" onclick="hideNotice()" class="text-xs opacity-70 hover:opacity-100">✕</button>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-4 pt-5 space-y-6">
+    <!-- 分頁導覽列 -->
+    <nav class="flex gap-2 overflow-x-auto pb-1" id="tabNav">
+      <button type="button" data-tab="overview" onclick="switchTab('overview')" class="tab-btn tab-active px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition">🏠 行程總覽</button>
+      <button type="button" data-tab="itinerary" onclick="switchTab('itinerary')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition">📅 每日行程</button>
+      <button type="button" data-tab="map" onclick="switchTab('map')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition">🗺️ 旅行地圖</button>
+      <button type="button" data-tab="food" onclick="switchTab('food')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition">🍽️ 美食資料庫</button>
+      <button type="button" data-tab="expenses" onclick="switchTab('expenses')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition">💰 費用管理</button>
+      <button type="button" data-tab="prep" onclick="switchTab('prep')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition">🎒 出發準備</button>
+      <button type="button" data-tab="export" onclick="switchTab('export')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition">📦 匯出與設定</button>
+    </nav>
+
+    <!-- 1. 行程總覽 -->
+    <section id="tab-overview" class="tab-panel space-y-5">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="warm-card p-5 rounded-2xl">
+          <div class="text-xs font-semibold text-[#7c6354]">🗓️ 出發日期與倒數</div>
+          <div class="text-xl font-extrabold mt-1 text-[#1e1c1a]">2027/12/19 (日)</div>
+          <div id="countdownText" class="text-xs text-[#5a4437] mt-1">冬季北陸＆名古屋行程</div>
+        </div>
+
+        <div class="warm-card p-5 rounded-2xl">
+          <div class="text-xs font-semibold text-[#7c6354]">🚄 移動路線主軸</div>
+          <div class="text-lg font-extrabold mt-1 text-[#1e1c1a]">名古屋 → 滋賀 → 福井 → 名古屋</div>
+          <div class="text-xs text-[#5a4437] mt-1">琵琶湖溫泉、越前蟹味覺、北陸冬景與採購</div>
+        </div>
+
+        <div class="warm-card p-5 rounded-2xl">
+          <div class="text-xs font-semibold text-[#7c6354]">☁️ 個人專屬雲端試算表</div>
+          <div id="sheetInfo" class="text-sm font-bold mt-1 text-[#1e1c1a] truncate">登入後自動建立／同步</div>
+          <button type="button" onclick="syncPersonalSheet()" class="mt-2.5 text-xs btn-matte px-3.5 py-1.5 rounded-lg font-medium transition">
+            立即同步個人資料
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="warm-card p-5 rounded-2xl space-y-2">
+          <div class="text-sm font-bold text-[#3b2d25]">✈️ 航班與交通動線提醒</div>
+          <p class="text-xs text-[#4a423b] leading-relaxed">
+            • 進出樞紐：名古屋中部國際機場（NGO）與名古屋車站轉乘<br />
+            • 冬季提醒：12 月下旬北陸地區氣溫偏低，出發前留意天氣與鐵道班次動態
+          </p>
+        </div>
+        <div class="warm-card p-5 rounded-2xl space-y-2">
+          <div class="text-sm font-bold text-[#3b2d25]">🏨 住宿與冬日穿搭建議</div>
+          <p class="text-xs text-[#4a423b] leading-relaxed">
+            • 滋賀長濱湖畔溫泉＋福井與名古屋市區飯店交替體驗<br />
+            • 室內暖氣普遍較強，建議「發熱衣＋針織衫＋防風羽絨外套」洋蔥式穿法
+          </p>
+        </div>
+      </div>
+
+      <div class="warm-card p-5 rounded-2xl">
+        <h2 class="font-bold text-base mb-3 text-[#3b2d25]">✨ 6 日行程亮點速覽</h2>
+        <div id="overviewDays" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+      </div>
+    </section>
+
+    <!-- 2. 每日行程 -->
+    <section id="tab-itinerary" class="tab-panel hidden space-y-4">
+      <div class="warm-card p-5 rounded-2xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div id="daySelector" class="flex gap-1.5 flex-wrap"></div>
+          <button type="button" onclick="addItineraryItem()" class="btn-walnut text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition">
+            + 新增行程
+          </button>
+        </div>
+        <div id="itineraryList" class="space-y-2.5"></div>
+      </div>
+    </section>
+
+    <!-- 3. 旅行地圖 -->
+    <section id="tab-map" class="tab-panel hidden space-y-4">
+      <div class="warm-card p-5 rounded-2xl space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <h2 class="font-bold text-[#3b2d25]">🗺️ 北陸＆名古屋重點地標地圖</h2>
+          <button type="button" onclick="toggleMapMode()" class="text-xs bg-[#efeae1] hover:bg-[#e5ded2] text-[#3b2d25] px-3.5 py-1.5 rounded-lg font-semibold transition border border-[#dcd4c8]">
+            切換 互動地圖 / 路線示意
+          </button>
+        </div>
+        <div id="map"></div>
+        <div id="offlineMapBox" class="hidden
