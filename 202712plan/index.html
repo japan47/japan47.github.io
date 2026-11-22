@@ -3,62 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2027 冬季北陸＆名古屋行程管理（12/19–12/24）</title>
+  <title>❄️ 2027 冬季日本行程｜滋賀・福井・名古屋（12/19–12/24）</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif; background: #f8fafc; color: #0f172a; }
-    .tab-active { background: #0f172a; color: #ffffff; }
-    .tab-inactive { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; }
-    #map { height: 420px; border-radius: 12px; z-index: 1; }
+    :root {
+      --snow-bg: #f3f7fb;
+      --ice-card: #ffffff;
+      --nordic-navy: #0f294a;
+      --nordic-blue: #1d4ed8;
+      --frost-border: #dce7f3;
+      --accent-ice: #38bdf8;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+      background: linear-gradient(180deg, #e8f1fa 0%, var(--snow-bg) 280px, #f8fafc 100%);
+      color: #0f172a;
+    }
+    .hero-nordic {
+      background: linear-gradient(135deg, #0b1f3a 0%, #133b6b 55%, #1e5aa8 100%);
+    }
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+    .tab-active {
+      background: linear-gradient(135deg, #0f294a, #1d4ed8);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.22);
+    }
+    .tab-inactive {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e3a5f;
+      border: 1px solid var(--frost-border);
+    }
+    .frost-card {
+      background: var(--ice-card);
+      border: 1px solid var(--frost-border);
+      box-shadow: 0 6px 20px rgba(15, 41, 74, 0.05);
+    }
+    #map {
+      height: 430px;
+      border-radius: 16px;
+      z-index: 1;
+    }
   </style>
 </head>
-<body class="min-h-screen">
-  <!-- 頂部導覽與 Google 登入列 -->
-  <header class="bg-slate-900 text-white sticky top-0 z-30 shadow">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-      <div>
-        <h1 class="text-lg sm:text-xl font-bold tracking-wide">❄️ 2027 冬季日本行程｜滋賀・福井・名古屋</h1>
-        <p class="text-xs text-slate-300">2027/12/19 – 2027/12/24（6 天 5 夜）</p>
+<body class="min-h-screen pb-12">
+  <!-- 冬季北陸風格頁首與 Google 登入列 -->
+  <header class="hero-nordic text-white sticky top-0 z-30 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl glass-pill flex items-center justify-center text-xl">❄️</div>
+        <div>
+          <h1 class="text-base sm:text-xl font-bold tracking-wide">2027 冬季北陸＆名古屋行程手冊</h1>
+          <p class="text-xs text-sky-100/90">2027/12/19 – 2027/12/24（6 天 5 夜）· 滋賀・福井・名古屋</p>
+        </div>
       </div>
 
       <div class="flex items-center gap-2 flex-wrap">
-        <span id="syncStatus" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">
-          未登入（本機模式）
+        <span id="syncStatus" class="text-xs px-3 py-1 rounded-full glass-pill text-sky-100">
+          尚未登入（本機暫存）
         </span>
-        <div id="userBadge" class="hidden items-center gap-2 bg-slate-800 px-3 py-1 rounded-full text-xs">
-          <span id="userEmail" class="text-emerald-300 font-medium"></span>
-          <button onclick="logoutGoogle()" class="text-rose-300 hover:text-rose-200 underline">登出</button>
+
+        <div id="userBadge" class="hidden items-center gap-2 glass-pill px-3 py-1 rounded-full text-xs">
+          <span id="userEmail" class="text-sky-200 font-semibold"></span>
+          <button onclick="logoutGoogle()" class="text-rose-200 hover:text-white underline">登出</button>
         </div>
-        <button id="loginBtn" onclick="loginGoogle()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs sm:text-sm px-3.5 py-1.5 rounded-lg transition">
+
+        <button id="loginBtn" onclick="loginGoogle()" class="bg-sky-400 hover:bg-sky-300 text-slate-950 font-bold text-xs sm:text-sm px-4 py-1.5 rounded-xl shadow transition cursor-pointer">
           使用 Google 帳戶登入
         </button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
-    <!-- 分頁列 -->
-    <nav class="flex gap-2 overflow-x-auto pb-1" id="tabNav">
-      <button data-tab="overview" onclick="switchTab('overview')" class="tab-btn tab-active px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">🏠 行程總覽</button>
-      <button data-tab="itinerary" onclick="switchTab('itinerary')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">📅 每日行程</button>
-      <button data-tab="map" onclick="switchTab('map')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">🗺️ 旅行地圖</button>
-      <button data-tab="food" onclick="switchTab('food')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">🍽️ 美食資料庫</button>
-      <button data-tab="expenses" onclick="switchTab('expenses')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">💰 費用管理</button>
-      <button data-tab="prep" onclick="switchTab('prep')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">🎒 出發準備</button>
-      <button data-tab="export" onclick="switchTab('export')" class="tab-btn tab-inactive px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">📦 匯出與設定</button>
-    </nav>
-
-    <!-- 1. 行程總覽 -->
-    <section id="tab-overview" class="tab-panel space-y-4">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <div class="text-xs text-slate-500">出發日期</div>
-          <div class="text-xl font-bold mt-1">2027/12/19 (日)</div>
-          <div id="countdownText" class="text-xs text-blue-600 mt-1">冬季北陸＆名古屋行程</div>
-        </div>
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <div class="text-xs text-slate-500">核心路線</div>
-          <div class="text-xl font-bold mt-1">名古屋 →
+  <!-- 提示訊息橫幅（登入狀態或除錯回饋） -->
+  <div id="noticeBanner" class="hidden max-w-6xl mx-auto px-4 pt-4">
+    <div id
