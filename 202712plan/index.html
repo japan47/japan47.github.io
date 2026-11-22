@@ -3,64 +3,307 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2027 冬季日本行程手冊｜滋賀・福井・名古屋（12/19–12/24）</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>2027 冬季日本行程手冊</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
-    :root {
-      --morandi-cream: #efece6;
-      --card-surface: #fdfbf7;
-      --walnut-deep: #3b2d25;
-      --walnut-mid: #5a4437;
-      --matte-black: #1e1c1a;
-      --sand-border: #dcd4c8;
-    }
+    * { box-sizing: border-box; }
     body {
+      margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
-      background-color: var(--morandi-cream);
-      color: var(--matte-black);
+      background: #efece6;
+      color: #1e1c1a;
     }
-    .walnut-header {
-      background: linear-gradient(135deg, #2b211b 0%, #3e2f26 60%, #523e32 100%);
+    header {
+      background: linear-gradient(135deg, #2b211b, #3e2f26, #523e32);
+      color: #fdfbf7;
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       border-bottom: 1px solid #231a15;
     }
-    .glass-walnut {
-      background: rgba(253, 251, 247, 0.12);
-      border: 1px solid rgba(253, 251, 247, 0.22);
+    .title-wrap h1 { margin: 0; font-size: 18px; }
+    .title-wrap p { margin: 4px 0 0; font-size: 12px; color: #dfd6ca; }
+    .auth-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .status-pill {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(253, 251, 247, 0.14);
+      color: #f3ece2;
     }
-    .tab-active {
-      background-color: var(--walnut-deep);
-      color: #fdfbf7;
-      box-shadow: 0 4px 12px rgba(43, 33, 27, 0.18);
+    .btn-login {
+      background: #e6d5c1;
+      color: #1e1c1a;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
     }
-    .tab-inactive {
-      background-color: var(--card-surface);
-      color: var(--walnut-deep);
-      border: 1px solid var(--sand-border);
+    .btn-login:hover { background: #f3e6d6; }
+    .btn-logout {
+      background: transparent;
+      color: #f3c4b8;
+      border: 1px solid rgba(243, 196, 184, 0.45);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
     }
-    .warm-card {
-      background-color: var(--card-surface);
-      border: 1px solid var(--sand-border);
+    main { max-width: 980px; margin: 20px auto; padding: 0 16px; }
+    .notice {
+      background: #fdfbf7;
+      border: 1px solid #dcd4c8;
+      border-left: 4px solid #3e2f26;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      display: none;
+    }
+    .card {
+      background: #fdfbf7;
+      border: 1px solid #dcd4c8;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
       box-shadow: 0 6px 18px rgba(43, 33, 27, 0.04);
     }
-    .btn-walnut { background-color: var(--walnut-deep); color: #fdfbf7; }
-    .btn-walnut:hover { background-color: var(--walnut-mid); }
-    .btn-matte { background-color: var(--matte-black); color: #fdfbf7; }
-    #map { height: 420px; border-radius: 16px; z-index: 1; border: 1px solid var(--sand-border); }
+    .card h2 { margin: 0 0 10px; font-size: 16px; color: #3b2d25; }
+    .row { display: flex; gap: 8px; margin-bottom: 10px; }
+    input[type="text"] {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1px solid #d4cbbd;
+      border-radius: 10px;
+      background: #faf8f4;
+      font-size: 14px;
+    }
+    .btn-walnut {
+      background: #3b2d25;
+      color: #fdfbf7;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-walnut:hover { background: #5a4437; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li {
+      padding: 8px 4px;
+      border-bottom: 1px solid #efeae1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    .done { text-decoration: line-through; color: #9c8c7e; }
   </style>
 </head>
-<body class="min-h-screen pb-14">
-  <header class="walnut-header text-[#fdfbf7] sticky top-0 z-30 shadow-md">
-    <div class="max-w-6xl mx-auto px-4 py-3.5 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl glass-walnut flex items-center justify-center text-lg">❄️</div>
-        <div>
-          <h1 class="text-base sm:text-xl font-bold tracking-wide">2027 冬季日本行程手冊</h1>
-          <p class="text-xs text-[#dfd6ca]">2027/12/19 – 2027/12/24（6 天 5 夜）· 滋賀・福井・名古屋</p>
-        </div>
-      </div>
+<body>
+  <header>
+    <div class="title-wrap">
+      <h1>2027 冬季日本行程手冊</h1>
+      <p>2027/12/19 – 2027/12/24 · 滋賀・福井・名古屋</p>
+    </div>
+    <div class="auth-wrap">
+      <span id="statusText" class="status-pill">尚未登入（本機模式）</span>
+      <span id="emailText" class="status-pill" style="display:none;"></span>
+      <button id="logoutBtn" class="btn-logout" style="display:none;">登出</button>
+      <button id="loginBtn" class="btn-login">使用 Google 帳戶登入</button>
+    </div>
+  </header>
 
-      <div class="flex items-center gap-2 flex-wrap">
-        <span id="syncStatus" class="text-xs px-3 py-1 rounded
+  <main>
+    <div id="noticeBox" class="notice"></div>
+
+    <div class="card">
+      <h2>個人行李清單（登入後自動同步至個人 Google 試算表）</h2>
+      <div class="row">
+        <input id="todoInput" type="text" placeholder="輸入行李項目，例如：眼藥水、暖暖包..." />
+        <button id="addBtn" class="btn-walnut">新增</button>
+      </div>
+      <ul id="todoList"></ul>
+    </div>
+  </main>
+
+  <script>
+    var CLIENT_ID = "649017626811-tqane9d1bm26mi0oa3rgbkmf4b89t68r.apps.googleusercontent.com";
+    var SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file openid email profile";
+    var tokenClient = null;
+    var accessToken = null;
+    var sheetId = "";
+
+    var todos = [
+      { id: "1", text: "冬季羽絨衣與防滑鞋", done: false },
+      { id: "2", text: "暖暖包與保濕用品", done: false },
+      { id: "3", text: "眼藥水", done: false }
+    ];
+
+    function showNotice(msg) {
+      var box = document.getElementById("noticeBox");
+      box.style.display = "block";
+      box.textContent = msg;
+    }
+
+    function setStatus(msg) {
+      document.getElementById("statusText").textContent = msg;
+    }
+
+    function renderTodos() {
+      var ul = document.getElementById("todoList");
+      ul.innerHTML = "";
+      for (var i = 0; i < todos.length; i++) {
+        (function(item) {
+          var li = document.createElement("li");
+          var cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = !!item.done;
+          var span = document.createElement("span");
+          span.textContent = item.text;
+          if (item.done) span.className = "done";
+          cb.addEventListener("change", function() {
+            item.done = cb.checked;
+            renderTodos();
+            syncSheet();
+          });
+          li.appendChild(cb);
+          li.appendChild(span);
+          ul.appendChild(li);
+        })(todos[i]);
+      }
+    }
+
+    function addTodo() {
+      var input = document.getElementById("todoInput");
+      var val = input.value.trim();
+      if (!val) return;
+      todos.push({ id: String(Date.now()), text: val, done: false });
+      input.value = "";
+      renderTodos();
+      syncSheet();
+    }
+
+    function initAuth() {
+      if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) {
+        setTimeout(initAuth, 300);
+        return;
+      }
+      tokenClient = window.google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: function(resp) {
+          if (resp && resp.error) {
+            setStatus("登入失敗");
+            showNotice("Google 登入回傳錯誤：" + resp.error);
+            return;
+          }
+          accessToken = resp.access_token;
+          document.getElementById("loginBtn").style.display = "none";
+          document.getElementById("logoutBtn").style.display = "inline-block";
+          setStatus("已登入 Google");
+          loadProfileAndSheet();
+        }
+      });
+    }
+
+    function loginGoogle() {
+      if (!tokenClient) {
+        initAuth();
+        showNotice("正在初始化 Google 登入元件，請稍等 1 秒再按一次。");
+        return;
+      }
+      tokenClient.requestAccessToken({ prompt: "consent" });
+    }
+
+    function logoutGoogle() {
+      if (accessToken && window.google && window.google.accounts && window.google.accounts.oauth2) {
+        window.google.accounts.oauth2.revoke(accessToken, function() {});
+      }
+      accessToken = null;
+      document.getElementById("loginBtn").style.display = "inline-block";
+      document.getElementById("logoutBtn").style.display = "none";
+      document.getElementById("emailText").style.display = "none";
+      setStatus("尚未登入（本機模式）");
+      showNotice("已登出 Google 帳戶。");
+    }
+
+    async function loadProfileAndSheet() {
+      if (!accessToken) return;
+      try {
+        var uRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: "Bearer " + accessToken }
+        });
+        if (uRes.ok) {
+          var u = await uRes.json();
+          var em = document.getElementById("emailText");
+          em.textContent = u.email || "已登入";
+          em.style.display = "inline-block";
+        }
+        await ensureSheet();
+        await syncSheet();
+      } catch (e) {
+        showNotice("同步過程發生錯誤：" + e.message);
+      }
+    }
+
+    async function ensureSheet() {
+      if (sheetId) return;
+      var q = encodeURIComponent("name='2027日本冬季旅遊_個人資料' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false");
+      var sRes = await fetch("https://www.googleapis.com/drive/v3/files?q=" + q + "&fields=files(id,name)", {
+        headers: { Authorization: "Bearer " + accessToken }
+      });
+      var sData = await sRes.json();
+      if (sData.files && sData.files.length > 0) {
+        sheetId = sData.files[0].id;
+      } else {
+        var cRes = await fetch("https://sheets.googleapis.com/v4/spreadsheets", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + accessToken, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            properties: { title: "2027日本冬季旅遊_個人資料" },
+            sheets: [{ properties: { title: "個人行李清單" } }]
+          })
+        });
+        var cData = await cRes.json();
+        sheetId = cData.spreadsheetId;
+      }
+    }
+
+    async function syncSheet() {
+      if (!accessToken || !sheetId) return;
+      var rows = [["ID", "行李項目", "已完成"]];
+      for (var i = 0; i < todos.length; i++) {
+        rows.push([todos[i].id, todos[i].text, todos[i].done ? "TRUE" : "FALSE"]);
+      }
+      var range = encodeURIComponent("個人行李清單!A1:C200");
+      var res = await fetch("https://sheets.googleapis.com/v4/spreadsheets/" + sheetId + "/values/" + range + "?valueInputOption=USER_ENTERED", {
+        method: "PUT",
+        headers: { Authorization: "Bearer " + accessToken, "Content-Type": "application/json" },
+        body: JSON.stringify({ values: rows })
+      });
+      if (res.ok) {
+        showNotice("已同步至個人 Google 試算表（ID: " + sheetId + "）");
+      } else {
+        showNotice("寫入試算表失敗，請確認 Google Sheets API 已啟用。");
+      }
+    }
+
+    document.getElementById("loginBtn").addEventListener("click", loginGoogle);
+    document.getElementById("logoutBtn").addEventListener("click", logoutGoogle);
+    document.getElementById("addBtn").addEventListener("click", addTodo);
+    document.getElementById("todoInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") addTodo();
+    });
+
+    renderTodos();
+    initAuth();
+  </script>
+</body>
+</html>
