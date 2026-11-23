@@ -71,9 +71,15 @@ button.pri{background:var(--grn);border-color:var(--grn)}
 #mbtn{width:44px;height:44px;border-radius:50%;border:3px solid var(--line);background:var(--gold);font-size:1.3rem;padding:0;cursor:pointer;box-shadow:3px 3px 0 var(--line)}
 #mpn{position:absolute;left:0;bottom:54px;width:min(88vw,320px);max-height:78vh;overflow:auto;background:var(--card);border:3px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 3px 0 rgba(185,138,46,.4)}#mpn select{margin:0 0 8px}#mpn label{margin:8px 0 0}#mpn p{margin:6px 0 0}
 #mpn {
-    width: min(320px, 86vw) !important;
-    max-height: 82vh !important;
+    left: 0 !important;
+    bottom: 54px !important;
+    width: min(340px, 90vw) !important;
+    max-height: 88vh !important;
     overflow-y: auto !important;
+    padding: 14px !important;
+  }
+  #mpn iframe {
+    max-width: 100% !important;
   }
 </style></head><body>
 <div class="lights" aria-hidden="true"></div>
@@ -106,7 +112,7 @@ button.pri{background:var(--grn);border-color:var(--grn)}
   <div id="mpn" hidden>
     <b>🎧 冬季背景音樂</b>
     <p class="mute">YouTube 播放器，按下播放才會有聲音（可循環播放當背景音）。</p>
-    <div id="spw" style="position:relative;width:100%;height: 135px;border-radius:10px;overflow:hidden;background:#1e1c1a;margin:8px 0;">
+    <div id="spw" style="position:relative;width:100%;height: 155px;border-radius:10px;overflow:hidden;background:#1e1c1a;margin:8px 0;">
       <iframe
         src="https://www.youtube.com/embed/rdBF5seCfwg?si=hTkJNcsPIJdx-67o&loop=1&playlist=rdBF5seCfwg"
         title="YouTube video player"
@@ -336,7 +342,7 @@ function stop(){clearTimeout(tm);nodes.forEach(function(o){try{o.stop()}catch(e)
 function tone(f,t,d){[[1,.5],[2,.16]].forEach(function(h){var o=ctx.createOscillator(),g=ctx.createGain(),L=Math.max(d,.5);o.type="triangle";o.frequency.value=f*h[0];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(h[1],t+.01);g.gain.exponentialRampToValueAtTime(.001,t+L*1.4);o.connect(g);g.connect(mg);o.start(t);o.stop(t+L*1.5);nodes.push(o)})}
 function play(){if(!AC)return;if(!ctx){ctx=new AC();mg=ctx.createGain();mg.connect(ctx.destination)}if(ctx.state=="suspended")ctx.resume();stop();mg.gain.value=$("#mvol").value/100;
 var s=SONGS[+sel.value],sp=60/s[1],t=ctx.currentTime+.1;s[2].split(" ").forEach(function(x){var p=x.split(":"),d=+p[1]*sp;if(p[0]!="R")tone(fr(p[0]),t,d);t+=d});$("#mgo").textContent="■ 停止";tm=setTimeout(stop,(t-ctx.currentTime+.4)*1000)}
-$("#mbtn").onclick=function(){var p=$("#mpn");p.hidden=!p.hidden;if(!p.hidden&&!$("#spw").firstChild){var f=document.createElement("iframe");f.src="https://open.spotify.com/embed/track/73OZT1XgLleDwperqGjWH4";f.title="Last Christmas（Spotify）";f.width="100%";f.height="152";f.style.cssText="border:0;border-radius:12px;display:block";f.allow="encrypted-media";f.loading="lazy";$("#spw").appendChild(f)}this.setAttribute("aria-expanded",String(!p.hidden))};
+$("#mbtn").onclick=function(){var p=$("#mpn");p.hidden=!p.hidden;this.setAttribute("aria-expanded",String(!p.hidden))};
 $("#mgo").onclick=function(){if($("#mgo").textContent.indexOf("停止")>-1)stop();else play()};
 $("#mvol").oninput=function(){if(mg)mg.gain.value=this.value/100};sel.onchange=function(){if($("#mgo").textContent.indexOf("停止")>-1)play()}})();
 render();
