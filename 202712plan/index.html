@@ -70,20 +70,6 @@ button.pri{background:var(--grn);border-color:var(--grn)}
 #mus{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:900}
 #mbtn{width:44px;height:44px;border-radius:50%;border:3px solid var(--line);background:var(--gold);font-size:1.3rem;padding:0;cursor:pointer;box-shadow:3px 3px 0 var(--line)}
 #mpn{position:absolute;left:0;bottom:54px;width:min(88vw,320px);max-height:78vh;overflow:auto;background:var(--card);border:3px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 3px 0 rgba(185,138,46,.4)}#mpn select{margin:0 0 8px}#mpn label{margin:8px 0 0}#mpn p{margin:6px 0 0}
-#mpn {
-    left: 0 !important;
-    bottom: 54px !important;
-    width: min(340px, 90vw) !important;
-    max-height: 88vh !important;
-    overflow-y: auto !important;
-    padding: 14px !important;
-  }
-  #mpn iframe {
-    max-width: 100% !important;
-  }
- #mus {
-    z-index: 1100 !important;
-  }
 </style></head><body>
 <div class="lights" aria-hidden="true"></div>
 <header><div class="auth"><span id="who"></span><span id="sync"></span><button id="gbtn">使用 Google 登入</button></div><svg class="ill" viewBox="0 0 150 84" aria-hidden="true"><path d="M2 70 Q40 56 78 66 T148 62 V82 H2Z" fill="#fff" stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"/><path d="M104 24 a7 7 0 0 1 4-12 a9 9 0 0 1 17-1 a7 7 0 0 1 8 13z" fill="#fff" stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"/><g class="sn"><circle cx="62" cy="14" r="2" fill="#bddbe6" stroke="#4a3b33" stroke-width="1"/><circle cx="76" cy="26" r="1.6" fill="#bddbe6" stroke="#4a3b33" stroke-width="1"/><circle cx="46" cy="24" r="1.6" fill="#bddbe6" stroke="#4a3b33" stroke-width="1"/></g><g class="bob"><rect x="50" y="34" width="66" height="28" rx="13" fill="#fbf8f4" stroke="#4a3b33" stroke-width="2"/><path d="M83 34 v-5 h6 v5" fill="#e4a58c" stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"/><rect x="56" y="39" width="11" height="9" rx="3" fill="#bddbe6"/><rect x="71" y="39" width="11" height="9" rx="3" fill="#bddbe6"/><circle cx="97" cy="46" r="2" fill="#4a3b33"/><circle cx="108" cy="46" r="2" fill="#4a3b33"/><ellipse cx="93.5" cy="51.5" rx="3.5" ry="2" fill="#f7b6bd"/><ellipse cx="111.5" cy="51.5" rx="3.5" ry="2" fill="#f7b6bd"/><path d="M99 51 Q102.5 55 106 51" fill="none" stroke="#4a3b33" stroke-width="1.6" stroke-linecap="round"/><path d="M53 57 H80" stroke="#e4a58c" stroke-width="3" stroke-linecap="round"/><circle cx="68" cy="63" r="5.5" fill="#4a3b33"/><circle cx="68" cy="63" r="2" fill="#fbf8f4"/><circle cx="98" cy="63" r="5.5" fill="#4a3b33"/><circle cx="98" cy="63" r="2" fill="#fbf8f4"/></g><circle cx="24" cy="60" r="11" fill="#fff" stroke="#4a3b33" stroke-width="2"/><circle cx="24" cy="42" r="8" fill="#fff" stroke="#4a3b33" stroke-width="2"/><path d="M16 37 Q24 21 34 36Z" fill="#b5413a" stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"/><rect x="15" y="35" width="19" height="4" rx="2" fill="#fff" stroke="#4a3b33" stroke-width="1.6"/><circle cx="33" cy="27" r="3" fill="#fff" stroke="#4a3b33" stroke-width="1.6"/><circle cx="21.5" cy="41" r="1.2" fill="#4a3b33"/><circle cx="26.5" cy="41" r="1.2" fill="#4a3b33"/><path d="M24 43 l5 1.5 -5 1z" fill="#f2a65a"/><ellipse cx="19" cy="45" rx="2" ry="1.2" fill="#f7b6bd"/><ellipse cx="29" cy="46" rx="1.6" ry="1.1" fill="#f7b6bd"/><path d="M15 50 Q24 55 33 50" fill="none" stroke="#b5533c" stroke-width="3.5" stroke-linecap="round"/><rect x="30" y="50" width="4" height="9" rx="2" fill="#b5533c"/><circle cx="24" cy="58" r="1.2" fill="#4a3b33"/><circle cx="24" cy="64" r="1.2" fill="#4a3b33"/><g stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"><path d="M137 36 l-8 14h16z" fill="#5f9a72"/><path d="M137 44 l-10 16h20z" fill="#5f9a72"/><path d="M137 52 l-12 17h24z" fill="#5f9a72"/></g><path d="M137 29 l1.6 3.4 3.7.4-2.8 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.8-2.5 3.7-.4z" fill="#f4c542" stroke="#4a3b33" stroke-width="1"/><circle cx="134" cy="48" r="1.8" fill="#b5413a"/><circle cx="140" cy="56" r="1.8" fill="#f4c542"/><circle cx="132" cy="63" r="1.8" fill="#f4c542"/><circle cx="143" cy="65" r="1.8" fill="#b5413a"/></svg>
@@ -110,30 +96,7 @@ button.pri{background:var(--grn);border-color:var(--grn)}
 <label>必吃推薦<input id="rm"></label><label>預約方式<input id="rb" placeholder="待確認"></label><label>是否需要事先預約<select id="ry"><option>待確認<option>需要<option>不需要</select></label><label>官方網站／訂位連結<input id="ru" type="url" placeholder="https://"></label>
 <label>個人備註<textarea id="ro" rows="2"></textarea></label><label>緯度（選填）<input id="rla" type="number" step="any"></label><label>經度（選填）<input id="rlo" type="number" step="any"></label><label class="ck"><input id="rl" type="checkbox"> 備選</label>
 <div class="act"><button class="pri">儲存</button><button type="button" id="rx">取消</button></div></form></dialog>
-<div id="mus">
-  <button id="mbtn" type="button" aria-label="音樂盒" aria-expanded="false">🎵</button>
-  <div id="mpn" hidden>
-    <b>🎧 冬季背景音樂</b>
-    <p class="mute">YouTube 播放器，按下播放才會有聲音（可循環播放當背景音）。</p>
-<div id="spw" style="position:relative;width:100%;height:0;padding-bottom:56.25%;border-radius:10px;overflow:hidden;background:#1e1c1a;margin:8px 0;">
-  <iframe
-    src="https://www.youtube.com/embed/rdBF5seCfwg?si=hTkJNcsPIJdx-67o&loop=1&playlist=rdBF5seCfwg"
-    title="YouTube video player"
-    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin"
-    allowfullscreen>
-  </iframe>
-</div>
-    <p><a href="https://youtu.be/rdBF5seCfwg?si=hTkJNcsPIJdx-67o" target="_blank" rel="noopener" style="color:inherit">在 YouTube 開啟</a></p>
-    <hr style="border:0;border-top:2px dashed var(--soft);margin:10px 0">
-    <b>🎼 八音盒</b>
-    <p class="mute">不會自動播放，按下才有聲音。旋律都是公有領域或原創。</p>
-    <select id="msg"></select>
-    <button id="mgo" class="pri" type="button">▶ 播放</button>
-    <label>音量<input type="range" id="mvol" min="0" max="100" value="40"></label>
-  </div>
-</div>
+<div id="mus"><button id="mbtn" type="button" aria-label="音樂盒" aria-expanded="false">🎵</button><div id="mpn" hidden><b>🎧 Last Christmas</b><p class="mute">YouTube 播放器，按播放才會有聲音。</p><div id="spw"></div><p><a href="https://youtu.be/rdBF5seCfwg" target="_blank" rel="noopener" style="color:inherit">在 YouTube 開啟</a></p><hr style="border:0;border-top:2px dashed var(--soft);margin:10px 0"><b>🎼 八音盒</b><p class="mute">不會自動播放，按下才有聲音。旋律都是公有領域或原創。</p><select id="msg"></select><button id="mgo" class="pri" type="button">▶ 播放</button><label>音量<input type="range" id="mvol" min="0" max="100" value="40"></label></div></div>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
@@ -238,12 +201,14 @@ else{mode="hist";var cy=new Date().getFullYear(),ys=[1,2,3,4,5].map(x=>cy-x),job
 var rs2=await Promise.all(jobs);days.forEach(d=>DLOC[d.i].forEach(k=>{var R=rs2.filter(r=>r.k==k).map(r=>r.D),at=(f,fn)=>avg(R.map(D=>D[f][d.i]==null?null:fn?fn(D[f][d.i]):D[f][d.i]));d.locs.push({k:k,tmax:at("temperature_2m_max"),tmin:at("temperature_2m_min"),rain:at("precipitation_sum",x=>x>=1?100:0),snow:at("snowfall_sum",x=>x>0?100:0),wind:at("wind_speed_10m_max")})}));note="過去 5 年同期平均（"+ys[ys.length-1]+" 至 "+ys[0]+"），不是預報"}
 WX={mode:mode,note:note,at:new Date().toLocaleString("zh-TW"),days:days};try{localStorage.setItem("tmwx",JSON.stringify(WX))}catch(e){}wxr()}
 catch(e){if(st0)st0.textContent="天氣載入失敗："+e.message}}
-function sugg(){if(!WX)return[];var L=[];WX.days.forEach(d=>d.locs.forEach(x=>L.push(x)));var mn=Math.min.apply(null,L.map(x=>x.tmin).filter(x=>x!=null)),rain=L.some(x=>x.rain>=50),snow=L.some(x=>x.snow>=20),wind=Math.max.apply(null,L.map(x=>x.wind||0)),o=[];
+function sgx(L){var mn=Math.min.apply(null,L.map(x=>x.tmin).filter(x=>x!=null)),rain=L.some(x=>x.rain>=50),snow=L.some(x=>x.snow>=20),wind=Math.max.apply(null,[0].concat(L.map(x=>x.wind||0))),o=[];
 if(!isFinite(mn))return o;if(mn<=0)o.push("發熱衣（上下）","厚羽絨外套","手套","圍巾","毛帽","暖暖包");else if(mn<=5)o.push("發熱衣","毛衣或刷毛衣","羽絨外套","手套與圍巾");else if(mn<=10)o.push("發熱衣","保暖外套");else if(mn<=15)o.push("長袖上衣","薄外套");else o.push("輕便長袖");
 if(rain)o.push("摺疊傘或雨衣","防水外套");if(snow)o.push("防滑鞋","防水鞋或鞋套");if(wind>=30)o.push("防風外套");return o}
+function sugg(){if(!WX)return[];var L=[];WX.days.forEach(d=>d.locs.forEach(x=>L.push(x)));return sgx(L)}
+function dsug(d){var o=sgx(d.locs);if((d.i==3||d.i==4)&&o.indexOf("暖暖包")<0)o.push("暖暖包");return o}
 function wxr(){var el=$("#wea");if(!el)return;var h0='<div class="card"><b>天氣與衣物建議</b><p class="mute" style="margin:4px 0">'+(WX?(WX.mode=="fc"?"預報":WX.note)+"　更新於 "+h(WX.at):"按下按鈕載入。出發前 16 天內是真正的預報，更早則顯示過去 5 年同期平均")+'</p><div class="act"><button class="pri" data-a="wxgo">🔄 更新天氣</button><span id="wxs" class="mute"></span></div><p class="mute" style="margin:6px 0 0"><a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:inherit">Weather data by Open-Meteo.com</a></p></div>';
 if(!WX){el.innerHTML=h0;return}
-var days=WX.days.map(d=>'<div class="wd"><b>Day '+(d.i+1)+' '+dd(d.i)+'</b>'+d.locs.map(x=>'<div class="wl"><span class="e">'+emo(x.code)+'</span><span>'+LOCS[x.k][0]+'</span><span>'+(x.tmax==null?"—":Math.round(x.tmax))+'° / '+(x.tmin==null?"—":Math.round(x.tmin))+'°C</span><span>🌧 '+(x.rain==null?"—":Math.round(x.rain))+'%</span><span>❄ '+(x.snow==null?"—":Math.round(x.snow))+'%</span>'+(x.sr?'<span>🌅 '+x.sr+'　🌇 '+x.ss+'</span>':"")+'</div>').join("")+'</div>').join("");
+var days=WX.days.map(d=>'<div class="wd"><b>Day '+(d.i+1)+' '+dd(d.i)+'</b>'+d.locs.map(x=>'<div class="wl"><span class="e">'+emo(x.code)+'</span><span>'+LOCS[x.k][0]+'</span><span>'+(x.tmax==null?"—":Math.round(x.tmax))+'° / '+(x.tmin==null?"—":Math.round(x.tmin))+'°C</span><span>🌧 '+(x.rain==null?"—":Math.round(x.rain))+'%</span><span>❄ '+(x.snow==null?"—":Math.round(x.snow))+'%</span>'+(x.sr?'<span>🌅 '+x.sr+'　🌇 '+x.ss+'</span>':"")+'</div>').join("")+'<div style="margin-top:6px">👕 '+(dsug(d).map(x=>'<i class="tag">'+h(x)+'</i>').join("")||'<span class="mute">資料不足</span>')+'</div></div>').join("");
 var sg=sugg();el.innerHTML=h0+'<div class="card">'+days+'</div><div class="card"><b>衣物建議</b><p class="mute" style="margin:4px 0">依整趟最低溫、降雨與降雪機率、風速判斷，'+(WX.mode=="hist"?"目前是歷年平均，實際可能更冷。":"")+'</p><p>'+sg.map(x=>'<i class="tag">'+h(x)+'</i>').join("")+'</p><div class="act"><button class="pri" data-a="wadd">全部加入行李清單</button></div></div>'}
 function packr(){var P=S.pack,d=P.filter(x=>x.done).length;$("#pk").innerHTML='<div class="card"><div class="mute">'+(ED?"已存到你的試算表":"未登入：只存在這台裝置")+'　已打包 '+d+' ／ '+P.length+'</div>'+PC.map(c=>{var r=P.filter(x=>x.cat==c);return r.length?'<h3 style="margin:12px 0 0;font-size:1rem">'+c+'</h3>'+r.map(x=>'<div class="td'+(x.done?" d":"")+'"><input type="checkbox" data-a="pk" data-i="'+x.id+'"'+(x.done?" checked":"")+'><span>'+h(x.text)+(x.src=="weather"?' <i class="tag">天氣建議</i>':"")+'</span><button data-a="pdel" data-i="'+x.id+'">刪除</button></div>').join(""):""}).join("")+'<div class="act"><select id="pc" style="max-width:34%">'+PC.map(c=>'<option>'+c+'</option>').join("")+'</select><input id="pt" placeholder="新增物品"><button class="pri" data-a="padd">加入</button></div></div>'}
 function shopr(){var P=S.shop,jp=P.reduce((a,x)=>a+(+x.price||0),0);$("#sp").innerHTML='<div class="card"><div class="mute">'+(ED?"已存到你的試算表":"未登入：只存在這台裝置")+'　預估 ¥'+jp.toLocaleString()+'（≈ NT$ '+Math.round(jp*S.rate).toLocaleString()+'）</div>'+(P.length?"":'<p class="mute">還沒有項目，在下面登記想買的東西。</p>')+P.map(x=>'<div class="td'+(x.done?" d":"")+'"><input type="checkbox" data-a="sk" data-i="'+x.id+'"'+(x.done?" checked":"")+'><span><i class="tag">'+h(x.cat)+'</i>'+h(x.name)+(x.store?'<br><small class="mute">'+h(x.store)+'</small>':"")+(+x.price?'<br><small class="mute">¥'+(+x.price).toLocaleString()+'</small>':"")+'</span><button data-a="sdel" data-i="'+x.id+'">刪除</button></div>').join("")+'<div class="act" style="flex-wrap:wrap"><select id="sc2" style="flex:1 1 30%">'+SCAT.map(c=>'<option>'+c+'</option>').join("")+'</select><input id="sn" placeholder="想買什麼" style="flex:2 1 60%"><input id="ss" placeholder="店家或地點（選填）" style="flex:2 1 50%"><input id="sprc" type="number" placeholder="預估日圓（選填）" style="flex:1 1 40%"><button class="pri" data-a="sadd">加入</button></div></div>'}
@@ -345,7 +310,7 @@ function stop(){clearTimeout(tm);nodes.forEach(function(o){try{o.stop()}catch(e)
 function tone(f,t,d){[[1,.5],[2,.16]].forEach(function(h){var o=ctx.createOscillator(),g=ctx.createGain(),L=Math.max(d,.5);o.type="triangle";o.frequency.value=f*h[0];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(h[1],t+.01);g.gain.exponentialRampToValueAtTime(.001,t+L*1.4);o.connect(g);g.connect(mg);o.start(t);o.stop(t+L*1.5);nodes.push(o)})}
 function play(){if(!AC)return;if(!ctx){ctx=new AC();mg=ctx.createGain();mg.connect(ctx.destination)}if(ctx.state=="suspended")ctx.resume();stop();mg.gain.value=$("#mvol").value/100;
 var s=SONGS[+sel.value],sp=60/s[1],t=ctx.currentTime+.1;s[2].split(" ").forEach(function(x){var p=x.split(":"),d=+p[1]*sp;if(p[0]!="R")tone(fr(p[0]),t,d);t+=d});$("#mgo").textContent="■ 停止";tm=setTimeout(stop,(t-ctx.currentTime+.4)*1000)}
-$("#mbtn").onclick=function(){var p=$("#mpn");p.hidden=!p.hidden;this.setAttribute("aria-expanded",String(!p.hidden))};
+$("#mbtn").onclick=function(){var p=$("#mpn");p.hidden=!p.hidden;if(!p.hidden&&!$("#spw").firstChild){var f=document.createElement("iframe");f.src="https://www.youtube-nocookie.com/embed/rdBF5seCfwg?rel=0";f.title="Last Christmas（YouTube）";f.width="100%";f.height="200";f.style.cssText="border:0;border-radius:12px;display:block";f.allow="encrypted-media; picture-in-picture";f.setAttribute("allowfullscreen","");f.loading="lazy";$("#spw").appendChild(f)}this.setAttribute("aria-expanded",String(!p.hidden))};
 $("#mgo").onclick=function(){if($("#mgo").textContent.indexOf("停止")>-1)stop();else play()};
 $("#mvol").oninput=function(){if(mg)mg.gain.value=this.value/100};sel.onchange=function(){if($("#mgo").textContent.indexOf("停止")>-1)play()}})();
 render();
