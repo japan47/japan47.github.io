@@ -96,7 +96,30 @@ button.pri{background:var(--grn);border-color:var(--grn)}
 <label>必吃推薦<input id="rm"></label><label>預約方式<input id="rb" placeholder="待確認"></label><label>是否需要事先預約<select id="ry"><option>待確認<option>需要<option>不需要</select></label><label>官方網站／訂位連結<input id="ru" type="url" placeholder="https://"></label>
 <label>個人備註<textarea id="ro" rows="2"></textarea></label><label>緯度（選填）<input id="rla" type="number" step="any"></label><label>經度（選填）<input id="rlo" type="number" step="any"></label><label class="ck"><input id="rl" type="checkbox"> 備選</label>
 <div class="act"><button class="pri">儲存</button><button type="button" id="rx">取消</button></div></form></dialog>
-<div id="mus"><button id="mbtn" type="button" aria-label="音樂盒" aria-expanded="false">🎵</button><div id="mpn" hidden><b>🎧 Last Christmas</b><p class="mute">Spotify 官方播放器，按播放才會有聲音。沒登入 Spotify 時，可能只能聽到片段。</p><div id="spw"></div><p><a href="https://open.spotify.com/track/73OZT1XgLleDwperqGjWH4" target="_blank" rel="noopener" style="color:inherit">在 Spotify 開啟</a></p><hr style="border:0;border-top:2px dashed var(--soft);margin:10px 0"><b>🎼 八音盒</b><p class="mute">不會自動播放，按下才有聲音。旋律都是公有領域或原創。</p><select id="msg"></select><button id="mgo" class="pri" type="button">▶ 播放</button><label>音量<input type="range" id="mvol" min="0" max="100" value="40"></label></div></div>
+<div id="mus">
+  <button id="mbtn" type="button" aria-label="音樂盒" aria-expanded="false">🎵</button>
+  <div id="mpn" hidden>
+    <b>🎧 冬季背景音樂</b>
+    <p class="mute">YouTube 播放器，按下播放才會有聲音（可循環播放當背景音）。</p>
+    <div id="spw" style="position:relative;width:100%;padding-bottom:56.25%;border-radius:10px;overflow:hidden;background:#1e1c1a;margin:8px 0;">
+      <iframe
+        src="https://www.youtube.com/embed/rdBF5seCfwg?si=hTkJNcsPIJdx-67o&loop=1&playlist=rdBF5seCfwg"
+        title="YouTube video player"
+        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p><a href="https://youtu.be/rdBF5seCfwg?si=hTkJNcsPIJdx-67o" target="_blank" rel="noopener" style="color:inherit">在 YouTube 開啟</a></p>
+    <hr style="border:0;border-top:2px dashed var(--soft);margin:10px 0">
+    <b>🎼 八音盒</b>
+    <p class="mute">不會自動播放，按下才有聲音。旋律都是公有領域或原創。</p>
+    <select id="msg"></select>
+    <button id="mgo" class="pri" type="button">▶ 播放</button>
+    <label>音量<input type="range" id="mvol" min="0" max="100" value="40"></label>
+  </div>
+</div>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
