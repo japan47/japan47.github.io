@@ -70,6 +70,15 @@ button.pri{background:var(--grn);border-color:var(--grn)}
 #mus{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:900}
 #mbtn{width:44px;height:44px;border-radius:50%;border:3px solid var(--line);background:var(--gold);font-size:1.3rem;padding:0;cursor:pointer;box-shadow:3px 3px 0 var(--line)}
 #mpn{position:absolute;left:0;bottom:54px;width:min(88vw,320px);max-height:78vh;overflow:auto;background:var(--card);border:3px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 3px 0 rgba(185,138,46,.4)}#mpn select{margin:0 0 8px}#mpn label{margin:8px 0 0}#mpn p{margin:6px 0 0}
+#mus{z-index:1100!important}
+#mbtn{position:relative;animation:glow 2.4s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:3px 3px 0 var(--line),0 0 0 0 rgba(212,162,76,.6)}50%{box-shadow:3px 3px 0 var(--line),0 0 16px 6px rgba(255,214,102,.9)}}
+#mbtn::before,#mbtn::after{content:"✦";position:absolute;color:#d4a24c;font-size:13px;line-height:1;pointer-events:none;animation:tw2 1.8s ease-in-out infinite}
+#mbtn::before{top:-7px;right:-5px}#mbtn::after{content:"✧";bottom:-5px;left:-7px;animation-delay:.9s}
+@keyframes tw2{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.25) rotate(25deg)}}
+#mbtn.on{animation:glow 2.4s ease-in-out infinite,jingle .7s ease-in-out infinite;transform-origin:50% 10%}
+@keyframes jingle{0%,100%{transform:rotate(0)}25%{transform:rotate(-16deg)}75%{transform:rotate(16deg)}}
+@media (prefers-reduced-motion:reduce){#mbtn,#mbtn.on,#mbtn::before,#mbtn::after{animation:none}}
 </style></head><body>
 <div class="lights" aria-hidden="true"></div>
 <header><div class="auth"><span id="who"></span><span id="sync"></span><button id="gbtn">使用 Google 登入</button></div><svg class="ill" viewBox="0 0 150 84" aria-hidden="true"><path d="M2 70 Q40 56 78 66 T148 62 V82 H2Z" fill="#fff" stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"/><path d="M104 24 a7 7 0 0 1 4-12 a9 9 0 0 1 17-1 a7 7 0 0 1 8 13z" fill="#fff" stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"/><g class="sn"><circle cx="62" cy="14" r="2" fill="#bddbe6" stroke="#4a3b33" stroke-width="1"/><circle cx="76" cy="26" r="1.6" fill="#bddbe6" stroke="#4a3b33" stroke-width="1"/><circle cx="46" cy="24" r="1.6" fill="#bddbe6" stroke="#4a3b33" stroke-width="1"/></g><g class="bob"><rect x="50" y="34" width="66" height="28" rx="13" fill="#fbf8f4" stroke="#4a3b33" stroke-width="2"/><path d="M83 34 v-5 h6 v5" fill="#e4a58c" stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"/><rect x="56" y="39" width="11" height="9" rx="3" fill="#bddbe6"/><rect x="71" y="39" width="11" height="9" rx="3" fill="#bddbe6"/><circle cx="97" cy="46" r="2" fill="#4a3b33"/><circle cx="108" cy="46" r="2" fill="#4a3b33"/><ellipse cx="93.5" cy="51.5" rx="3.5" ry="2" fill="#f7b6bd"/><ellipse cx="111.5" cy="51.5" rx="3.5" ry="2" fill="#f7b6bd"/><path d="M99 51 Q102.5 55 106 51" fill="none" stroke="#4a3b33" stroke-width="1.6" stroke-linecap="round"/><path d="M53 57 H80" stroke="#e4a58c" stroke-width="3" stroke-linecap="round"/><circle cx="68" cy="63" r="5.5" fill="#4a3b33"/><circle cx="68" cy="63" r="2" fill="#fbf8f4"/><circle cx="98" cy="63" r="5.5" fill="#4a3b33"/><circle cx="98" cy="63" r="2" fill="#fbf8f4"/></g><circle cx="24" cy="60" r="11" fill="#fff" stroke="#4a3b33" stroke-width="2"/><circle cx="24" cy="42" r="8" fill="#fff" stroke="#4a3b33" stroke-width="2"/><path d="M16 37 Q24 21 34 36Z" fill="#b5413a" stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"/><rect x="15" y="35" width="19" height="4" rx="2" fill="#fff" stroke="#4a3b33" stroke-width="1.6"/><circle cx="33" cy="27" r="3" fill="#fff" stroke="#4a3b33" stroke-width="1.6"/><circle cx="21.5" cy="41" r="1.2" fill="#4a3b33"/><circle cx="26.5" cy="41" r="1.2" fill="#4a3b33"/><path d="M24 43 l5 1.5 -5 1z" fill="#f2a65a"/><ellipse cx="19" cy="45" rx="2" ry="1.2" fill="#f7b6bd"/><ellipse cx="29" cy="46" rx="1.6" ry="1.1" fill="#f7b6bd"/><path d="M15 50 Q24 55 33 50" fill="none" stroke="#b5533c" stroke-width="3.5" stroke-linecap="round"/><rect x="30" y="50" width="4" height="9" rx="2" fill="#b5533c"/><circle cx="24" cy="58" r="1.2" fill="#4a3b33"/><circle cx="24" cy="64" r="1.2" fill="#4a3b33"/><g stroke="#4a3b33" stroke-width="2" stroke-linejoin="round"><path d="M137 36 l-8 14h16z" fill="#5f9a72"/><path d="M137 44 l-10 16h20z" fill="#5f9a72"/><path d="M137 52 l-12 17h24z" fill="#5f9a72"/></g><path d="M137 29 l1.6 3.4 3.7.4-2.8 2.5.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.8-2.5 3.7-.4z" fill="#f4c542" stroke="#4a3b33" stroke-width="1"/><circle cx="134" cy="48" r="1.8" fill="#b5413a"/><circle cx="140" cy="56" r="1.8" fill="#f4c542"/><circle cx="132" cy="63" r="1.8" fill="#f4c542"/><circle cx="143" cy="65" r="1.8" fill="#b5413a"/></svg>
@@ -96,35 +105,44 @@ button.pri{background:var(--grn);border-color:var(--grn)}
 <label>必吃推薦<input id="rm"></label><label>預約方式<input id="rb" placeholder="待確認"></label><label>是否需要事先預約<select id="ry"><option>待確認<option>需要<option>不需要</select></label><label>官方網站／訂位連結<input id="ru" type="url" placeholder="https://"></label>
 <label>個人備註<textarea id="ro" rows="2"></textarea></label><label>緯度（選填）<input id="rla" type="number" step="any"></label><label>經度（選填）<input id="rlo" type="number" step="any"></label><label class="ck"><input id="rl" type="checkbox"> 備選</label>
 <div class="act"><button class="pri">儲存</button><button type="button" id="rx">取消</button></div></form></dialog>
-<div id="mus"><button id="mbtn" type="button" aria-label="音樂盒" aria-expanded="false">🎵</button><div id="mpn" hidden><b>🎧 Last Christmas</b><p class="mute">YouTube 播放器，按播放才會有聲音。</p><div id="spw"></div><p><a href="https://youtu.be/rdBF5seCfwg" target="_blank" rel="noopener" style="color:inherit">在 YouTube 開啟</a></p><hr style="border:0;border-top:2px dashed var(--soft);margin:10px 0"><b>🎼 八音盒</b><p class="mute">不會自動播放，按下才有聲音。旋律都是公有領域或原創。</p><select id="msg"></select><button id="mgo" class="pri" type="button">▶ 播放</button><label>音量<input type="range" id="mvol" min="0" max="100" value="40"></label></div></div>
+<div id="mus"><button id="mbtn" type="button" aria-label="音樂盒" aria-expanded="false">🔔</button><div id="mpn" hidden><b>🎧 Last Christmas</b><p class="mute">YouTube 播放器，按播放才會有聲音。</p><div id="spw"></div><p><a href="https://youtu.be/rdBF5seCfwg" target="_blank" rel="noopener" style="color:inherit">在 YouTube 開啟</a></p><hr style="border:0;border-top:2px dashed var(--soft);margin:10px 0"><b>🎼 八音盒</b><p class="mute">不會自動播放，按下才有聲音。旋律都是公有領域或原創。</p><select id="msg"></select><button id="mgo" class="pri" type="button">▶ 播放</button><label>音量<input type="range" id="mvol" min="0" max="100" value="40"></label></div></div>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 var $=s=>document.querySelector(s),DC=["#d4a24c","#b5413a","#e0b95f","#3f6b52","#b98a2e","#8e2f3a"],WK=["日","一","二","三","四","五","六"];
 var I0=[
+[0,"",0,"集合：桃園機場（時間、地點待確認）","交通","",0,0,0,"","","集合時間與地點待確認"],
+[0,"11:30",0,"桃園機場 出發（TPE → NGO）","交通","飛機",0,0,0,"","","10 月參考航班 11:30 起飛，12 月航班待確認；沒有座標，不顯示在地圖上"],
 [0,"15:30",60,"抵達中部機場","交通","飛機",0,0,0,34.8574,136.8108,"10 月參考航班，12 月航班待確認"],
 [0,"17:15",45,"名古屋站","交通","名鐵",30,0,0,35.1709,136.8815,"轉新幹線到米原"],
 [0,"18:00",10,"米原站","交通","新幹線",20,0,0,35.3148,136.2898,"轉車到長濱約 10 分鐘"],
 [0,"19:00",0,"Green Hotel Yes 長濱 湊館","住宿","JR＋步行",20,0,0,35.375185,136.2658784,"大浴場，入住到 24:00，待訂房","https://www.nagahama-minatokan.com/html/shops.html"],
 [0,"19:30",60,"晚餐：秋吉 長濱店（飯店 1 樓）","餐廳","",0,0,0,35.3752855,136.2657543,"週日 17:00 至 23:00；備案 エルオチョ、壽司 多喜","https://maps.app.goo.gl/eJ3qAZiedX5khcGy6"],
 [1,"07:00",60,"湖邊散步看日出","景點","步行",10,0,0,"","","地點待確認"],
+[1,"",0,"從飯店出發（集合）：Green Hotel Yes 長濱 湊館","交通","",0,0,0,"","","集合時間待確認，退房前先寄放行李"],
 [1,"09:30",45,"長濱城（豐公園）","景點","步行",10,0,1,35.37766,136.261452,"歷史博物館週一休館，可只逛公園與湖邊"],
 [1,"10:00",120,"黑壁廣場、北國街道","景點","步行",10,1,0,35.3807,136.2671,"10:00 開門"],
 [1,"11:30",60,"午餐：京極寿司","餐廳","",0,0,0,"","","備案：そば八；翼果楼週一休"],
 [1,"14:30",60,"福井站（恐龍廣場）","景點","JR＋新幹線",90,0,0,36.0617,136.2235,"約 13:00 出發，班次待確認"],
 [1,"17:00",0,"御宿 野乃福井","住宿","步行",10,0,0,36.0627941,136.2178889,"天然溫泉；離車站 5 到 12 分（說法不一）；待訂房"],
 [1,"18:30",90,"晚餐：ぼんた 福井駅前店","餐廳","",0,0,0,"","","越前蟹需預約，待確認"],
+[2,"",0,"從飯店出發（集合）：御宿 野乃福井","交通","",0,0,0,"","","集合時間待確認，要搭福井站的巴士，班次待確認"],
 [2,"09:30",120,"一乘谷朝倉氏遺跡","景點","巴士",30,1,0,35.9994633,136.2959322,"福井站搭巴士，班次待確認"],
 [2,"09:30",60,"養浩館庭園（雨天備案）","景點","步行",15,0,1,36.0686037,136.2242666,"營業時間待確認"],
 [2,"12:30",60,"午餐：越前屋 福井駅店","餐廳","",0,0,0,36.0617,136.2235,"站內；備案 見吉屋"],
 [2,"17:30",0,"三井花園飯店 名古屋 Premier","住宿","新幹線＋JR",150,0,0,35.169967,136.8866923,"暫定，連住 3 晚；福井到名古屋班次待確認"],
 [2,"19:00",120,"久屋大通公園聖誕市集","景點","地鐵",15,1,0,35.1709951,136.9084672,"2027 年日期待確認"],
+[3,"",0,"從飯店出發（集合）：三井花園飯店 名古屋 Premier","交通","",0,0,0,"","","集合時間待確認，依門票入場時間調整"],
 [3,"10:00",360,"吉卜力公園","景點","地鐵＋Linimo",60,1,0,35.175,137.0888,"12/22（三）；門票預計 2027/10/10 開賣；週二休園"],
 [3,"19:00",60,"晚餐：まるや本店 ひつまぶし","餐廳","",0,0,0,"","","備案：山本屋本店"],
+[4,"",0,"從飯店出發（集合）：三井花園飯店 名古屋 Premier","交通","",0,0,0,"","","集合時間待確認"],
 [4,"10:30",360,"購物：榮 PARCO、松坂屋、大須","景點","地鐵",20,0,0,35.1709951,136.9084672,"服飾、藥妝、電器；座標為榮的大概位置"],
 [4,"17:00",180,"なばなの里燈飾（三重）","景點","近鐵／JR＋巴士",60,1,0,35.0821309,136.7034808,"12/23 可能要日期指定票，待確認"],
 [5,"09:00",180,"最後採買、名古屋早餐","景點","",0,0,0,"","","退房後行李可寄放"],
-[5,"13:30",0,"前往中部機場","交通","名鐵",35,0,0,34.8574,136.8108,"16:40 起飛，班次待確認"]],
+[5,"",0,"從飯店出發（集合）：三井花園飯店 名古屋 Premier","交通","",0,0,0,"","","集合時間待確認，退房後帶行李，13:30 前離開名古屋站"],
+[5,"13:30",0,"前往中部機場","交通","名鐵",35,0,0,34.8574,136.8108,"16:40 起飛，班次待確認"],
+[5,"16:40",0,"中部機場 起飛（NGO → TPE）","交通","飛機",0,0,0,"","","10 月參考航班，12 月航班待確認"],
+[5,"18:50",0,"抵達桃園機場","交通","",0,0,0,"","","10 月參考航班，12 月航班待確認"]],
 T0=[["機票","確認 12 月航班（目前只有 10 月參考）"],["飯店","訂長濱、福井、名古屋住宿（兩人一室，要浴缸）"],["門票","吉卜力公園 12/22 門票（預計 10/10 開賣）"],["門票","確認なばなの里 12/23 是否要日期指定票"],["餐廳","福井越前蟹晚餐訂位"],["交通","查福井到名古屋的實際班次"],["行李","準備保暖衣物與購物袋"],["護照","護照與 Visit Japan Web"]];
 var ST={"抵達中部機場":["中部国際空港",""],"名古屋站":["名古屋",""],"米原站":["米原",""],"Green Hotel Yes 長濱 湊館":["長浜",""],"福井站（恐龍廣場）":["福井",""],"一乘谷朝倉氏遺跡":["一乗谷朝倉氏遺跡",""],"三井花園飯店 名古屋 Premier":["名古屋","福井"],"久屋大通公園聖誕市集":["久屋大通","名古屋"],"吉卜力公園":["愛・地球博記念公園","名古屋"],"購物：榮 PARCO、松坂屋、大須":["栄","名古屋"],"なばなの里燈飾（三重）":["桑名","名古屋"],"前往中部機場":["中部国際空港","名古屋"]};
 var DEF=[["證件","護照"],["證件","Visit Japan Web 截圖"],["證件","訂房與機票資料（存手機）"],["金錢","日幣現金"],["金錢","信用卡"],["電子","手機與充電線"],["電子","行動電源"],["電子","eSIM 或網卡"],["衣物","保暖內搭"],["盥洗與藥品","常備藥品"],["購物用","折疊購物袋"],["購物用","行李箱預留購物空間"]];
@@ -314,10 +332,10 @@ var SONGS=[["Jingle Bells（公有領域）",120,"E5:1 E5:1 E5:2 E5:1 E5:1 E5:2 
 ["原創八音盒小曲",96,"E5:1 G5:1 A5:1 G5:1 E5:1 D5:1 C5:2 D5:1 E5:1 G5:1 E5:1 D5:1 C5:1 A4:2 C5:1 E5:1 G5:1 A5:1 C6:1 A5:1 G5:2 A5:1 G5:1 E5:1 D5:1 C5:4"]];
 var sel=$("#msg");SONGS.forEach(function(s,i){var o=document.createElement("option");o.value=i;o.textContent=s[0];sel.appendChild(o)});
 function fr(n){var o={C:-9,D:-7,E:-5,F:-4,G:-2,A:0,B:2}[n[0]];return 440*Math.pow(2,(o+(+n[1]-4)*12)/12)}
-function stop(){clearTimeout(tm);nodes.forEach(function(o){try{o.stop()}catch(e){}});nodes=[];$("#mgo").textContent="▶ 播放"}
+function stop(){clearTimeout(tm);nodes.forEach(function(o){try{o.stop()}catch(e){}});nodes=[];$("#mgo").textContent="▶ 播放";$("#mbtn").classList.remove("on")}
 function tone(f,t,d){[[1,.5],[2,.16]].forEach(function(h){var o=ctx.createOscillator(),g=ctx.createGain(),L=Math.max(d,.5);o.type="triangle";o.frequency.value=f*h[0];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(h[1],t+.01);g.gain.exponentialRampToValueAtTime(.001,t+L*1.4);o.connect(g);g.connect(mg);o.start(t);o.stop(t+L*1.5);nodes.push(o)})}
 function play(){if(!AC)return;if(!ctx){ctx=new AC();mg=ctx.createGain();mg.connect(ctx.destination)}if(ctx.state=="suspended")ctx.resume();stop();mg.gain.value=$("#mvol").value/100;
-var s=SONGS[+sel.value],sp=60/s[1],t=ctx.currentTime+.1;s[2].split(" ").forEach(function(x){var p=x.split(":"),d=+p[1]*sp;if(p[0]!="R")tone(fr(p[0]),t,d);t+=d});$("#mgo").textContent="■ 停止";tm=setTimeout(stop,(t-ctx.currentTime+.4)*1000)}
+var s=SONGS[+sel.value],sp=60/s[1],t=ctx.currentTime+.1;s[2].split(" ").forEach(function(x){var p=x.split(":"),d=+p[1]*sp;if(p[0]!="R")tone(fr(p[0]),t,d);t+=d});$("#mgo").textContent="■ 停止";$("#mbtn").classList.add("on");tm=setTimeout(stop,(t-ctx.currentTime+.4)*1000)}
 $("#mbtn").onclick=function(){var p=$("#mpn");p.hidden=!p.hidden;if(!p.hidden&&!$("#spw").firstChild){var f=document.createElement("iframe");f.src="https://www.youtube-nocookie.com/embed/rdBF5seCfwg?rel=0";f.title="Last Christmas（YouTube）";f.width="100%";f.height="200";f.style.cssText="border:0;border-radius:12px;display:block";f.allow="encrypted-media; picture-in-picture";f.setAttribute("allowfullscreen","");f.loading="lazy";$("#spw").appendChild(f)}this.setAttribute("aria-expanded",String(!p.hidden))};
 $("#mgo").onclick=function(){if($("#mgo").textContent.indexOf("停止")>-1)stop();else play()};
 $("#mvol").oninput=function(){if(mg)mg.gain.value=this.value/100};sel.onchange=function(){if($("#mgo").textContent.indexOf("停止")>-1)play()}})();
